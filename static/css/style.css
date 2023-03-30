@@ -121,7 +121,7 @@ body {
 
 
 footer {
-    padding: 40px;
+    padding: 25px;
     width: 100%;
     bottom: 0;
     width: 100%;
@@ -131,7 +131,7 @@ footer {
 }
 
 footer p {
-margin-bottom: 20px;
+    margin: 0;
 }
 
 header > .header-inner > .left-header-block > .number {
