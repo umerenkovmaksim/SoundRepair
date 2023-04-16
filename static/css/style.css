@@ -240,15 +240,43 @@ input#newsletter-permission {
     height: 90px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid #747474;
 }
 .header-top-left {
     font-size: 14px;
     color: #555;
 }
+
 .header-top-left img {
     margin-right: 9px;
     width: 25px;
+}
+.contact-block {
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    height: 35px;
+}
+
+.contact-block ul {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-items: center;
+    margin: 0;
+}
+
+.contact-block a {
+    margin-right: 1vw;
+}
+
+.contact-block li {
+    margin-left: 1vw;
+	border-right: 1px solid #999;
+}
+
+.contact-block li:last-child {
+	border-right: none
 }
 .header-list-menu > li > span {
     display: inline-block;
@@ -283,7 +311,6 @@ input#newsletter-permission {
     display: block;
     font-size: 14px;
     padding: 10px 27px 10px 10px;
-    text-transform: capitalize;
 }
 .header-list-menu > li:last-child a{
     padding-right: 0;
@@ -422,7 +449,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .search-box-view .submit {
-    background: #f1ac06 none repeat scroll 0 0;
+    background: #c40101 none repeat scroll 0 0;
     border: medium none;
     border-radius: 0 40px 39px 0;
     color: #fff;
@@ -461,9 +488,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 .header-bottom.header-sticky {
     border-bottom: 1px solid #ddd;
-}
-.homepage .header-bottom.header-sticky {
-    border-bottom: none;
+    border-top: 1px solid #ddd;
 }
 .sticky-logo {
     display: none;
@@ -718,6 +743,10 @@ ul.ht-dropdown.dropdown-style-two li {
     color: #666;
 }
 
+.upper-banner {
+    margin-top: 5%;
+}
+
 /*----------------------------------------*/
 /* 4. Slider CSS
 /*----------------------------------------*/
@@ -765,7 +794,10 @@ ul.ht-dropdown.dropdown-style-two li {
     background:transparent;
     opacity: 1;
 }
-
+.catalog {
+    margin-left: 20px;
+    margin-right: 20px;
+}
 /* nivo controlNav css */
 .nivo-controlNav {
     padding: 0;
@@ -824,6 +856,13 @@ ul.ht-dropdown.dropdown-style-two li {
     border-left: none;
     border-right: none;
     margin-bottom: 0;
+}
+.slider-area {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 3%;
+    margin-top: 2%;
 }
 .slider-right-content .single-product {
     overflow: hidden;

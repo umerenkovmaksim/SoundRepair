@@ -839,6 +839,9 @@ p.checkout-coupon input[type="submit"] {
 /*  Large Mobile :480px.
 /*----------------------------------------*/
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+.contact-block {
+    display: none
+}
 .text-content h1 {
     font-size: 26px;
     line-height: 34px;
@@ -978,6 +981,9 @@ p.checkout-coupon input[type="submit"] {
 
 /*=============== Mobile Device ===============*/
 @media (max-width: 575px) {
+.contact-block {
+    display: none
+}
 .upper-banner.banner .row [class*="col"]:not(:last-child) {
     margin-bottom: 30px;
 }
