@@ -9,37 +9,37 @@
     <meta name="keywords" content="E-commerce" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- place favicon.ico in the root directory -->
-    <link rel="shortcut icon" type="image/x-icon" href="img/icon/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="static/img/icon/favicon.png">
     <!-- Google Font css -->
     <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet"> 
 
     <!-- mobile menu css -->
-    <link rel="stylesheet" href="css/meanmenu.min.css">
+    <link rel="stylesheet" href="static/css/meanmenu.min.css">
     <!-- animate css -->
-    <link rel="stylesheet" href="css/animate.css">
+    <link rel="stylesheet" href="static/css/animate.css">
     <!-- nivo slider css -->
-    <link rel="stylesheet" href="css/nivo-slider.css">
+    <link rel="stylesheet" href="static/css/nivo-slider.css">
     <!-- owl carousel css -->
-    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="static/css/owl.carousel.min.css">
     <!-- slick css -->
-   <link rel="stylesheet" href="css/slick.css">
+   <link rel="stylesheet" href="static/css/slick.css">
     <!-- price slider css -->
-    <link rel="stylesheet" href="css/jquery-ui.min.css">
+    <link rel="stylesheet" href="static/css/jquery-ui.min.css">
     <!-- fontawesome css -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/font-awesome.min.css">
      <!-- fancybox css -->
-    <link rel="stylesheet" href="css/jquery.fancybox.css">     
+    <link rel="stylesheet" href="static/css/jquery.fancybox.css">     
     <!-- bootstrap css -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <!-- default css  -->
-    <link rel="stylesheet" href="css/default.css">
+    <link rel="stylesheet" href="static/css/default.css">
     <!-- style css -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="static/css/style.css">
     <!-- responsive css -->
-    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="static/css/responsive.css">
 
     <!-- modernizr js -->
-    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+    <script src="static/js/vendor/modernizr-2.8.3.min.js"></script>
 </head>
 
 <body>
@@ -57,7 +57,7 @@
                         <!-- Header Top left Start -->                        
                         <div class="col-lg-4 col-md-12 d-center">
                             <div class="header-top-left">
-                                <img src="img/icon/call.png" alt="">Call Us : +11 222 3333
+                                <img src="static/img/icon/call.png" alt="">Call Us : +11 222 3333
                             </div>                        
                         </div>
                         <!-- Header Top left End -->
@@ -109,7 +109,7 @@
                     <div class="row">
                         <div class="col-xl-3 col-lg-2 col-sm-5 col-5">
                             <div class="logo">
-                                <a href="index.html"><img src="img/logo/logo.png" alt="logo-image"></a>
+                                <a href="index.html"><img src="static/img/logo/logo.png" alt="logo-image"></a>
                             </div>
                         </div>
                         <!-- Primary Vertical-Menu End -->
@@ -197,7 +197,7 @@
                                                 <!-- Cart Box Start -->
                                                 <div class="single-cart-box">
                                                     <div class="cart-img">
-                                                        <a href="#"><img src="img/menu/1.jpg" alt="cart-image"></a>
+                                                        <a href="#"><img src="static/img/menu/1.jpg" alt="cart-image"></a>
                                                     </div>
                                                     <div class="cart-content">
                                                         <h6><a href="product.html">Products Name</a></h6>
@@ -209,7 +209,7 @@
                                                 <!-- Cart Box Start -->
                                                 <div class="single-cart-box">
                                                     <div class="cart-img">
-                                                        <a href="#"><img src="img/menu/2.jpg" alt="cart-image"></a>
+                                                        <a href="#"><img src="static/img/menu/2.jpg" alt="cart-image"></a>
                                                     </div>
                                                     <div class="cart-content">
                                                         <h6><a href="product.html">Products Name</a></h6>
@@ -328,47 +328,11 @@
                                     <h2>categories</h2>
                                 </div>
                                 <ul>
-                                    <li><a href="#">Electrical (9)</a></li>
-                                    <li><a href="#">Hardware (11)</a></li>
-                                    <li><a href="#">Drill Machine (8)</a></li>
-                                    <li><a href="#">Tools Box (10)</a></li>
-                                    <li><a href="#">Power Saw (5)</a></li>
+                                    {% for name, n in categories %}
+                                    <li><a href="{{url}}/shop/{{name}}">{{name}} ({{n}})</a></li>
+                                    {% endfor %}
                                 </ul>
-                            </div>
-                            <div class="single-sidebar">
-                                <div class="group-title">
-                                    <h2>color</h2>
                                 </div>
-                                <ul class="color-option">
-                                    <li>
-                                        <a class="blue" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="green" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="black" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="rose" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="red" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="purple" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="rose" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="yellow" href="#"></a>
-                                    </li>
-                                    <li>
-                                        <a class="orange" href="#"></a>
-                                    </li>
-                                </ul>
-                            </div>
                             <div class="single-sidebar">
                                 <div class="group-title">
                                     <h2>price</h2>
@@ -384,12 +348,10 @@
                                 <div class="group-title">
                                     <h2>manufacturer</h2>
                                 </div>
-                                <ul class="manufactures-list">
-                                    <li><a href="#">Brand one (14)</a></li>
-                                    <li><a href="#">Brand two (13)</a></li>
-                                    <li><a href="#">Brand three (13)</a></li>
-                                    <li><a href="#">Brand four (14)</a></li>
-                                    <li><a href="#">Brand five (13)</a></li>
+                                <ul  class="manufactures-list">
+                                    {% for name, n in manufacturers %}
+                                    <li><a href="{{url}}/shop/{{name}}">{{name}} ({{n}})</a></li>
+                                    {% endfor %}
                                 </ul>
                             </div>
                             <div class="single-sidebar">
@@ -398,19 +360,21 @@
                                 </div>
                                 <div class="best-seller-pro-two compare-pro best-seller-pro-two owl-carousel">
                                     <!-- Best Seller Multi Product Start -->
+                                    {% for product_list in product_mat %}
                                     <div class="best-seller-multi-product">
                                         <!-- Single Product Start -->
+                                        {%for id, name, img_href, text, price in product_list%}
                                         <div class="single-product">
                                             <!-- Product Image Start -->
                                             <div class="pro-img">
-                                                <a href="product.html">
-                                                   <img class="primary-img" src="img/products/1.jpg" alt="single-product">
+                                                <a href="url/product/{{id}}">
+                                                   <img class="primary-img" src="{{img_href}}" alt="single-product">
                                                 </a>
                                             </div>
                                             <!-- Product Image End -->
                                             <!-- Product Content Start -->
                                             <div class="pro-content">
-                                                <h4><a href="product.html">Products Name Here</a></h4>
+                                                <h4><a href="url/product/{{id}}">{{name}}</a></h4>
                                                 <div class="product-rating">
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
@@ -418,69 +382,15 @@
                                                     <i class="fa fa-star-o"></i>
                                                     <i class="fa fa-star-o"></i>
                                                 </div>
-                                                <p><span class="price">$38.00</span><del class="prev-price">$40.00</del></p>
+                                                <p><span class="price">{{price}}₽</span><del class="prev-price">{{price}}₽</del></p>
                                             </div>
+
                                             <!-- Product Content End -->
                                         </div>
+                                        {% endfor %}
                                         <!-- Single Product End -->
                                     </div>
-                                    <!-- Best Seller Multi Product End -->
-                                    <!-- Best Seller Multi Product Start -->
-                                    <div class="best-seller-multi-product">
-                                        <!-- Single Product Start -->
-                                        <div class="single-product">
-                                            <!-- Product Image Start -->
-                                            <div class="pro-img">
-                                                <a href="product.html">
-                                                    <img class="primary-img" src="img/products/2.jpg" alt="single-product">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image End -->
-                                            <!-- Product Content Start -->
-                                            <div class="pro-content">
-                                                <h4><a href="product.html">Products Name Here</a></h4>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <p><span class="price">$32.00</span></p>
-                                            </div>
-                                            <!-- Product Content End -->
-                                        </div>
-                                        <!-- Single Product End -->
-                                    </div>
-                                    <!-- Best Seller Multi Product End -->
-                                    <!-- Best Seller Multi Product Start -->
-                                    <div class="best-seller-multi-product">
-                                        <!-- Single Product Start -->
-                                        <div class="single-product">
-                                            <!-- Product Image Start -->
-                                            <div class="pro-img">
-                                                <a href="product.html">
-                                                   <img class="primary-img" src="img/products/3.jpg" alt="single-product">
-                                                </a>
-                                            </div>
-                                            <!-- Product Image End -->
-                                            <!-- Product Content Start -->
-                                            <div class="pro-content">
-                                                <h4><a href="product.html">Products Name Here</a></h4>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                    <i class="fa fa-star-o"></i>
-                                                </div>
-                                                <p><span class="price">$35.00</span><del class="prev-price">39.00</del></p>
-                                            </div>
-                                            <!-- Product Content End -->
-                                        </div>
-                                        <!-- Single Product End -->
-                                    </div>
-                                    <!-- Best Seller Multi Product End -->
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="single-sidebar">
@@ -495,7 +405,7 @@
                                             <!-- Product Image Start -->
                                             <div class="pro-img">
                                                 <a href="product.html">
-                                                    <img class="primary-img" src="img/products/4.jpg" alt="single-product">
+                                                    <img class="primary-img" src="static/img/products/4.jpg" alt="single-product">
                                                 </a>
                                             </div>
                                             <!-- Product Image End -->
@@ -523,7 +433,7 @@
                                             <!-- Product Image Start -->
                                             <div class="pro-img">
                                                 <a href="product.html">
-                                                    <img class="primary-img" src="img/products/1.jpg" alt="single-product">
+                                                    <img class="primary-img" src="static/img/products/1.jpg" alt="single-product">
                                                 </a>
                                             </div>
                                             <!-- Product Image End -->
@@ -551,7 +461,7 @@
                                             <!-- Product Image Start -->
                                             <div class="pro-img">
                                                 <a href="product.html">
-                                                   <img class="primary-img" src="img/products/2.jpg" alt="single-product">
+                                                   <img class="primary-img" src="static/img/products/2.jpg" alt="single-product">
                                                 </a>
                                             </div>
                                             <!-- Product Image End -->
@@ -576,8 +486,8 @@
                             </div>
                             <!-- Single Banner Start -->
                             <div class="single-sidebar single-banner zoom pt-20">
-                                <a href="#" class="hidden-sm"><img src="img/banner/8.jpg" alt="slider-banner"></a>
-                                <a href="#" class="visible-sm"><img src="img/banner/6.jpg" alt="slider-banner"></a>
+                                <a href="#" class="hidden-sm"><img src="static/img/banner/8.jpg" alt="slider-banner"></a>
+                                <a href="#" class="visible-sm"><img src="static/img/banner/6.jpg" alt="slider-banner"></a>
                             </div>
                             <!-- Single Banner End -->
                         </div>
@@ -620,8 +530,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/1.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/1.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/2.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -654,8 +564,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/3.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/4.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/3.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/4.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -689,8 +599,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/5.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/6.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/5.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/6.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -723,8 +633,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/7.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/8.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/7.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/8.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -758,8 +668,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/2.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/1.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/2.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/1.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -792,8 +702,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/4.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/3.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/4.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/3.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -826,8 +736,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/6.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/5.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/6.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/5.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -861,8 +771,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/7.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/8.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/7.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/8.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -895,8 +805,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/1.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/1.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/2.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -930,8 +840,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/3.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/4.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/3.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/4.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -965,8 +875,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/5.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/6.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/5.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/6.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -999,8 +909,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/7.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/8.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/7.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/8.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1034,8 +944,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/5.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/4.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/5.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/4.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1069,8 +979,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/6.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/5.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/6.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/5.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1103,8 +1013,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/4.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/3.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/4.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/3.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1138,8 +1048,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/2.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/1.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/2.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/1.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1172,8 +1082,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/3.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/3.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/2.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1207,8 +1117,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/7.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/7.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/7.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/7.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1241,8 +1151,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/6.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/5.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/6.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/5.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1276,8 +1186,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/4.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/3.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/4.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/3.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1310,8 +1220,8 @@
                                                 <!-- Product Image Start -->
                                                 <div class="pro-img">
                                                     <a href="product.html">
-                                                        <img class="primary-img" src="img/products/2.jpg" alt="single-product">
-                                                        <img class="secondary-img" src="img/products/1.jpg" alt="single-product">
+                                                        <img class="primary-img" src="static/img/products/2.jpg" alt="single-product">
+                                                        <img class="secondary-img" src="static/img/products/1.jpg" alt="single-product">
                                                     </a>
                                                 </div>
                                                 <!-- Product Image End -->
@@ -1348,8 +1258,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product.html">
-                                                <img class="primary-img" src="img/products/1.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/2.jpg" alt="single-product">
+                                                <img class="primary-img" src="static/img/products/1.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/2.jpg" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -1381,75 +1291,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product.html">
-                                                <img class="primary-img" src="img/products/3.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/4.jpg" alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>                                
-                                            <h4><a href="product.html">Products Name Here</a></h4>
-                                            <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati velit, similique voluptas doloribus assumenda quis libero animi cumque dignissimos quisquam, quaerat ea laboriosam incidunt ullam.</p>
-                                            <div class="pro-actions">
-                                                <div class="actions-secondary">
-                                                    <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                        <span class="sticker-new">-30%</span>
-                                    </div>
-                                    <!-- Single Product Start -->
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="img/products/5.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/6.jpg" alt="single-product">
-                                            </a>
-                                        </div>
-                                        <!-- Product Image End -->
-                                        <!-- Product Content Start -->
-                                        <div class="pro-content">
-                                            <div class="product-rating">
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                            </div>                                
-                                            <h4><a href="product.html">Products Name Here</a></h4>
-                                            <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati velit, similique voluptas doloribus assumenda quis libero animi cumque dignissimos quisquam, quaerat ea laboriosam incidunt ullam.</p>
-                                            <div class="pro-actions">
-                                                <div class="actions-secondary">
-                                                    <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- Product Content End -->
-                                    </div>
-                                    <!-- Single Product Start -->
-                                    <!-- Single Product Start -->
-                                    <div class="single-product">
-                                        <!-- Product Image Start -->
-                                        <div class="pro-img">
-                                            <a href="product.html">
-                                                <img class="primary-img" src="img/products/7.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/8.jpg" alt="single-product">
+                                                <img class="primary-img" src="static/img/products/3.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/4.jpg" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -1482,8 +1325,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product.html">
-                                                <img class="primary-img" src="img/products/8.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/7.jpg" alt="single-product">
+                                                <img class="primary-img" src="static/img/products/5.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/6.jpg" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -1515,8 +1358,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product.html">
-                                                <img class="primary-img" src="img/products/6.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/5.jpg" alt="single-product">
+                                                <img class="primary-img" src="static/img/products/7.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/8.jpg" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -1549,8 +1392,75 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="product.html">
-                                                <img class="primary-img" src="img/products/4.jpg" alt="single-product">
-                                                <img class="secondary-img" src="img/products/3.jpg" alt="single-product">
+                                                <img class="primary-img" src="static/img/products/8.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/7.jpg" alt="single-product">
+                                            </a>
+                                        </div>
+                                        <!-- Product Image End -->
+                                        <!-- Product Content Start -->
+                                        <div class="pro-content">
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>                                
+                                            <h4><a href="product.html">Products Name Here</a></h4>
+                                            <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati velit, similique voluptas doloribus assumenda quis libero animi cumque dignissimos quisquam, quaerat ea laboriosam incidunt ullam.</p>
+                                            <div class="pro-actions">
+                                                <div class="actions-secondary">
+                                                    <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Product Content End -->
+                                    </div>
+                                    <!-- Single Product Start -->
+                                    <!-- Single Product Start -->
+                                    <div class="single-product">
+                                        <!-- Product Image Start -->
+                                        <div class="pro-img">
+                                            <a href="product.html">
+                                                <img class="primary-img" src="static/img/products/6.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/5.jpg" alt="single-product">
+                                            </a>
+                                        </div>
+                                        <!-- Product Image End -->
+                                        <!-- Product Content Start -->
+                                        <div class="pro-content">
+                                            <div class="product-rating">
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                                <i class="fa fa-star"></i>
+                                            </div>                                
+                                            <h4><a href="product.html">Products Name Here</a></h4>
+                                            <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati velit, similique voluptas doloribus assumenda quis libero animi cumque dignissimos quisquam, quaerat ea laboriosam incidunt ullam.</p>
+                                            <div class="pro-actions">
+                                                <div class="actions-secondary">
+                                                    <a href="wishlist.html" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                    <a href="compare.html" data-toggle="tooltip" title="Add to Compare"><i class="fa fa-signal"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Product Content End -->
+                                        <span class="sticker-new">-30%</span>
+                                    </div>
+                                    <!-- Single Product Start -->
+                                    <!-- Single Product Start -->
+                                    <div class="single-product">
+                                        <!-- Product Image Start -->
+                                        <div class="pro-img">
+                                            <a href="product.html">
+                                                <img class="primary-img" src="static/img/products/4.jpg" alt="single-product">
+                                                <img class="secondary-img" src="static/img/products/3.jpg" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -1613,34 +1523,34 @@
                 <!-- Brand Banner Start -->
                 <div class="brand-banner owl-carousel">
                     <div class="single-brand">
-                        <a href="#"><img class="img" src="img/brand/1.png" alt="brand-image"></a>
+                        <a href="#"><img class="img" src="static/img/brand/1.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/2.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/2.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/3.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/3.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/4.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/4.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/5.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img class="img" src="img/brand/1.png" alt="brand-image"></a>
+                        <a href="#"><img class="img" src="static/img/brand/1.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/2.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/2.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/3.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/3.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/4.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/4.png" alt="brand-image"></a>
                     </div>
                     <div class="single-brand">
-                        <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
+                        <a href="#"><img src="static/img/brand/5.png" alt="brand-image"></a>
                     </div>
                 </div>
                 <!-- Brand Banner End -->                
@@ -1681,7 +1591,7 @@
                                         <span><i class="fa fa-envelope-o"></i>Mail Us : yourinfo@example.com</span>
                                         <span><i class="fa fa-phone"></i>Phone: + 00 254 254565 54</span>
                                     </div>
-                                    <div class="payment-mth"><a href="#"><img class="img" src="img/footer/1.png" alt="payment-image"></a></div>
+                                    <div class="payment-mth"><a href="#"><img class="img" src="static/img/footer/1.png" alt="payment-image"></a></div>
                                 </div>
                             </div>
                         </div>
@@ -1784,32 +1694,32 @@
     </div>
     <!-- Wrapper End -->
     <!-- jquery 3.12.4 -->
-    <script src="js/vendor/jquery-1.12.4.min.js"></script>
+    <script src="static/js/vendor/jquery-1.12.4.min.js"></script>
     <!-- mobile menu js  -->
-    <script src="js/jquery.meanmenu.min.js"></script>
+    <script src="static/js/jquery.meanmenu.min.js"></script>
     <!-- scroll-up js -->
-    <script src="js/jquery.scrollUp.js"></script>
+    <script src="static/js/jquery.scrollUp.js"></script>
     <!-- owl-carousel js -->
-    <script src="js/owl.carousel.min.js"></script>
+    <script src="static/js/owl.carousel.min.js"></script>
     <!-- slick js -->
-    <script src="js/slick.min.js"></script>
+    <script src="static/js/slick.min.js"></script>
     <!-- wow js -->
-    <script src="js/wow.min.js"></script>
+    <script src="static/js/wow.min.js"></script>
     <!-- price slider js -->
-    <script src="js/jquery-ui.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
+    <script src="static/js/jquery-ui.min.js"></script>
+    <script src="static/js/jquery.countdown.min.js"></script>
     <!-- nivo slider js -->
-    <script src="js/jquery.nivo.slider.js"></script>
+    <script src="static/js/jquery.nivo.slider.js"></script>
     <!-- fancybox js -->
-    <script src="js/jquery.fancybox.min.js"></script>
+    <script src="static/js/jquery.fancybox.min.js"></script>
     <!-- bootstrap -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
     <!-- popper -->
-    <script src="js/popper.js"></script>
+    <script src="static/js/popper.js"></script>
     <!-- plugins -->
-    <script src="js/plugins.js"></script>
+    <script src="static/js/plugins.js"></script>
     <!-- main js -->
-    <script src="js/main.js"></script>
+    <script src="static/js/main.js"></script>
 </body>
 
 </html>
