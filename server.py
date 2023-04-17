@@ -54,7 +54,9 @@ def shop():
     # products_list = [(id, name, img_href, text, price, is_in_wishlist, is_in_cart, is_in_compare, is_sale, sale),
     #                  (id, name, img_href, text, price, is_in_wishlist, is_in_cart, is_in_compare, is_sale, sale)]
     products_list = [(1, "Product 1", "static/img/products/1.jpg", "Text", "450", True, True, True, True, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", "125", False, False, False, False, None)]
+                     (2, "Product 2", "static/img/products/2.jpg", "Text", "125", False, False, False, False, 100)]
+    # products_list = [(1, "Product 1", "static/img/products/1.jpg", "Text", "450"),
+    #                  (2, "Product 2", "static/img/products/2.jpg", "Text", "125")]
 
     categories = [("Бам-бам громко", 10), ("Бам-бам громко, но не очень", 5), ("Бам-бам не очень громко", 13)]
     return render_template('shop.html', title='SoundRepair', url=WEBSITE_URL, manufacturers=manufacturers,
