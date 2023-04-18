@@ -1215,6 +1215,18 @@ ul.ht-dropdown.dropdown-style-two li {
     font-size: 12px;
     text-transform: uppercase;
 }
+}
+.actions-secondary a.sort {
+    width: 115px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
+}
+.actions-secondary a.sort-2 {
+    width: 115px;
+    font-size: 12px;
+    text-transform: uppercase;
+}
 .actions-secondary {
     width: 100%;
     background: #fff;
@@ -1841,7 +1853,46 @@ ul.ht-dropdown.dropdown-style-two li {
     width: 117px;
 }
 
+.sort {
+    background: #f1ac06 none repeat scroll 0 0;
+    border-color: #f1ac06;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    height: 35px;
+    line-height: 36px;
+    padding: 0 10px;
+    text-align: center;
+    text-transform: capitalize;
+    width: 90px;
+}
+
+.sort-2 {
+    background: #bcbcbc none repeat scroll 0 0;
+    border-color: #bcbcbc;
+    border-radius: 3px;
+    color: #fff;
+    display: inline-block;
+    height: 35px;
+    line-height: 36px;
+    padding: 0 10px;
+    text-align: center;
+    text-transform: capitalize;
+    width: 90px;
+}
+
 .add-cart:hover,.add-cart:focus {
+    opacity: 0.8;
+    color: #fff;
+}
+}
+
+.sort:hover,.sort:focus {
+    opacity: 0.8;
+    color: #fff;
+}
+
+.sort-2:hover,.sort-2:focus {
     opacity: 0.8;
     color: #fff;
 }
