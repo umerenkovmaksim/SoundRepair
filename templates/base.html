@@ -1,0 +1,278 @@
+<!doctype html>
+<html class="no-js" lang="ru">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Home || Jantrik Bootstrap4 Template for Tools, Equipment Store</title>
+    <meta name="description" content="Default Description">
+    <meta name="keywords" content="E-commerce" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- place favicon.ico in the root directory -->
+    <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='img/icon/favicon.png')}}">
+    <!-- Google Font css -->
+    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet"> 
+
+    <!-- mobile menu css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/meanmenu.min.css')}}">
+    <!-- animate css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/animate.css')}}">
+    <!-- nivo slider css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/nivo-slider.css')}}">
+    <!-- owl carousel css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/owl.carousel.min.css')}}">
+    <!-- slick css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/slick.css')}}">
+    <!-- price slider css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/jquery-ui.min.css')}}">
+    <!-- fontawesome css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/font-awesome.min.css')}}">
+     <!-- fancybox css -->
+     <link rel="stylesheet" href="{{url_for('static', filename='css/jquery.fancybox.css')}}">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css')}}">
+    <!-- default css  -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/default.css')}}">
+    <!-- style css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/responsive.css')}}">
+
+    <!-- modernizr js -->
+    <script src="{{url_for('static', filename='js/vendor/modernizr-2.8.3.min.js')}}"></script>
+</head>
+
+<body>
+    <!--[if lt IE 8]>
+	<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+    <!-- Wrapper Start -->
+    <div class="wrapper homepage">
+        <!-- Header Area Start -->
+        <header>
+            <div class="contact-block hidden-xs">
+                <ul>
+                    <li><a class="email" href="mailto:umerenkovmaskim7@gmail.com">umerenkovmaskim7@gmail.com</a></li>
+                    <li><a class="number" href="tel:79204663505">+7 (920) 466-35-05</a></li>
+                </ul>
+            </div>
+            <!-- Header Bottom Start -->
+            <div class="header-bottom header-sticky">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xl-3 col-lg-2 col-sm-5 col-5">
+                            <div class="logo">
+                                <a href="http://127.0.0.1:5000"><img src="{{url_for('static', filename='img/logo/logo.png')}}" alt="logo-image"></a>
+                            </div>
+                        </div>
+                        <!-- Primary Vertical-Menu End -->
+                        <!-- Search Box Start -->
+                        <div class="col-xl-6 col-lg-7 d-none d-lg-block">
+                            <div class="middle-menu pull-right">
+                                <nav> 
+                                    <ul class="middle-menu-list">                                  
+                                        <li><a href="http://127.0.0.1:5000/shop/&$&/name$up/1">Каталог<i class="fa fa-angle-down"></i></a>
+                                            <!-- Home Version Dropdown Start -->
+                                            <ul class="ht-dropdown dropdown-style-two">
+                                                <li><a href="shop.html">Product Category Name</a></li>
+                                                <li><a href="shop.html">Product Category Name</a></li>
+                                                <li><a href="shop.html">Product Category Name</a></li>
+                                            </ul>
+                                            <!-- Home Version Dropdown End -->
+                                        </li>                                        
+                                        <li><a href="blog.html">Наши работы</a></li>
+                                        <li><a href="contact.html">Контакты</a></li>     
+                                        <li><a href="about.html">О нас</a></li>                                         
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <!-- Search Box End -->
+                        <!-- Cartt Box Start -->
+                        <div class="col-lg-3 col-sm-7 col-7">
+                            <div class="cart-box text-right">
+                                <ul>                
+                                    <li><a href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- Cartt Box End -->
+                        <div class="col-sm-12 d-lg-none">
+                            <div class="mobile-menu">
+                                <nav>
+                                    <ul>
+                                        <li><a href="shop.html">Каталог</a>
+                                            <!-- Mobile Menu Dropdown Start -->
+                                            <ul>
+                                                <li><a href="shop.html">Product Category Name</a></li>
+                                                <li><a href="shop.html">Product Category Name</a></li>
+                                                <li><a href="shop.html">Product Category Name</a></li>
+                                            </ul>
+                                            <!-- Mobile Menu Dropdown End -->
+                                        </li>
+                                        <li><a href="blog.html">Наши работы</a>
+                                        </li>
+                                        <li><a href="about.html">О нас</a></li>
+                                        <li><a href="contact.html">Контакты</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                        <!-- Mobile Menu  End -->                        
+                    </div>
+                    <!-- Row End -->
+                </div>
+                <!-- Container End -->
+            </div>
+            <!-- Header Bottom End -->
+        </header>
+        <main role="main" class="container">
+            {% block content %}{% endblock %}
+        </main>
+        <footer class="off-white-bg">
+            <!-- Footer Top Start -->
+            <div class="footer-top pt-50 pb-60">
+                <div class="container">                 
+                    <div class="row">
+                        <!-- Single Footer Start -->
+                        <div class="col-lg-4  col-md-7 col-sm-6">
+                            <div class="single-footer">
+                                <h3>Связь с нами</h3>
+                                <div class="footer-content">
+                                    <div class="loc-address">
+                                        <span><a href="https://yandex.ru/maps/-/CCU8eVTJoB"><i class="fa fa-map-marker"></i>184 Main Rd E, St Albans VIC 3021, Australia.</a></span>
+                                        <span><a href="mailto:yourinfo@example.com"><i class="fa fa-envelope-o"></i>Почта: yourinfo@example.com</a></span>
+                                        <span><a href="tel:+79204663505"><i class="fa fa-phone"></i>Телефон: +7 (920) 466-35-05</a></span>
+                                    </div>
+                                    <div class="payment-mth"><a href="#"><img class="img" src="{{levelness}}/static/img/footer/1.png" alt="payment-image"></a></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Footer Start -->
+                        <!-- Single Footer Start -->
+                        <div class="col-lg-2  col-md-5 col-sm-6 footer-full">
+                            <div class="single-footer">
+                                <h3 class="footer-title">Information</h3>
+                                <div class="footer-content">
+                                    <ul class="footer-list">
+                                        <li><a href="#">Site Map</a></li>
+                                        <li><a href="#">Specials</a></li>
+                                        <li><a href="#">Jobs</a></li>
+                                        <li><a href="#">Delivery Information</a></li>
+                                        <li><a href="#">Order History</a></li>
+                                        <li><a href="#">Privacy Policy</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Footer Start -->
+                        <!-- Single Footer Start -->
+                        <div class="col-lg-2  col-md-4 col-md-4 col-sm-6 footer-full">
+                            <div class="single-footer">
+                                <h3 class="footer-title">My Account</h3>
+                                <div class="footer-content">
+                                    <ul class="footer-list">
+                                        <li><a href="account.html">My account</a></li>
+                                        <li><a href="#">Checkout</a></li>
+                                        <li><a href="#">Login</a></li>
+                                        <li><a href="#">address</a></li>
+                                        <li><a href="#">Order status</a></li>
+                                        <li><a href="#">Site Map</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Footer Start -->
+                        <!-- Single Footer Start -->
+                        <div class="col-lg-2 col-md-4 col-sm-6 footer-full">
+                            <div class="single-footer">
+                                <h3 class="footer-title">customer service</h3>
+                                <div class="footer-content">
+                                    <ul class="footer-list">
+                                        <li><a href="account.html">My account</a></li>
+                                        <li><a href="#">New</a></li>
+                                        <li><a href="#">Gift Cards</a></li>
+                                        <li><a href="#">Return Policy</a></li>
+                                        <li><a href="#">Your Orders</a></li>
+                                        <li><a href="#">Subway</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Footer Start -->
+                        <!-- Single Footer Start -->
+                        <div class="col-lg-2 col-md-4 col-sm-6 footer-full">
+                            <div class="single-footer">
+                                <h3 class="footer-title">Let Us Help You</h3>
+                                <div class="footer-content">
+                                    <ul class="footer-list">
+                                        <li><a href="#">Your Account</a></li>
+                                        <li><a href="#">Your Orders</a></li>
+                                        <li><a href="#">Shipping</a></li>
+                                        <li><a href="#">Amazon Prime</a></li>
+                                        <li><a href="#">Replacements</a></li>
+                                        <li><a href="#">Manage </a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Single Footer Start -->
+                    </div>
+                    <!-- Row End -->
+                </div>
+                <!-- Container End -->
+            </div>
+            <!-- Footer Top End -->
+            <!-- Footer Bottom Start -->
+            <div class="footer-bottom off-white-bg2">
+                <div class="container">
+                    <div class="footer-bottom-content">
+                        <p class="copy-right-text">Copyright © <a  href="#">Jantrik</a> All Rights Reserved.</p>
+                        <div class="footer-social-content">
+                            <ul class="social-content-list">
+                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                <li><a href="#"><i class="fa fa-wifi"></i></a></li>
+                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- Container End -->
+            </div>
+            <!-- Footer Bottom End -->
+        </footer>
+        <!-- Footer End -->
+    </div>
+    <!-- Wrapper End -->
+    <!-- jquery 3.12.4 -->
+    <script src="{{url_for('static', filename='js/vendor/jquery-1.12.4.min.js')}}"></script>
+    <!-- mobile menu js  -->
+    <script src="{{url_for('static', filename='js/jquery.meanmenu.min.js')}}"></script>
+    <!-- scroll-up js -->
+    <script src="{{url_for('static', filename='js/jquery.scrollUp.js')}}"></script>
+    <!-- owl-carousel js -->
+    <script src="{{url_for('static', filename='js/owl.carousel.min.js')}}"></script>
+    <!-- slick js -->
+    <script src="{{url_for('static', filename='js/slick.min.js')}}"></script>
+    <!-- wow js -->
+    <script src="{{url_for('static', filename='js/wow.min.js')}}"></script>
+    <!-- price slider js -->
+    <script src="{{url_for('static', filename='js/jquery-ui.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/jquery.countdown.min.js')}}"></script>
+    <!-- nivo slider js -->
+    <script src="{{url_for('static', filename='js/jquery.nivo.slider.js')}}"></script>
+    <!-- fancybox js -->
+    <script src="{{url_for('static', filename='js/jquery.fancybox.min.js')}}"></script>
+    <!-- bootstrap -->
+    <script src="{{url_for('static', filename='js/bootstrap.min.js')}}"></script>
+    <!-- popper -->
+    <script src="{{url_for('static', filename='js/popper.js')}}"></script>
+    <!-- plugins -->
+    <script src="{{url_for('static', filename='js/plugins.js')}}"></script>
+    <!-- main js -->
+    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+</body>
+
+</html>
