@@ -50,13 +50,12 @@ def product(product_id):
     # upsell_product - 7шт
 
     upsell_product = [(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                       (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 250),
-                       (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                       (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                       (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 100),
-                       (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                       (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10), ]
-
+                      (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 250),
+                      (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
+                      (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
+                      (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 100),
+                      (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
+                      (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10), ]
 
     price_with_sale = None
     if product_data[0][5]:
@@ -189,6 +188,11 @@ def shop(product_filter, sorting_settings, page):
                            products_list=products_list, grid_item_list_text=grid_item_list_text, sort_type=sort_type,
                            max_page=max_page, page=page, full_url=full_url, next_page_url=f"{full_url}{page + 1}",
                            button_sort_href=button_sort_href, arrow_sort_href=arrow_sort_href, is_reverse=is_reverse)
+
+
+@app.route('/about_us')
+def contact_page():
+    return render_template('contact.html', url=WEBSITE_URL)
 
 
 app.run(host=HOST, port=PORT)

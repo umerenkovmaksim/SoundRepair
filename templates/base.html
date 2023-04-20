@@ -63,7 +63,7 @@
                     <div class="row">
                         <div class="col-xl-3 col-lg-2 col-sm-5 col-5">
                             <div class="logo">
-                                <a href="http://127.0.0.1:5000"><img src="{{url_for('static', filename='img/logo/logo.png')}}" alt="logo-image"></a>
+                                <a href='{{url}}'><img src="{{url_for('static', filename='img/logo/logo.png')}}" alt="logo-image"></a>
                             </div>
                         </div>
                         <!-- Primary Vertical-Menu End -->
@@ -72,7 +72,7 @@
                             <div class="middle-menu pull-right">
                                 <nav> 
                                     <ul class="middle-menu-list">                                  
-                                        <li><a href="http://127.0.0.1:5000/shop/&$&/name$up/1">Каталог<i class="fa fa-angle-down"></i></a>
+                                        <li><a href="{{url}}/shop/&$&/name$up/1">Каталог<i class="fa fa-angle-down"></i></a>
                                             <!-- Home Version Dropdown Start -->
                                             <ul class="ht-dropdown dropdown-style-two">
                                                 <li><a href="shop.html">Product Category Name</a></li>
@@ -83,7 +83,7 @@
                                         </li>                                        
                                         <li><a href="blog.html">Наши работы</a></li>
                                         <li><a href="contact.html">Контакты</a></li>     
-                                        <li><a href="about.html">О нас</a></li>                                         
+                                        <li><a href="{{url}}/about_us">О нас</a></li>
                                     </ul>
                                 </nav>
                             </div>
