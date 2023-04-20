@@ -5,34 +5,32 @@
     <div class="container">
         <div class="breadcrumb">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li class="active"><a href="contact.html">Contact</a></li>
+                <li><a href="{{url}}">Главная страница</a></li>
+                <li class="active"><a href="contact.html">Контакты</a></li>
             </ul>
         </div>
     </div>
     <!-- Container End -->
 </div>
 <!-- Breadcrumb End -->
-<!-- Google Map Start -->
-<div class="container">
-    <div style="width: 300px; height: 200px;">
+<div class="yandex_map">
+    <div class="container" style="height: 250px;">
         <script type="text/javascript" charset="utf-8" async src="https://api-maps.yandex.ru/services/constructor/1.0/js/?um=constructor%3A0ae15f621e6e0d39312afa997374536a01c329090196b86d198706ef2abdb626&amp;lang=ru_RU&amp;scroll=true"></script>
     </div>
 </div>
-<!-- Google Map End -->
 <!-- Contact Email Area Start -->
 <div class="contact-email-area ptb-60">
     <div class="container">
         <div class="row">
             <div class="col-sm-12">
-                <h3>Contact Us</h3>
-                <p class="text-capitalize mb-40">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+                <h3>Связь с нами</h3>
+                <p class="mb-40">Связаться с нами можно по телефону - <a href="tel:79204663505">+7 (920) 466-35-05</a>, почте - <a href="mailto:umerenkovmaksim7@gmail.com">umerenkovmaksim7@gmail.com</a> или заполнив форму ниже</p>
                 <form id="contact-form" class="contact-form" action="mail.php" method="post">
                     <div class="address-wrapper">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="address-fname">
-                                    <input type="text" name="name" placeholder="Name">
+                                    <input type="text" name="name" placeholder="Имя">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -40,19 +38,14 @@
                                     <input type="email" name="email" placeholder="Email">
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="address-web">
-                                    <input type="text" name="website" placeholder="Website">
-                                </div>
-                            </div>
                             <div class="col-sm-12">
                                 <div class="address-subject">
-                                    <input type="text" name="subject" placeholder="Subject">
+                                    <input type="text" name="subject" placeholder="Тема">
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <div class="address-textarea">
-                                    <textarea name="message" placeholder="Write your message"></textarea>
+                                    <textarea name="message" placeholder="Напишите ваше сообщение..."></textarea>
                                 </div>
                             </div>
                         </div>
@@ -60,7 +53,7 @@
                     <p class="form-message ml-15"></p>
                     <div class="col-xs-12 footer-content mail-content">
                         <div class="send-email">
-                            <input type="submit" value="Submit" class="submit">
+                            <input type="submit" value="Отправить" class="submit">
                         </div>
                     </div>
                 </form>
@@ -70,43 +63,4 @@
 </div>
 <!-- Contact Email Area End -->
 <!-- Brand Logo Start -->
-<div class="brand-area pb-60">
-    <div class="container">
-        <!-- Brand Banner Start -->
-        <div class="brand-banner owl-carousel">
-            <div class="single-brand">
-                <a href="#"><img class="img" src="img/brand/1.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/2.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/3.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/4.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img class="img" src="img/brand/1.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/2.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/3.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/4.png" alt="brand-image"></a>
-            </div>
-            <div class="single-brand">
-                <a href="#"><img src="img/brand/5.png" alt="brand-image"></a>
-            </div>
-        </div>
-        <!-- Brand Banner End -->
-    </div>
-</div>
-<!-- Brand Logo End -->
 {% endblock %}

@@ -190,7 +190,7 @@ def shop(product_filter, sorting_settings, page):
                            button_sort_href=button_sort_href, arrow_sort_href=arrow_sort_href, is_reverse=is_reverse)
 
 
-@app.route('/about_us')
+@app.route('/contact')
 def contact_page():
     return render_template('contact.html', url=WEBSITE_URL)
 
