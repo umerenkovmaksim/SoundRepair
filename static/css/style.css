@@ -773,8 +773,10 @@ ul.ht-dropdown.dropdown-style-two li {
 .text-content h1 {
     font-size: 36px;
     line-height: 46px;
-    margin-top: 8px;
-    margin-bottom: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-family: GolosUIWebMedium;
+    color: black;
 }
 .slider-text a:hover {
     background: #000;
@@ -1885,8 +1887,6 @@ ul.ht-dropdown.dropdown-style-two li {
     opacity: 0.8;
     color: #fff;
 }
-}
-
 .sort:hover,.sort:focus {
     opacity: 0.8;
     color: #fff;
@@ -1896,7 +1896,6 @@ ul.ht-dropdown.dropdown-style-two li {
     opacity: 0.8;
     color: #fff;
 }
-
 .product-link {
     border-top: 1px solid #ebebeb;
     padding-top: 25px;
