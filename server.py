@@ -1,6 +1,6 @@
 import math
 
-from flask import Flask, render_template
+from flask import Flask, render_template, request, make_response
 
 app = Flask(__name__)
 HOST = '0.0.0.0'
@@ -50,12 +50,13 @@ def product(product_id):
     # upsell_product - 7шт
 
     upsell_product = [(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                      (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 250),
-                      (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                      (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                      (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 100),
-                      (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                      (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10), ]
+                       (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 250),
+                       (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
+                       (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
+                       (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 100),
+                       (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
+                       (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10), ]
+
 
     price_with_sale = None
     if product_data[0][5]:
@@ -193,6 +194,41 @@ def shop(product_filter, sorting_settings, page):
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html', url=WEBSITE_URL)
+
+
+@app.route('/wishlist/<action>/<product_id>')
+def wishlist(action, product_id):
+    wishlist_list = request.cookies.get("wishlist", 0)
+    if wishlist_list:
+        wishlist_list = wishlist_list.split("&")
+        wishlist_list = list(map(int, wishlist_list))
+        if action == "add":
+            wishlist_list.append(int(product_id))
+        elif action == "del" and int(product_id) in wishlist_list:
+            wishlist_list.remove(product_id)
+    else:
+        wishlist_list = []
+
+    # Находим все товары с id из wishlist_list
+    # product_data = [(id, name, img_href, price, sale)]
+    product_data = [(1, "Product 1", "static/img/products/1.jpg", 200, 20),
+                    (2, "Product 2", "static/img/products/2.jpg", 500, None)]
+
+    new_product_data = []
+    for id, name, img_href, price, sale in product_data:
+        product_list = [id, name, img_href]
+        if sale:
+            product_list.append(int(price * (1 - sale * 0.01)))
+        else:
+            product_list.append(price)
+
+        new_product_data.append(tuple(product_list))
+        print(new_product_data)
+
+    # По выходу получиться new_product_data = [(id, name, img_href, price)]
+
+    return render_template('wishlist.html', title='SoundRepair', levelness="../../", url=WEBSITE_URL,
+                           new_product_data=new_product_data)
 
 
 app.run(host=HOST, port=PORT)
