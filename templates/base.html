@@ -101,6 +101,7 @@
                                         </a>
                                         <ul class="ht-dropdown main-cart-box">
                                             <li>
+                                            {% if cart_data[1] %}
                                             {% for id, name, img_href, price, price_with_sale, sale in cart_data[1] %}
                                                 <div class="single-cart-box">
                                                     <div class="cart-img">
@@ -119,10 +120,13 @@
 
                                                 </div>
                                             {% endfor %}
+                                            {% endif %}
                                                 <!-- Cart Box End -->
                                                 <!-- Cart Footer Inner Start -->
                                                 <div class="cart-footer fix">
+                                                    {% if cart_data[2] %}
                                                     <h5>total :<span class="f-right">{{cart_data[2]}}₽</span></h5>
+                                                    {% endif %}
                                                     <div class="cart-actions">
                                                         <a class="checkout" href="{{url}}/cart/see$$all">В корзину</a>
                                                     </div>
