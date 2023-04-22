@@ -40,6 +40,22 @@ def get_cart_for_base(cart_list=None):
     return (len(new_product_data), new_product_data, total_price_with_sale)
 
 
+def get_categories_for_base():
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
+    categories_list = cur.execute(f"""SELECT categories FROM products""").fetchall()
+    all_categories_list = []
+    print(categories_list)
+    for categories_str in categories_list:
+        all_categories_list += categories_str[0].split("&")
+
+    categories_non_recurring = list(set(all_categories_list))
+
+    con.close()
+    return categories_non_recurring
+
+
 app = Flask(__name__)
 HOST = '0.0.0.0'
 PORT = 5000
@@ -50,7 +66,7 @@ WEBSITE_URL = 'http://127.0.0.1:5000'
 @app.route('/Error<e>')
 def handle_bad_request(e):
     return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-                           cart_data=get_cart_for_base())
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
 @app.route('/')
@@ -64,7 +80,7 @@ def main_page():
     # for n, products_cart_list, total_price in get_cart_for_base():
     #     print(n, products_cart_list, total_price)
     return render_template('index.html', title='SoundRepair', url=WEBSITE_URL, random_product=random_product,
-                           cart_data=get_cart_for_base())
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
 @app.route('/product/<product_id>')
@@ -113,7 +129,7 @@ def product(product_id):
     return render_template('product.html', title=f"SoundRepair | {product_data[0][1]}", product_data=product_data,
                            levelness="../", url=WEBSITE_URL, price_with_sale=price_with_sale, text_2=text_2,
                            related_product=related_product, upsell_product=upsell_product, product_id=product_id,
-                           cart_data=get_cart_for_base())
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
 @app.route('/shop/<product_filter>$$<sorting_settings>$$<page>')
@@ -131,6 +147,8 @@ def shop(product_filter, sorting_settings, page):
     manufacturer, categories_filter_list = manufacturer_filter, categories_filter.split("&")
 
     categories_filter_list = [] if categories_filter_list == [""] else categories_filter_list
+
+    print(manufacturer, categories_filter_list)
 
     for i in range(categories_filter_list.count('')):
         categories_filter_list.remove('')
@@ -232,19 +250,17 @@ def shop(product_filter, sorting_settings, page):
     #                  (id, name, img_href, text, price, sale)]
     request = ""
     if manufacturer or categories_filter_list:
-        request += "WHERE"
+        request += "WHERE "
         requect_list = []
         if manufacturer:
-            requect_list.append(f"manufacturer == {manufacturer}")
+            requect_list.append(f"manufacturer == '{manufacturer}'")
 
         if len(categories_filter_list) > 1:
             requect_list.append(f"categories IN {tuple(categories_filter_list)}")
         elif categories_filter_list:
-            requect_list.append(f"categories == {categories_filter_list}")
+            requect_list.append(f"categories == '{categories_filter_list[0]}'")
 
-        request += "AND".join(requect_list)
-
-
+        request += " AND ".join(requect_list)
 
     print(f"""SELECT id, name, img_href, short_description, price, sale FROM products {request}""")
     products_list = cur.execute(
@@ -270,8 +286,9 @@ def shop(product_filter, sorting_settings, page):
     max_page = math.ceil(len(products_list) / 12)
 
     if page > max_page:
+        con.close()
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-                               cart_data=get_cart_for_base())
+                               cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
     grid_item_list_text = f"Товары {1 + 12 * (page - 1)}-{min(len(products_list), 12 * page)} из {len(products_list)}"
 
@@ -280,18 +297,20 @@ def shop(product_filter, sorting_settings, page):
 
     print(new_products_list)
 
+    con.close()
     return render_template('shop.html', title='SoundRepair | Shop', levelness="../../../", url=WEBSITE_URL,
                            manufacturers=out_manufacturers, categories=out_categories,
                            product_mat=new_random_product_mat, products_list=new_products_list,
                            grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
                            full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
-                           arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base())
+                           arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
+                           categories_for_base=get_categories_for_base())
 
 
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html', url=WEBSITE_URL, cart_data=get_cart_for_base(),
-                           title='SoundRepair | Contact')
+                           title='SoundRepair | Contact', categories_for_base=get_categories_for_base())
 
 
 @app.route('/wishlist/<action>$$<product_id>')
@@ -332,7 +351,8 @@ def wishlist(action, product_id):
 
     res = make_response(
         render_template('wishlist.html', title='SoundRepair | Wishlist', levelness="../../", url=WEBSITE_URL,
-                        new_product_data=new_product_data, cart_data=get_cart_for_base()))
+                        new_product_data=new_product_data, cart_data=get_cart_for_base(),
+                        categories_for_base=get_categories_for_base()))
 
     print(wishlist_list)
     res.set_cookie("wishlist", "$".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
@@ -390,7 +410,7 @@ def cart(action, product_id):
     res = make_response(
         render_template('cart.html', title="SoundRepair | Cart", url=WEBSITE_URL, product_data=new_product_data,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        cart_data=get_cart_for_base(cart_list)))
+                        cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories_for_base()))
     res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
 
     return res

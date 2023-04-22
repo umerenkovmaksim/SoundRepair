@@ -11,8 +11,8 @@
     <!-- place favicon.ico in the root directory -->
     <link rel="shortcut icon" type="image/x-icon" href="{{url_for('static', filename='img/icon/favicon.png')}}">
     <!-- Google Font css -->
-    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet"> 
-    <link href="{{url_for('static', filename='fonts/Golos-UI_Medium.css')}}" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Lily+Script+One" rel="stylesheet">
+    <link href="{{url_for('static', filename='fonts/Golos-UI_Medium.css')}}" rel="stylesheet">
 
     <!-- mobile menu css -->
     <link rel="stylesheet" href="{{url_for('static', filename='css/meanmenu.min.css')}}">
@@ -70,19 +70,19 @@
                         <!-- Search Box Start -->
                         <div class="col-xl-6 col-lg-7 d-none d-lg-block">
                             <div class="middle-menu pull-right">
-                                <nav> 
-                                    <ul class="middle-menu-list">                                  
+                                <nav>
+                                    <ul class="middle-menu-list">
                                         <li><a href="{{url}}/shop/$$$name$up$$1">Каталог<i class="fa fa-angle-down"></i></a>
                                             <!-- Home Version Dropdown Start -->
                                             <ul class="ht-dropdown dropdown-style-two">
-                                                <li><a href="shop.html">Product Category Name</a></li>
-                                                <li><a href="shop.html">Product Category Name</a></li>
-                                                <li><a href="shop.html">Product Category Name</a></li>
+                                                {% for category in categories_for_base %}
+                                                <li><a href="{{url}}/shop/${{category}}$$name$up$$1">{{category}}</a></li>
+                                                {% endfor %}
                                             </ul>
                                             <!-- Home Version Dropdown End -->
-                                        </li>                                        
+                                        </li>
                                         <li><a href="blog.html">Наши работы</a></li>
-                                        <li><a href="{{url}}/contact">Контакты</a></li>     
+                                        <li><a href="{{url}}/contact">Контакты</a></li>
                                         <li><a href="{{url}}/about_us">О нас</a></li>
                                     </ul>
                                 </nav>
@@ -92,7 +92,7 @@
                         <!-- Cartt Box Start -->
                         <div class="col-lg-3 col-sm-7 col-7">
                             <div class="cart-box text-right">
-                                <ul>                
+                                <ul>
                                     <li><a href="{{url}}/wishlist/see$$all"><i class="fa fa-heart-o"></i></a></li>
                                         <li><a href="{{url}}/cart/see$$all"><i class="fa fa-shopping-basket"></i>
                                             {% if cart_data[0] %}
@@ -156,7 +156,7 @@
                                 </nav>
                             </div>
                         </div>
-                        <!-- Mobile Menu  End -->                        
+                        <!-- Mobile Menu  End -->
                     </div>
                     <!-- Row End -->
                 </div>
@@ -170,7 +170,7 @@
         <footer class="off-white-bg">
             <!-- Footer Top Start -->
             <div class="footer-top pt-50 pb-60">
-                <div class="container">                 
+                <div class="container">
                     <div class="row">
                         <!-- Single Footer Start -->
                         <div class="col-lg-4  col-md-7 col-sm-6">
