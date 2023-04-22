@@ -1,9 +1,13 @@
 import math
+import sqlite3
 
 from flask import Flask, render_template, request, make_response
 
 
 def get_cart_for_base(cart_list=None):
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
     if not cart_list:
         cart_list = request.cookies.get("cart")
         if cart_list:
@@ -11,22 +15,28 @@ def get_cart_for_base(cart_list=None):
         else:
             return None, None, None
 
-    product_data = []
-    for product_id in cart_list:
-        product_data.append((product_id, f"Product {product_id}", f"static/img/products/{product_id}.jpg", 10, 10))
+    if len(cart_list) > 1:
+        product_data = cur.execute(
+            f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(cart_list)}""")
+    else:
+        product_data = cur.execute(
+            f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {cart_list[0]}""")
 
     new_product_data = []
     for id, name, img_href, price, sale in product_data:
         product_list = [id, name, img_href, price]
-        if sale:
+        if sale != 0:
             product_list.append(int(price * (1 - sale * 0.01)))
+            product_list.append(sale)
         else:
             product_list.append(price)
+            product_list.append(None)
 
         new_product_data.append(tuple(product_list))
 
     total_price_with_sale = sum(list(map(lambda x: x[4], new_product_data)))
 
+    con.close()
     return (len(new_product_data), new_product_data, total_price_with_sale)
 
 
@@ -108,6 +118,9 @@ def product(product_id):
 
 @app.route('/shop/<product_filter>$$<sorting_settings>$$<page>')
 def shop(product_filter, sorting_settings, page):
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
     page = int(page)
     full_url = f"{product_filter}$${sorting_settings}$$"
 
@@ -134,7 +147,10 @@ def shop(product_filter, sorting_settings, page):
 
     # Производители
     # manufacturers = [(name, n), (name, n), (name, n)] входные данные из списка
-    manufacturers = [("Богдан", 3), ("Андрей", 6), ("Максим", 1)]
+    manufacturers_list = cur.execute(f"""SELECT manufacturer FROM products""").fetchall()
+    manufacturers_list = list(map(lambda x: x[0], manufacturers_list))
+    manufacturers_non_recurring = list(set(manufacturers_list))
+    manufacturers = sorted(list(map(lambda x: (x, manufacturers_list.count(x)), manufacturers_non_recurring)))
 
     href_end = f"$${sorting_settings}$${page}"
 
@@ -151,7 +167,14 @@ def shop(product_filter, sorting_settings, page):
 
     # Тип товара
     # categories = [(name, n), (name, n), (name, n)]
-    categories = [("Бам-бам громко", 10), ("Бам-бам громко, но не очень", 5), ("Бам-бам не очень громко", 13)]
+    categories_list = cur.execute(f"""SELECT categories FROM products""").fetchall()
+    all_categories_list = []
+    print(categories_list)
+    for categories_str in categories_list:
+        all_categories_list += categories_str[0].split("&")
+
+    categories_non_recurring = list(set(all_categories_list))
+    categories = sorted(list(map(lambda x: (x, all_categories_list.count(x)), categories_non_recurring)))
 
     out_categories = []
     for name, n in categories:
@@ -207,37 +230,38 @@ def shop(product_filter, sorting_settings, page):
     # Все товары
     # products_list = [(id, name, img_href, text, price, sale),
     #                  (id, name, img_href, text, price, sale)]
-    products_list = [(1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
+    request = ""
+    if manufacturer or categories_filter_list:
+        request += "WHERE"
+        requect_list = []
+        if manufacturer:
+            requect_list.append(f"manufacturer == {manufacturer}")
 
-                     (1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
+        if len(categories_filter_list) > 1:
+            requect_list.append(f"categories IN {tuple(categories_filter_list)}")
+        elif categories_filter_list:
+            requect_list.append(f"categories == {categories_filter_list}")
 
-                     (1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
+        request += "AND".join(requect_list)
 
-                     (1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
 
-                     (1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
 
-                     (1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
+    print(f"""SELECT id, name, img_href, short_description, price, sale FROM products {request}""")
+    products_list = cur.execute(
+        f"""SELECT id, name, img_href, short_description, price, sale FROM products {request}""").fetchall()
 
-                     (1, "Product 1", "static/img/products/1.jpg", "Text", 450, 50),
-                     (2, "Product 2", "static/img/products/2.jpg", "Text", 125, None),
-                     ]
+    print(products_list)
 
     new_products_list = []
     for id, name, img_href, text, price, sale in products_list:
-        new_product = [id, name, img_href, text, price]
-        if sale:
+        new_product = [id, str(name), img_href, text, price]
+        print(name)
+        if sale != 0:
             new_product.append(int(price * (1 - sale * 0.01)))
+            new_product.append(sale)
         else:
             new_product.append(None)
-
-        new_product.append(sale)
+            new_product.append(None)
 
         new_products_list.append(tuple(new_product))
 

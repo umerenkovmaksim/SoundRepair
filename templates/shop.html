@@ -268,8 +268,8 @@
                                             {% endif %}
                                             <div class="pro-actions">
                                                 <div class="actions-secondary">
-                                                    <a href="{{url}}/wishlist/add/{{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                    <a href="{{url}}/wishlist/add$${{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                                    <a class="add-cart" href="{{url}}/cart/add${{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -300,7 +300,7 @@
                                 <!-- Product Image End -->
                                 <!-- Product Content Start -->
                                 <div class="pro-content">
-                                    <h4><a href="{{url}}/product/{{id}}">name</a></h4>
+                                    <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
 
                                     {% if sale %}
                                     <p><span class="price">{{sale_price}}₽</span>
@@ -312,8 +312,8 @@
                                     <p>{{text}}</p>
                                     <div class="pro-actions">
                                         <div class="actions-secondary">
-                                            <a href="{{url}}/wishlist/add/{{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                            <a class="add-cart" href="cart.html" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                            <a href="{{url}}/wishlist/add$${{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
+                                            <a class="add-cart" href="{{url}}/cart/add${{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
                                         </div>
                                     </div>
                                 </div>

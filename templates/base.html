@@ -101,14 +101,14 @@
                                         </a>
                                         <ul class="ht-dropdown main-cart-box">
                                             <li>
-                                            {% for id, name, img_href, price, price_with_sale in cart_data[1] %}
+                                            {% for id, name, img_href, price, price_with_sale, sale in cart_data[1] %}
                                                 <div class="single-cart-box">
                                                     <div class="cart-img">
                                                         <a href="{{url}}/product/{{id}}"><img src="{{levelness}}{{img_href}}" alt="cart-image"></a>
                                                     </div>
                                                     <div class="cart-content">
                                                         <h6><a href="{{url}}/product/{{id}}">{{name}}</a></h6>
-                                                        <span>{% if price_with_sale %}
+                                                        <span>{% if sale %}
                                                         <span class="price">{{price_with_sale}}₽</span>
                                                         <del class="prev-price">{{price}}₽</del>
                                                         {% else %}
