@@ -492,4 +492,10 @@ def cart(action, product_id):
     return res
 
 
+@app.route('/about_us')
+def about():
+    return render_template('about.html', title='SoundRepair', url=WEBSITE_URL, cart_data=get_cart_for_base(),
+                            categories_for_base=get_categories_for_base())
+
+
 app.run(host=HOST, port=PORT)
