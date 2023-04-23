@@ -12,12 +12,12 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QGroupBox, QVBoxL
 
 
 class MainWindow(QMainWindow):
-    con = sqlite3.connect("../db/data.db")
+    con = sqlite3.connect("db/data.db")
     cur = con.cursor()
 
     def __init__(self):
         super().__init__()
-        uic.loadUi('db_editor_ui.ui', self)
+        uic.loadUi('db_editor/db_editor_ui.ui', self)
         self.setWindowTitle("Редактор db")
 
         self.pushButton_OK.clicked.connect(self.save)

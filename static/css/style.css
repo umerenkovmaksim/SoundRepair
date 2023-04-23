@@ -771,7 +771,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 
 .text-content h1 {
-    font-size: 36px;
+    font-size: 30px;
     line-height: 46px;
     margin-top: 20px;
     margin-bottom: 20px;
@@ -782,8 +782,8 @@ ul.ht-dropdown.dropdown-style-two li {
     background: #000;
 }
 .text-content h4{
-    font-family: Lily Script One;
-    font-size: 30px;
+    font-family: GolosUIWebMedium;
+    font-size: 40px;
 }
 /* -- slider nav css -- */
 .slider-wrapper.theme-default {

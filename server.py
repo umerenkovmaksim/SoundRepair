@@ -66,7 +66,7 @@ WEBSITE_URL = 'http://127.0.0.1:5000'
 @app.errorhandler(404)
 @app.route('/Error<e>')
 def handle_bad_request(e):
-    return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
+    return render_template("404.html", title='Error 404', levelness="../../../", url=WEBSITE_URL,
                            cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
@@ -83,7 +83,7 @@ def main_page():
     random_product_list_new = random.sample(random_product_list, 3)
 
     con.close()
-    return render_template('index.html', title='SoundRepair', url=WEBSITE_URL, random_product=random_product_list_new,
+    return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL, random_product=random_product_list_new,
                            cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
@@ -351,7 +351,7 @@ def shop(product_filter, sorting_settings, page):
     print(new_products_list)
 
     con.close()
-    return render_template('shop.html', title='SoundRepair | Shop', levelness="../../../", url=WEBSITE_URL,
+    return render_template('shop.html', title='SoundRepair | Каталог', levelness="../../../", url=WEBSITE_URL,
                            manufacturers=out_manufacturers, categories=out_categories,
                            product_mat=new_random_product_mat, products_list=new_products_list,
                            grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
@@ -364,7 +364,7 @@ def shop(product_filter, sorting_settings, page):
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html', url=WEBSITE_URL, cart_data=get_cart_for_base(),
-                           title='SoundRepair | Contact', categories_for_base=get_categories_for_base())
+                           title='SoundRepair | Контакты', categories_for_base=get_categories_for_base())
 
 
 @app.route('/wishlist/<action>$$<product_id>')
@@ -414,7 +414,7 @@ def wishlist(action, product_id):
     con.close()
     print(wishlist_product_list_new)
     res = make_response(
-        render_template('wishlist.html', title='SoundRepair | Wishlist', levelness="../../", url=WEBSITE_URL,
+        render_template('wishlist.html', title='SoundRepair | Понравившиеся', levelness="../../", url=WEBSITE_URL,
                         new_product_data=wishlist_product_list_new, cart_data=get_cart_for_base(),
                         categories_for_base=get_categories_for_base()))
 
@@ -484,7 +484,7 @@ def cart(action, product_id):
     print(cart_list)
     con.close()
     res = make_response(
-        render_template('cart.html', title="SoundRepair | Cart", url=WEBSITE_URL, product_data=new_cart_product_list,
+        render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=new_cart_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
                         cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories_for_base()))
     res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
@@ -494,8 +494,13 @@ def cart(action, product_id):
 
 @app.route('/about_us')
 def about():
-    return render_template('about.html', title='SoundRepair', url=WEBSITE_URL, cart_data=get_cart_for_base(),
+    return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL, cart_data=get_cart_for_base(),
                             categories_for_base=get_categories_for_base())
 
+
+@app.route('/our_works')
+def our_works():
+    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL, cart_data=get_cart_for_base(),
+                            categories_for_base=get_categories_for_base())
 
 app.run(host=HOST, port=PORT)

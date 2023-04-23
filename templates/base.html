@@ -81,7 +81,7 @@
                                             </ul>
                                             <!-- Home Version Dropdown End -->
                                         </li>
-                                        <li><a href="blog.html">Наши работы</a></li>
+                                        <li><a href="{{url}}/our_works">Наши работы</a></li>
                                         <li><a href="{{url}}/contact">Контакты</a></li>
                                         <li><a href="{{url}}/about_us">О нас</a></li>
                                     </ul>
@@ -148,16 +148,16 @@
                                         <li><a href="{{url}}/shop/$$$name$up$$1">Каталог</a>
                                             <!-- Mobile Menu Dropdown Start -->
                                             <ul>
-                                                <li><a href="{{url}}/shop/$$$name$up$$1">Product Category Name</a></li>
-                                                <li><a href="{{url}}/shop/$$$name$up$$1">Product Category Name</a></li>
-                                                <li><a href="{{url}}/shop/$$$name$up$$1">Product Category Name</a></li>
+                                                {% for category in categories_for_base %}
+                                                <li><a href="{{url}}/shop/${{category}}$$name$up$$1">{{category}}</a></li>
+                                                {% endfor %}
                                             </ul>
                                             <!-- Mobile Menu Dropdown End -->
                                         </li>
-                                        <li><a href="blog.html">Наши работы</a>
+                                        <li><a href="{{url}}/our_works">Наши работы</a>
                                         </li>
-                                        <li><a href="about.html">О нас</a></li>
-                                        <li><a href="contact.html">Контакты</a></li>
+                                        <li><a href="{{url}}/about_us">О нас</a></li>
+                                        <li><a href="{{url}}/contact">Контакты</a></li>
                                     </ul>
                                 </nav>
                             </div>
