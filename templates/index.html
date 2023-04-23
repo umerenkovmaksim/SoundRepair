@@ -42,15 +42,15 @@
                      {%for id, name, img_href, text in random_product%}
                     <div class="single-blog">
                         <div class="blog-img">
-                            <a href="url/product/{{id}}"><img src="{{ img_href }}" alt="product-image"></a>
+                            <a href="{{url}}/product/{{id}}"><img src="{{ img_href }}" alt="product-image"></a>
                         </div>
                         <div class="blog-content">
-                                <h4 class="blog-title"><a href="url/product/{{id}}">{{name}}</a></h4>
+                                <h4 class="blog-title"><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
                             <div class="blog-meta">
                                 {{text}}
                             </div>
                             <div class="readmore">
-                                <a href="url/product/{{id}}">Read More.....</a>
+                                <a href="{{url}}/product/{{id}}">Подробнее...</a>
                             </div>
                         </div>
                     </div>

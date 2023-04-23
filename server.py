@@ -72,15 +72,18 @@ def handle_bad_request(e):
 
 @app.route('/')
 def main_page():
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
     # Случайные товары
     # random_product = [(id, name, img_href, text), (name, img_href, text), (id, name, img_href, text)]
-    random_product = [(1, "Product 1", "static/img/products/1.jpg", "text 1"),
-                      (2, "Product 2", "static/img/products/2.jpg", "text 2"),
-                      (3, "Product 3", "static/img/products/3.jpg", "text 3")]
-    # print(get_cart_for_base()[0])
-    # for n, products_cart_list, total_price in get_cart_for_base():
-    #     print(n, products_cart_list, total_price)
-    return render_template('index.html', title='SoundRepair', url=WEBSITE_URL, random_product=random_product,
+    random_product_list = cur.execute(
+        f"""SELECT id, name, img_href, short_description FROM products""").fetchall()
+    random.shuffle(random_product_list)
+    random_product_list_new = random.sample(random_product_list, 3)
+
+    con.close()
+    return render_template('index.html', title='SoundRepair', url=WEBSITE_URL, random_product=random_product_list_new,
                            cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
@@ -246,6 +249,7 @@ def shop(product_filter, sorting_settings, page):
     if wishlist_list:
         wishlist_list = wishlist_list.split("$")
         wishlist_list = list(map(int, wishlist_list))
+        wishlist_list = wishlist_list[:3]
         if len(wishlist_list) > 1:
             wishlist_product_list = cur.execute(
                 f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(wishlist_list)} """).fetchall()
@@ -339,77 +343,97 @@ def contact_page():
 
 @app.route('/wishlist/<action>$$<product_id>')
 def wishlist(action, product_id):
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
+    # Находим все товары с id из wishlist_list
+    # product_data = [(id, name, img_href, price, sale)]
+
     wishlist_list = request.cookies.get("wishlist")
     if wishlist_list:
         wishlist_list = wishlist_list.split("$")
         wishlist_list = list(map(int, wishlist_list))
-        if action == "add":
-            wishlist_list.append(int(product_id))
-        elif action == "del" and int(product_id) in wishlist_list:
-            wishlist_list.remove(int(product_id))
     else:
         wishlist_list = []
-        if action == "add":
-            wishlist_list.append(int(product_id))
 
-    wishlist_list = list(set(wishlist_list))
+    if action == "add":
+        wishlist_list.append(int(product_id))
+    elif action == "del" and int(product_id) in wishlist_list:
+        wishlist_list.remove(int(product_id))
 
-    # Находим все товары с id из wishlist_list
-    # product_data = [(id, name, img_href, price, sale)]
-    product_data = [(1, "Product 1", "static/img/products/1.jpg", 200, 20),
-                    (2, "Product 2", "static/img/products/2.jpg", 500, None)]
-    for product_id in wishlist_list:
-        product_data.append((product_id, f"Product {product_id}", f"static/img/products/{product_id}.jpg", 10, 10))
+    if bool(wishlist_list):
+        if len(wishlist_list) > 1:
+            wishlist_product_list = cur.execute(
+                f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(wishlist_list)} """).fetchall()
+        elif len(wishlist_list) == 1:
+            wishlist_product_list = cur.execute(
+                f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {wishlist_list[0]} """).fetchall()
+        else:
+            wishlist_product_list = []
 
-    new_product_data = []
-    for id, name, img_href, price, sale in product_data:
+    else:
+        wishlist_product_list = []
+
+    wishlist_product_list_new = []
+    for id, name, img_href, price, sale in wishlist_product_list:
         product_list = [id, name, img_href]
         if sale:
             product_list.append(int(price * (1 - sale * 0.01)))
         else:
             product_list.append(price)
 
-        new_product_data.append(tuple(product_list))
+        wishlist_product_list_new.append(tuple(product_list))
 
     # По выходу получиться new_product_data = [(id, name, img_href, price)]
-
+    con.close()
+    print(wishlist_product_list_new)
     res = make_response(
         render_template('wishlist.html', title='SoundRepair | Wishlist', levelness="../../", url=WEBSITE_URL,
-                        new_product_data=new_product_data, cart_data=get_cart_for_base(),
+                        new_product_data=wishlist_product_list_new, cart_data=get_cart_for_base(),
                         categories_for_base=get_categories_for_base()))
 
-    print(wishlist_list)
     res.set_cookie("wishlist", "$".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
     return res
 
 
 @app.route('/cart/<action>$$<product_id>')
 def cart(action, product_id):
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
+    # Находим все товары с id из wishlist_list
+    # product_data = [(id, name, img_href, price, sale)]
+
     cart_list = request.cookies.get("cart")
     if cart_list:
         cart_list = cart_list.split("$")
         cart_list = list(map(int, cart_list))
-        if action == "add":
-            cart_list.append(int(product_id))
-        elif action == "del" and int(product_id) in cart_list:
-            cart_list.remove(int(product_id))
     else:
         cart_list = []
-        if action == "add":
-            cart_list.append(int(product_id))
+    print(cart_list)
 
-    cart_list = list(set(cart_list))
+    if action == "add":
+        cart_list.append(int(product_id))
+    elif action == "del" and int(product_id) in cart_list:
+        cart_list.remove(int(product_id))
 
-    product_data = []
-    for product_id in cart_list:
-        product_data.append((product_id, f"Product {product_id}", f"static/img/products/{product_id}.jpg", 10, 10))
+    if bool(cart_list):
+        if len(cart_list) > 1:
+            cart_product_list = cur.execute(
+                f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(cart_list)} """).fetchall()
+        elif len(cart_list) == 1:
+            cart_product_list = cur.execute(
+                f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {cart_list[0]} """).fetchall()
+        else:
+            cart_product_list = []
 
-    print(type(product_data))
-    print(product_data)
+    else:
+        cart_product_list = []
+    print(cart_list)
 
-    new_product_data = []
+    new_cart_product_list = []
     sale_f = False
-    for id, name, img_href, price, sale in product_data:
+    for id, name, img_href, price, sale in cart_product_list:
         product_list = [id, name, img_href, price]
         if sale:
             sale_f = True
@@ -419,20 +443,22 @@ def cart(action, product_id):
 
         product_list.append(sale)
 
-        new_product_data.append(tuple(product_list))
+        new_cart_product_list.append(tuple(product_list))
 
     if sale_f:
-        total_price_with_sale = sum(list(map(lambda x: x[4], new_product_data)))
+        total_price_with_sale = sum(list(map(lambda x: x[4], new_cart_product_list)))
     else:
         total_price_with_sale = None
 
-    if bool(new_product_data):
-        total_price = sum(list(map(lambda x: x[3], new_product_data)))
+    if bool(new_cart_product_list):
+        total_price = sum(list(map(lambda x: x[3], new_cart_product_list)))
     else:
         total_price = 0
 
+    print(cart_list)
+    con.close()
     res = make_response(
-        render_template('cart.html', title="SoundRepair | Cart", url=WEBSITE_URL, product_data=new_product_data,
+        render_template('cart.html', title="SoundRepair | Cart", url=WEBSITE_URL, product_data=new_cart_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
                         cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories_for_base()))
     res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
