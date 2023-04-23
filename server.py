@@ -5,6 +5,14 @@ import random
 from flask import Flask, render_template, request, make_response
 
 
+def get_works():
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+    
+    works = cur.execute("""SELECT id, title, description, date, img_href FROM our_works""").fetchall()
+    return works
+
+
 def get_cart_for_base(cart_list=None):
     con = sqlite3.connect("db/data.db")
     cur = con.cursor()
@@ -556,11 +564,14 @@ def about():
                            categories_for_base=get_categories_for_base())
 
 
-@app.route('/our_works')
-def our_works():
-    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL,
-                           cart_data=get_cart_for_base(),
-                           categories_for_base=get_categories_for_base())
+@app.route('/our_works/<page>')
+def our_works(page):
+    works = get_works()
+    works_count = len(works)
+    pages_count = math.ceil(works_count / 12)
+    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
+                           categories_for_base=get_categories_for_base(), works=works[12 * (int(page) - 1):12 * int(page) + 1], page=int(page),
+                           pages_count=pages_count)
 
 
 app.run(host=HOST, port=PORT)

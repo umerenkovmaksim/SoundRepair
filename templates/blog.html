@@ -18,204 +18,38 @@
     <div class="container">
         <!-- Row End -->
         <div class="row">
-            <!-- Single Blog Start -->                    
+            {% for id, title, description, date, img_href in works %}
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-blog">
                     <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/1.jpg" alt="blog-image"></a>
+                        <a href="blog-details.html"><img src="{{url_for('static', filename='img/blog/1.jpg')}}" alt="blog-image"></a>
                     </div>
                     <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
+                            <h4 class="blog-title"><a href="blog-details.html">{{title}}</a></h4>
                         <div class="blog-meta">
                             <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
+                                <li><span>Дата: </span> <a href="#">{{date}}</a></li>
                             </ul>
                         </div>
                         <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
+                            <a href="blog-details.html">Читать дальше...</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/2.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/3.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/4.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/5.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/6.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/7.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/8.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
-            <!-- Single Blog Start -->                    
-            <div class="col-lg-4 col-md-6 col-sm-6">
-                <div class="single-blog">
-                    <div class="blog-img">
-                        <a href="blog-details.html"><img src="img/blog/9.jpg" alt="blog-image"></a>
-                    </div>
-                    <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                        <div class="blog-meta">
-                            <ul>
-                                <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                            </ul>
-                        </div>
-                        <div class="readmore">
-                            <a href="blog-details.html">Read More.....</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single Blog End -->
+            {% endfor %}
         </div>
         <!-- Row End -->
         <div class="row">
             <div class="col-sm-12">
                 <ul class="blog-pagination pt-20">
-                    <li class="active"><a href="#">1</a></li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+                    {% for n in range(1, pages_count + 1) %}
+                        {% if n == page %}
+                            <li class="active"><a href="{{url}}/our_works/{{n}}">{{n}}</a></li>
+                        {% else %}
+                            <li><a href="{{url}}/our_works/{{n}}">{{n}}</a></li>
+                        {% endif %}
+                        {% endfor %}
                 </ul>
                 <!-- End of .blog-pagination -->
             </div>

@@ -802,6 +802,7 @@ ul.ht-dropdown.dropdown-style-two li {
 }
 /* nivo controlNav css */
 .nivo-controlNav {
+    display: none;
     padding: 0;
     position: absolute;
     z-index: 12;
