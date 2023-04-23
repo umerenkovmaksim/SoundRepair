@@ -82,9 +82,56 @@ def main_page():
     random.shuffle(random_product_list)
     random_product_list_new = random.sample(random_product_list, 3)
 
+    upsell_product = cur.execute(
+        f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE sale != 0""").fetchall()
+    random.shuffle(upsell_product)
+    upsell_product = random.sample(upsell_product, min(7, len(upsell_product)))
+    print(upsell_product)
+
+    new_upsell_product = []
+    for id, name, img_href, text, price, sale in upsell_product:
+        new_product = [id, name, img_href, text, price]
+        if sale != 0:
+            new_product.append(int(price * (1 - sale * 0.01)))
+            new_product.append(sale)
+        else:
+            new_product.append(None)
+            new_product.append(None)
+
+        new_upsell_product.append(tuple(new_product))
+
+    last_manufacturer_and_categories = request.cookies.get("last_manufacturer_and_categories")
+    if last_manufacturer_and_categories:
+        manufacturer, categories = tuple(last_manufacturer_and_categories.split("$"))
+        related_product = cur.execute(
+            f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE manufacturer == '{manufacturer}' or categories like '%{categories}%'""").fetchall()
+        random.shuffle(related_product)
+        related_product = random.sample(related_product, min(7, len(related_product)))
+        print(related_product)
+
+        new_related_product = []
+        for id, name, img_href, text, price, sale in related_product:
+            new_product = [id, name, img_href, text, price]
+            if sale != 0:
+                new_product.append(int(price * (1 - sale * 0.01)))
+                new_product.append(sale)
+            else:
+                new_product.append(None)
+                new_product.append(None)
+
+            new_related_product.append(tuple(new_product))
+        is_related_product = len(new_related_product) >= 4
+    else:
+        is_related_product = False
+        new_related_product = []
+
+    print(is_related_product)
+
     con.close()
     return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL,
-                           random_product=random_product_list_new,
+                           random_product=random_product_list_new, upsell_product=new_upsell_product,
+                           is_upsell_product=bool(new_upsell_product), is_related_product=is_related_product,
+                           related_product=new_related_product,
                            cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
@@ -155,12 +202,17 @@ def product(product_id):
 
         new_upsell_product.append(tuple(new_product))
 
+    con.close()
+
+    res = make_response(
+        render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
+                        levelness="../", url=WEBSITE_URL, related_product=new_related_product,
+                        upsell_product=new_upsell_product, product_id=product_id, cart_data=get_cart_for_base(),
+                        categories_for_base=get_categories_for_base(), is_upsell_product=bool(upsell_product),
+                        is_related_product=bool(related_product)))
+    res.set_cookie("last_manufacturer_and_categories", f"{product_data[5]}${product_data[6]}")
     print(product_data)
-    return render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
-                           levelness="../", url=WEBSITE_URL, related_product=new_related_product,
-                           upsell_product=new_upsell_product, product_id=product_id, cart_data=get_cart_for_base(),
-                           categories_for_base=get_categories_for_base(), is_upsell_product=bool(upsell_product),
-                           is_related_product=bool(related_product))
+    return res
 
 
 @app.route('/shop/<product_filter>$$<sorting_settings>$$<page>')

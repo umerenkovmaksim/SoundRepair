@@ -56,4 +56,85 @@
             <!-- Container End -->
         </div>
         <!-- Blog Page End -->
+    {% if is_related_product %}
+    <div class="related-product pb-30">
+        <div class="container">
+            <div class="related-box">
+                <div class="group-title">
+                    <h2>Вам может понравиться</h2>
+                </div>
+                <!-- Realted Product Activation Start -->
+                <div class="new-upsell-pro owl-carousel">
+                    {% for id, name, img_href, text, price, price_with_sale, sale in related_product %}
+                    <div class="single-product">
+                        <!-- Product Image Start -->
+                        <div class="pro-img">
+                            <a href="{{url}}/product/{{id}}">
+                                <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                            </a>
+                        </div>
+                        <!-- Product Image End -->
+                        <!-- Product Content Start -->
+                        <div class="pro-content">
+                            <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
+                            {% if price_with_sale %}
+                            <p><span class="price">{{price_with_sale}}₽</span>
+                            <del class="prev-price">{{price}}₽</del></p>
+                            {% else %}
+                            <p><span class="price">{{price}}₽</span>
+                            {% endif %}
+                        </div>
+                        {% if sale %}
+                        <span class="sticker-new">-{{sale}}%</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    <!-- Single Product End -->
+                </div>
+                <!-- Realted Product Activation End -->
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- Realted Product End -->
+    <!-- Upsell Product Start -->
+    {% if is_upsell_product %}
+    <div class="related-product pb-30">
+        <div class="container">
+            <div class="usel-product">
+                <div class="group-title">
+                    <h2>Товары по скидке</h2>
+                </div>
+                <!-- Upsell Product Activation Start -->
+                <div class="new-upsell-pro owl-carousel">
+                    {% for id, name, img_href, text, price, price_with_sale, sale in upsell_product %}
+                    <div class="single-product">
+                        <!-- Product Image Start -->
+                        <div class="pro-img">
+                            <a href="{{url}}/product/{{id}}">
+                                <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                            </a>
+                        </div>
+                        <!-- Product Image End -->
+                        <!-- Product Content Start -->
+                        <div class="pro-content">
+                            <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
+                            {% if price_with_sale %}
+                            <p><span class="price">{{price_with_sale}}₽</span>
+                            <del class="prev-price">{{price}}₽</del></p>
+                            {% else %}
+                            <p><span class="price">{{price}}₽</span>
+                            {% endif %}
+                        </div>
+                        {% if sale %}
+                        <span class="sticker-new">-{{sale}}%</span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <!-- Upsell Product Activation End -->
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
