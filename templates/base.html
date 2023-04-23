@@ -99,9 +99,10 @@
                                             <span class="cart-counter">{{cart_data[0]}}</span>
                                             {% endif %}
                                         </a>
+                                            {% if cart_data[1] %}
                                         <ul class="ht-dropdown main-cart-box">
                                             <li>
-                                            {% if cart_data[1] %}
+
                                             {% for id, name, img_href, price, price_with_sale, sale in cart_data[1] %}
                                                 <div class="single-cart-box">
                                                     <div class="cart-img">
@@ -120,7 +121,7 @@
 
                                                 </div>
                                             {% endfor %}
-                                            {% endif %}
+
                                                 <!-- Cart Box End -->
                                                 <!-- Cart Footer Inner Start -->
                                                 <div class="cart-footer fix">
@@ -134,6 +135,7 @@
                                                 <!-- Cart Footer Inner End -->
                                             </li>
                                         </ul>
+                                            {% endif %}
                                     </li>
                                 </ul>
                             </div>
