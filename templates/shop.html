@@ -42,17 +42,6 @@
                         </div>
                     <div class="single-sidebar">
                         <div class="group-title">
-                            <h2>Цена</h2>
-                        </div>
-                        <form action="#">
-                            <div id="slider-range" class="ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content">
-                                <div class="ui-slider-range ui-corner-all ui-widget-header" ></div>
-                            </div>
-                                <input id="amount" class="amount" readonly="" type="text">
-                        </form>
-                    </div>
-                    <div class="single-sidebar">
-                        <div class="group-title">
                             <h2>Производители</h2>
                         </div>
                         <ul  class="manufactures-list">
@@ -79,7 +68,7 @@
                             {% for product_list in product_mat %}
                             <div class="best-seller-multi-product">
                                 <!-- Single Product Start -->
-                                {%for id, name, img_href, text, price, sale_price, sale in product_list%}
+                                {%for id, name, img_href, price, sale_price, sale in product_list%}
                                 <div class="single-product">
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
@@ -112,6 +101,7 @@
                             {% endfor %}
                         </div>
                     </div>
+                    {% if wishlist_product_list %}
                     <div class="single-sidebar">
                         <div class="group-title">
                             <h2>Понравившиеся</h2>
@@ -120,82 +110,42 @@
                             <!-- Best Seller Multi Product Start -->
                             <div class="best-seller-multi-product">
                                 <!-- Single Product Start -->
+                                {%for id, name, img_href, price, sale_price, sale in wishlist_product_list%}
                                 <div class="single-product">
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{levelness}}static/img/products/4.jpg" alt="single-product">
+                                        <a href="{{url}}/product/{{id}}">
+                                            <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
                                         </a>
                                     </div>
                                     <!-- Product Image End -->
                                     <!-- Product Content Start -->
                                     <div class="pro-content">
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <p><span class="price">$86.00</span><del class="prev-price">90.00</del></p>
+                                        <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
+
+                                        {% if sale %}
+                                        <p><span class="price">{{sale_price}}₽</span>
+                                        <del class="prev-price">{{price}}₽</del></p>
+                                        {% else %}
+                                        <p><span class="price">{{price}}₽</span>
+                                        {% endif %}
+
                                     </div>
+
                                     <!-- Product Content End -->
+                                        {% if sale %}
+                                        <span class="sticker-new">-{{sale}}%</span>
+                                        {% endif %}
                                 </div>
+                                {% endfor %}
                                 <!-- Single Product End -->
                             </div>
                             <!-- Best Seller Multi Product End -->
-                            <!-- Best Seller Multi Product Start -->
-                            <div class="best-seller-multi-product">
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{levelness}}static/img/products/1.jpg" alt="single-product">
-                                        </a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <p><span class="price">$32.00</span></p>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                            </div>
-                            <!-- Best Seller Multi Product End -->
-                            <!-- Best Seller Multi Product Start -->
-                            <div class="best-seller-multi-product">
-                                <!-- Single Product Start -->
-                                <div class="single-product">
-                                    <!-- Product Image Start -->
-                                    <div class="pro-img">
-                                        <a href="product.html">
-                                            <img class="primary-img" src="{{levelness}}static/img/products/2.jpg" alt="single-product">
-                                        </a>
-                                    </div>
-                                    <!-- Product Image End -->
-                                    <!-- Product Content Start -->
-                                    <div class="pro-content">
-                                        <h4><a href="product.html">Products Name Here</a></h4>
-                                        <div class="product-rating">
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
-                                            <i class="fa fa-star-o"></i>
-                                            <i class="fa fa-star-o"></i>
-                                        </div>
-                                        <p><span class="price">$38.00</span><del class="prev-price">45.00</del></p>
-                                    </div>
-                                    <!-- Product Content End -->
-                                </div>
-                                <!-- Single Product End -->
-                            </div>
-                            <!-- Best Seller Multi Product End -->
+
+
                         </div>
                     </div>
+                    {% endif %}
                     <!-- Single Banner Start -->
                     <div class="single-sidebar single-banner zoom pt-20">
                         <a href="#" class="hidden-sm"><img src="{{levelness}}static/img/banner/8.jpg" alt="slider-banner"></a>
@@ -269,7 +219,7 @@
                                             <div class="pro-actions">
                                                 <div class="actions-secondary">
                                                     <a href="{{url}}/wishlist/add$${{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="{{url}}/cart/add${{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                                    <a class="add-cart" href="{{url}}/cart/add$${{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -313,7 +263,7 @@
                                     <div class="pro-actions">
                                         <div class="actions-secondary">
                                             <a href="{{url}}/wishlist/add$${{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                            <a class="add-cart" href="{{url}}/cart/add${{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                            <a class="add-cart" href="{{url}}/cart/add$${{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
                                         </div>
                                     </div>
                                 </div>

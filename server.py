@@ -1,5 +1,6 @@
 import math
 import sqlite3
+import random
 
 from flask import Flask, render_template, request, make_response
 
@@ -219,21 +220,17 @@ def shop(product_filter, sorting_settings, page):
     # [[(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)],
     #  [(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)],
     #  [(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)]]
-    random_product_mat = [[(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, 10),
-                           (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, None),
-                           (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, 50)],
-                          [(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, 10),
-                           (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, None),
-                           (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, 50)],
-                          [(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, 10),
-                           (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, None),
-                           (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, 50)]]
+    random_product_list = cur.execute(
+        f"""SELECT id, name, img_href, price, sale FROM products""").fetchall()
+    random.shuffle(random_product_list)
+    random_product_list_new = random.sample(random_product_list, 9)
+    random_product_mat = [random_product_list_new[:3], random_product_list_new[3:6], random_product_list_new[6:]]
 
     new_random_product_mat = []
     for product_list in random_product_mat:
         new_product_list = []
-        for id, name, img_href, text, price, sale in product_list:
-            new_product = [id, name, img_href, text, price]
+        for id, name, img_href, price, sale in product_list:
+            new_product = [id, name, img_href, price]
             if sale:
                 sale_price = int(price * (1 - sale * 0.01))
                 new_product.append(sale_price)
@@ -243,14 +240,40 @@ def shop(product_filter, sorting_settings, page):
 
             new_product_list.append(tuple(new_product))
         new_random_product_mat.append(new_product_list)
+
     # На выходе (id, name, img_href, text, price, sale_price, sale)
+    wishlist_list = request.cookies.get("wishlist")
+    if wishlist_list:
+        wishlist_list = wishlist_list.split("$")
+        wishlist_list = list(map(int, wishlist_list))
+        if len(wishlist_list) > 1:
+            wishlist_product_list = cur.execute(
+                f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(wishlist_list)} """).fetchall()
+        else:
+            wishlist_product_list = cur.execute(
+                f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {wishlist_list[0]} """).fetchall()
+    else:
+        wishlist_product_list = []
+
+    wishlist_product_list_new = []
+    for id, name, img_href, price, sale in wishlist_product_list:
+        new_product = [id, name, img_href, price]
+        if sale:
+            sale_price = int(price * (1 - sale * 0.01))
+            new_product.append(sale_price)
+        else:
+            new_product.append(None)
+        new_product.append(sale)
+        wishlist_product_list_new.append(new_product)
+
+    print(wishlist_product_list_new)
 
     # Все товары
     # products_list = [(id, name, img_href, text, price, sale),
     #                  (id, name, img_href, text, price, sale)]
-    request = ""
+    manufacturer_request = ""
     if manufacturer or categories_filter_list:
-        request += "WHERE "
+        manufacturer_request += "WHERE "
         requect_list = []
         if manufacturer:
             requect_list.append(f"manufacturer == '{manufacturer}'")
@@ -260,11 +283,11 @@ def shop(product_filter, sorting_settings, page):
         elif categories_filter_list:
             requect_list.append(f"categories == '{categories_filter_list[0]}'")
 
-        request += " AND ".join(requect_list)
+        manufacturer_request += " AND ".join(requect_list)
 
-    print(f"""SELECT id, name, img_href, short_description, price, sale FROM products {request}""")
+    print(f"""SELECT id, name, img_href, short_description, price, sale FROM products {manufacturer_request}""")
     products_list = cur.execute(
-        f"""SELECT id, name, img_href, short_description, price, sale FROM products {request}""").fetchall()
+        f"""SELECT id, name, img_href, short_description, price, sale FROM products {manufacturer_request}""").fetchall()
 
     print(products_list)
 
@@ -304,7 +327,8 @@ def shop(product_filter, sorting_settings, page):
                            grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
                            full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
                            arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
-                           categories_for_base=get_categories_for_base())
+                           categories_for_base=get_categories_for_base(),
+                           wishlist_product_list=wishlist_product_list_new)
 
 
 @app.route('/contact')
@@ -315,7 +339,7 @@ def contact_page():
 
 @app.route('/wishlist/<action>$$<product_id>')
 def wishlist(action, product_id):
-    wishlist_list = request.cookies.get("wishlist", 0)
+    wishlist_list = request.cookies.get("wishlist")
     if wishlist_list:
         wishlist_list = wishlist_list.split("$")
         wishlist_list = list(map(int, wishlist_list))
