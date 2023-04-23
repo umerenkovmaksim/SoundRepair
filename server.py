@@ -83,7 +83,8 @@ def main_page():
     random_product_list_new = random.sample(random_product_list, 3)
 
     con.close()
-    return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL, random_product=random_product_list_new,
+    return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL,
+                           random_product=random_product_list_new,
                            cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
 
 
@@ -349,16 +350,19 @@ def shop(product_filter, sorting_settings, page):
                                reverse=is_reverse)[(page - 1) * 12:page * 12]
 
     print(new_products_list)
-
     con.close()
-    return render_template('shop.html', title='SoundRepair | Каталог', levelness="../../../", url=WEBSITE_URL,
-                           manufacturers=out_manufacturers, categories=out_categories,
-                           product_mat=new_random_product_mat, products_list=new_products_list,
-                           grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
-                           full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
-                           arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
-                           categories_for_base=get_categories_for_base(),
-                           wishlist_product_list=wishlist_product_list_new)
+    res = make_response(
+        render_template('shop.html', title='SoundRepair | Каталог', levelness="../../../", url=WEBSITE_URL,
+                        manufacturers=out_manufacturers, categories=out_categories,
+                        product_mat=new_random_product_mat, products_list=new_products_list,
+                        grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
+                        full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
+                        arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
+                        categories_for_base=get_categories_for_base(),
+                        wishlist_product_list=wishlist_product_list_new))
+    res.set_cookie("last_ssesion", f"/shop/{product_filter}$${sorting_settings}$${page}")
+
+    return res
 
 
 @app.route('/contact')
@@ -481,12 +485,14 @@ def cart(action, product_id):
     else:
         total_price = 0
 
-    print(cart_list)
     con.close()
+
+    last_ssesion = request.cookies.get("last_ssesion")
     res = make_response(
         render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=new_cart_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories_for_base()))
+                        cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories_for_base(),
+                        last_ssesion=last_ssesion))
     res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
 
     return res
@@ -495,12 +501,14 @@ def cart(action, product_id):
 @app.route('/about_us')
 def about():
     return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL, cart_data=get_cart_for_base(),
-                            categories_for_base=get_categories_for_base())
+                           categories_for_base=get_categories_for_base())
 
 
 @app.route('/our_works')
 def our_works():
-    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL, cart_data=get_cart_for_base(),
-                            categories_for_base=get_categories_for_base())
+    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL,
+                           cart_data=get_cart_for_base(),
+                           categories_for_base=get_categories_for_base())
+
 
 app.run(host=HOST, port=PORT)
