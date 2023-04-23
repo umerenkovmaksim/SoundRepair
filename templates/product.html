@@ -16,7 +16,6 @@
 </div>
 <!-- Breadcrumb End -->
 <!-- Product Thumbnail Start -->
-{% for id, name, img_href_list, text, price, is_sale, sale in product_data %}
 <div class="main-product-thumbnail pb-60">
     <div class="container">
         <div class="row">
@@ -24,47 +23,33 @@
             <div class="col-lg-5">
                 <!-- Thumbnail Large Image start -->
                 <div class="tab-content">
-                    {% for img_href in img_href_list %}
-                    {% if loop.index == 1 %}
-                    <div id="thumb{{loop.index}}" class="tab-pane active">
-                        <a data-fancybox="images" href="{{levelness}}{{img_href}}"><img src="{{levelness}}{{img_href}}" alt="product-view"></a>
-                    </div>
-                    {% endif %}
-                    {% endfor %}
+                        <div id="thumb1" class="tab-pane active">
+                            <a data-fancybox="images" href="{{levelness}}{{product_data[4]}}"><img src="{{levelness}}{{product_data[4]}}" alt="product-view"></a>
+                        </div>
                 </div>
                 <!-- Thumbnail Large Image End -->
 
                 <!-- Thumbnail Image End -->
-                <div class="product-thumbnail">
-                    <div class="thumb-menu nav">
-                        {% for img_href in img_href_list %}
-                        {% if loop.index != 1 %}
-                            <a class="active" data-toggle="tab" href="{{levelness}}{{img_href}}"> <img src="{{levelness}}{{img_href}}" alt="product-thumbnail"></a>
-                        {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
                 <!-- Thumbnail image end -->
             </div>
             <!-- Main Thumbnail Image End -->
             <!-- Thumbnail Description Start -->
             <div class="col-lg-7">
                 <div class="thubnail-desc fix">
-                    <h3 class="product-header">{{name}}</h3>
+                    <h3 class="product-header">{{product_data[2]}}</h3>
                     <br>
                     <div class="pro-price mb-10">
 
                         {% if is_sale %}
-                        <p><span class="price">{{price_with_sale}}₽</span>
-                        <del class="prev-price">{{price}}₽</del></p>
+                        <p><span class="price">{{product_data[7]}}₽</span>
+                        <del class="prev-price">{{product_data[8]}}₽</del></p>
                         {% else %}
-                        <p><span class="price">{{price}}₽</span>
+                        <p><span class="price">{{product_data[8]}}₽</span>
                         {% endif %}
                     </div>
                     <br>
                     <div class="box-quantity">
                         <form action="#">
-                            <input class="number" id="numeric" type="number" min="1" value="1">
                             <a class="add-cart" href="cart.html">add to cart</a>
                         </form>
                     </div>
@@ -73,7 +58,7 @@
                             <li><a href="wishlist.html">Добавить в Избранное</a></li>
                         </ul>
                     </div>
-                    <p class="ptb-20">{{text}}</p>
+                    <p class="ptb-20">{{product_data[2]}}</p>
                 </div>
             </div>
             <!-- Thumbnail Description End -->
@@ -82,7 +67,7 @@
     </div>
     <!-- Container End -->
 </div>
-{% endfor %}
+
 <!-- Product Thumbnail End -->
 <!-- Product Thumbnail Description Start -->
 <div class="thumnail-desc pb-60">
@@ -95,7 +80,13 @@
                 <!-- Product Thumbnail Tab Content Start -->
                 <div class="tab-content thumb-content border-default">
                     <div id="dtail" class="tab-pane in active">
-                        <p>{{text_2}}</p>
+                        <p>
+                            Производитель: {{product_data[5]}}<br>
+                            Категории: {{product_data[6]}}<br><br>
+                            {% for text in product_data[3] %}
+                            {{text}}<br>
+                            {% endfor %}
+                        </p>
                     </div>
                 </div>
                 <!-- Product Thumbnail Tab Content End -->
@@ -107,15 +98,16 @@
 </div>
 <!-- Product Thumbnail Description End -->
 <!-- Realted Product Start -->
+{% if is_related_product %}
 <div class="related-product pb-30">
     <div class="container">
         <div class="related-box">
             <div class="group-title">
                 <h2>Вам может понравиться</h2>
             </div>
-            <!-- Realted Product Activation Start -->                    
+            <!-- Realted Product Activation Start -->
             <div class="new-upsell-pro owl-carousel">
-                {% for id, name, img_href, text, price, is_sale, sale in related_product %}
+                {% for id, name, img_href, text, price, price_with_sale, sale in related_product %}
                 <div class="single-product">
                     <!-- Product Image Start -->
                     <div class="pro-img">
@@ -127,24 +119,28 @@
                     <!-- Product Content Start -->
                     <div class="pro-content">
                         <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
-                        <p><span class="price">{{price}}₽</span>
-                        {% if is_sale %}
+                        {% if price_with_sale %}
+                        <p><span class="price">{{price_with_sale}}₽</span>
                         <del class="prev-price">{{price}}₽</del></p>
+                        {% else %}
+                        <p><span class="price">{{price}}₽</span>
                         {% endif %}
                     </div>
-                    {% if is_sale %}
+                    {% if sale %}
                     <span class="sticker-new">-{{sale}}%</span>
                     {% endif %}
                 </div>
                 {% endfor %}
-                <!-- Single Product End --> 
+                <!-- Single Product End -->
             </div>
             <!-- Realted Product Activation End -->
         </div>
     </div>
 </div>
+{% endif %}
 <!-- Realted Product End -->
 <!-- Upsell Product Start -->
+{% if is_upsell_product %}
 <div class="related-product pb-30">
     <div class="container">
         <div class="usel-product">
@@ -153,8 +149,7 @@
             </div>
             <!-- Upsell Product Activation Start -->
             <div class="new-upsell-pro owl-carousel">
-                {% for id, name, img_href, text, price, is_sale, sale in upsell_product %}
-                <!-- Single Product Start -->                    
+                {% for id, name, img_href, text, price, price_with_sale, sale in upsell_product %}
                 <div class="single-product">
                     <!-- Product Image Start -->
                     <div class="pro-img">
@@ -166,12 +161,14 @@
                     <!-- Product Content Start -->
                     <div class="pro-content">
                         <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
-                        <p><span class="price">{{price}}₽</span>
-                        {% if is_sale %}
+                        {% if price_with_sale %}
+                        <p><span class="price">{{price_with_sale}}₽</span>
                         <del class="prev-price">{{price}}₽</del></p>
+                        {% else %}
+                        <p><span class="price">{{price}}₽</span>
                         {% endif %}
                     </div>
-                    {% if is_sale %}
+                    {% if sale %}
                     <span class="sticker-new">-{{sale}}%</span>
                     {% endif %}
                 </div>
@@ -181,6 +178,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 <!-- Upsell Product End -->
 
 {% endblock %}

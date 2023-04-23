@@ -89,6 +89,8 @@ def main_page():
 
 @app.route('/product/<product_id>')
 def product(product_id):
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
     # Берется по id товар
     # product = (id, name, img_href_list, text, price, is_sale, sale)
     # text - краткое описание
@@ -96,44 +98,68 @@ def product(product_id):
     # img_href_list = [img_href_1, img_href_2, img_href_3, img_href_4]
     # img_href_1 - основная картинка (Обязательна)
     # img_href_2, img_href_3, img_href_4 - доп. картинки (Необязательны, макс. 3)
-    product_data = [(1, "Product 1", ["static/img/products/1.jpg", "static/img/products/2.jpg"], "text", 200, True, 20)]
-    text_2 = "text 2"
+
+    product_data = cur.execute(f"""SELECT * FROM products WHERE id == {product_id}""").fetchall()[0]
+    product_data = list(product_data)
+    if product_data[7] != 0:
+        product_data[7] = int(product_data[8] * (1 - product_data[7] * 0.01))
+    else:
+        product_data[7] = None
+    product_data[3] = product_data[3].split("\n")
+    product_data = tuple(product_data)
 
     # related_product - похожие продукты или которые могут понравиться (На рандом скорее всего)
     # related_product = [(id, name, img_href, text, price, is_sale, sale),
     #                    (id, name, img_href, text, price, is_sale, sale),
     #                    (id, name, img_href, text, price, is_sale, sale)]
     # related_product - 7шт
-    related_product = [(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                       (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, False, None),
-                       (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                       (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                       (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, False, None),
-                       (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                       (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10), ]
+    related_product = cur.execute(
+        f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE manufacturer == '{product_data[5]}' or categories like '%{product_data[6]}%'""").fetchall()
+    random.shuffle(related_product)
+    related_product = random.sample(related_product, min(7, len(related_product)))
+    print(related_product)
+
+    new_related_product = []
+    for id, name, img_href, text, price, sale in related_product:
+        new_product = [id, name, img_href, text, price]
+        if sale != 0:
+            new_product.append(int(price * (1 - sale * 0.01)))
+            new_product.append(sale)
+        else:
+            new_product.append(None)
+            new_product.append(None)
+
+        new_related_product.append(tuple(new_product))
 
     # upsell_product - товары по скидке (Рандомные со скидкой)
     # upsell_product = [(id, name, img_href, text, price, is_sale, sale),
     #                    (id, name, img_href, text, price, is_sale, sale),
     #                    (id, name, img_href, text, price, is_sale, sale)]
     # upsell_product - 7шт
+    upsell_product = cur.execute(
+        f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE sale != 0""").fetchall()
+    random.shuffle(upsell_product)
+    upsell_product = random.sample(upsell_product, min(7, len(upsell_product)))
+    print(upsell_product)
 
-    upsell_product = [(1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                      (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 250),
-                      (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                      (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10),
-                      (2, "Product 2", "static/img/products/2.jpg", "text 2", 250, True, 100),
-                      (3, "Product 3", "static/img/products/3.jpg", "text 3", 890, True, 50),
-                      (1, "Product 1", "static/img/products/1.jpg", "text 1", 100, True, 10), ]
+    new_upsell_product = []
+    for id, name, img_href, text, price, sale in upsell_product:
+        new_product = [id, name, img_href, text, price]
+        if sale != 0:
+            new_product.append(int(price * (1 - sale * 0.01)))
+            new_product.append(sale)
+        else:
+            new_product.append(None)
+            new_product.append(None)
 
-    price_with_sale = None
-    if product_data[0][5]:
-        price_with_sale = int(product_data[0][4] * (1 - product_data[0][6] * 0.01))
+        new_upsell_product.append(tuple(new_product))
 
-    return render_template('product.html', title=f"SoundRepair | {product_data[0][1]}", product_data=product_data,
-                           levelness="../", url=WEBSITE_URL, price_with_sale=price_with_sale, text_2=text_2,
-                           related_product=related_product, upsell_product=upsell_product, product_id=product_id,
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
+    print(product_data)
+    return render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
+                           levelness="../", url=WEBSITE_URL, related_product=new_related_product,
+                           upsell_product=new_upsell_product, product_id=product_id, cart_data=get_cart_for_base(),
+                           categories_for_base=get_categories_for_base(), is_upsell_product=bool(upsell_product),
+                           is_related_product=bool(related_product))
 
 
 @app.route('/shop/<product_filter>$$<sorting_settings>$$<page>')
