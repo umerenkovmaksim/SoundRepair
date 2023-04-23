@@ -5,8 +5,8 @@
     <div class="container">
         <div class="breadcrumb">
             <ul>
-                <li><a href="index.html">Главная страница</a></li>
-                <li class="active"><a href="blog.html">Наши работы</a></li>
+                <li><a href="{{url}}">Главная страница</a></li>
+                <li class="active"><a href="">Наши работы</a></li>
             </ul>
         </div>
     </div>
@@ -22,17 +22,21 @@
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-blog">
                     <div class="blog-img">
-                        <a href="blog-details.html"><img src="{{url_for('static', filename='img/blog/1.jpg')}}" alt="blog-image"></a>
+                        {% if img_href == 'None' %}
+                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename='img/blog/1.jpg')}}" alt="blog-image"></a>
+                        {% else %}
+                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename=img_href)}}" alt="blog-image"></a>
+                        {% endif %}
                     </div>
                     <div class="blog-content">
-                            <h4 class="blog-title"><a href="blog-details.html">{{title}}</a></h4>
+                            <h4 class="blog-title"><a href="{{url}}/work/{{id}}">{{title}}</a></h4>
                         <div class="blog-meta">
                             <ul>
                                 <li><span>Дата: </span> <a href="#">{{date}}</a></li>
                             </ul>
                         </div>
                         <div class="readmore">
-                            <a href="blog-details.html">Читать дальше...</a>
+                            <a href="{{url}}/work/{{id}}">Читать дальше...</a>
                         </div>
                     </div>
                 </div>

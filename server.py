@@ -1,6 +1,7 @@
 import math
 import sqlite3
 import random
+import json
 
 from flask import Flask, render_template, request, make_response
 
@@ -570,8 +571,17 @@ def our_works(page):
     works_count = len(works)
     pages_count = math.ceil(works_count / 12)
     return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
-                           categories_for_base=get_categories_for_base(), works=works[12 * (int(page) - 1):12 * int(page) + 1], page=int(page),
+                           categories_for_base=get_categories_for_base(), works=works[12 * (int(page) - 1):12 * int(page)], page=int(page),
                            pages_count=pages_count)
 
+
+@app.route('/work/<id>')
+def work(id):
+    con = sqlite3.connect("db/data.db")
+    cur = con.cursor()
+
+    work_data = cur.execute(f"""SELECT * FROM our_works WHERE id == {id}""").fetchone()
+    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
+                           categories_for_base=get_categories_for_base(), work_data=work_data)
 
 app.run(host=HOST, port=PORT)
