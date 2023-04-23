@@ -108,9 +108,10 @@
                         </div>
                         <div class="best-seller-pro-two compare-pro best-seller-pro-two owl-carousel">
                             <!-- Best Seller Multi Product Start -->
+                            {%for id, name, img_href, price, sale_price, sale in wishlist_product_list%}
                             <div class="best-seller-multi-product">
                                 <!-- Single Product Start -->
-                                {%for id, name, img_href, price, sale_price, sale in wishlist_product_list%}
+
                                 <div class="single-product">
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
@@ -137,9 +138,10 @@
                                         <span class="sticker-new">-{{sale}}%</span>
                                         {% endif %}
                                 </div>
-                                {% endfor %}
+
                                 <!-- Single Product End -->
                             </div>
+                            {% endfor %}
                             <!-- Best Seller Multi Product End -->
 
 
