@@ -580,8 +580,23 @@ def work(id):
     con = sqlite3.connect("db/data.db")
     cur = con.cursor()
 
+    other_works = []
+    all_works = get_works()
+    cur_id = 0
+    for index, elem in enumerate(all_works):
+        if int(elem[0]) != int(id):
+            other_works.append(elem)
+        else:
+            cur_id = index
+        
+    first, last = int(all_works[0][0]) == int(id), int(all_works[-1][0]) == int(id)
+    previous_work, next_work = all_works[cur_id - 1] if not first else None, all_works[cur_id + 1] if not last else None
+
+    random_works = random.sample(other_works, 4)
+
     work_data = cur.execute(f"""SELECT * FROM our_works WHERE id == {id}""").fetchone()
     return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
-                           categories_for_base=get_categories_for_base(), work_data=work_data)
+                           categories_for_base=get_categories_for_base(), work_data=work_data, random_works=random_works, first=first, last=last,
+                             previous_work=previous_work, next_work=next_work)
 
 app.run(host=HOST, port=PORT)
