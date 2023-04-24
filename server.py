@@ -1,226 +1,119 @@
 import math
 import sqlite3
 import random
-import json
 
 from flask import Flask, render_template, request, make_response
 
-
-def get_works():
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
-    
-    works = cur.execute("""SELECT id, title, description, date, img_href FROM our_works""").fetchall()
-    return works
-
-
-def get_cart_for_base(cart_list=None):
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
-
-    if not cart_list:
-        cart_list = request.cookies.get("cart")
-        if cart_list:
-            cart_list = cart_list.split("$")
-        else:
-            return None, None, None
-
-    if len(cart_list) > 1:
-        product_data = cur.execute(
-            f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(cart_list)}""")
-    else:
-        product_data = cur.execute(
-            f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {cart_list[0]}""")
-
-    new_product_data = []
-    for id, name, img_href, price, sale in product_data:
-        product_list = [id, name, img_href, price]
-        if sale != 0:
-            product_list.append(int(price * (1 - sale * 0.01)))
-            product_list.append(sale)
-        else:
-            product_list.append(price)
-            product_list.append(None)
-
-        new_product_data.append(tuple(product_list))
-
-    total_price_with_sale = sum(list(map(lambda x: x[4], new_product_data)))
-
-    con.close()
-    return (len(new_product_data), new_product_data, total_price_with_sale)
-
-
-def get_categories_for_base():
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
-
-    categories_list = cur.execute(f"""SELECT categories FROM products""").fetchall()
-    all_categories_list = []
-    print(categories_list)
-    for categories_str in categories_list:
-        all_categories_list += categories_str[0].split("&")
-
-    categories_non_recurring = list(set(all_categories_list))
-
-    con.close()
-    return categories_non_recurring
-
+from functions import *
 
 app = Flask(__name__)
 HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
 
+SHOP_URL = f'{WEBSITE_URL}/shop/$$$name$up$$1'
+
 
 @app.errorhandler(404)
 @app.route('/Error<e>')
 def handle_bad_request(e):
     return render_template("404.html", title='Error 404', levelness="../../../", url=WEBSITE_URL,
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
 
 
 @app.route('/')
 def main_page():
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
-
     # Случайные товары
-    # random_product = [(id, name, img_href, text), (name, img_href, text), (id, name, img_href, text)]
-    random_product_list = cur.execute(
-        f"""SELECT id, name, img_href, short_description FROM products""").fetchall()
+    colums_name = "id, name, img_href, short_description"
+    random_product_list = select_from_db(colums_name=colums_name)
+
     random.shuffle(random_product_list)
     random_product_list_new = random.sample(random_product_list, 3)
 
-    upsell_product = cur.execute(
-        f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE sale != 0""").fetchall()
+    # Товары по скидке
+    colums_name = "id, name, img_href, short_description, price, sale"
+    filters = "sale != 0"
+    upsell_product = select_from_db(colums_name=colums_name, filters=filters)
+
     random.shuffle(upsell_product)
     upsell_product = random.sample(upsell_product, min(7, len(upsell_product)))
-    print(upsell_product)
 
-    new_upsell_product = []
-    for id, name, img_href, text, price, sale in upsell_product:
-        new_product = [id, name, img_href, text, price]
-        if sale != 0:
-            new_product.append(int(price * (1 - sale * 0.01)))
-            new_product.append(sale)
-        else:
-            new_product.append(None)
-            new_product.append(None)
+    upsell_product = recycle_list("id, name, img_href, short_description, price, sale",
+                                  "id, name, img_href, short_description, price, price_with_sale, sale",
+                                  upsell_product)
 
-        new_upsell_product.append(tuple(new_product))
-
+    #
     last_manufacturer_and_categories = request.cookies.get("last_manufacturer_and_categories")
+    related_product = []
     if last_manufacturer_and_categories:
         manufacturer, categories = tuple(last_manufacturer_and_categories.split("$"))
-        related_product = cur.execute(
-            f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE manufacturer == '{manufacturer}' or categories like '%{categories}%'""").fetchall()
+
+        colums_name = "id, name, img_href, short_description, price, sale"
+        filters = f"manufacturer == '{manufacturer}' or categories like '%{categories}%'"
+
+        related_product = select_from_db(colums_name=colums_name, filters=filters)
+
         random.shuffle(related_product)
         related_product = random.sample(related_product, min(7, len(related_product)))
-        print(related_product)
 
-        new_related_product = []
-        for id, name, img_href, text, price, sale in related_product:
-            new_product = [id, name, img_href, text, price]
-            if sale != 0:
-                new_product.append(int(price * (1 - sale * 0.01)))
-                new_product.append(sale)
-            else:
-                new_product.append(None)
-                new_product.append(None)
+        related_product = recycle_list("id, name, img_href, text, price, sale",
+                                       "id, name, img_href, text, price, price_with_sale, sale",
+                                       related_product)
 
-            new_related_product.append(tuple(new_product))
-        is_related_product = len(new_related_product) >= 4
-    else:
-        is_related_product = False
-        new_related_product = []
-
-    print(is_related_product)
-
-    con.close()
     return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL,
-                           random_product=random_product_list_new, upsell_product=new_upsell_product,
-                           is_upsell_product=bool(new_upsell_product), is_related_product=is_related_product,
-                           related_product=new_related_product,
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
+                           random_product=random_product_list_new, upsell_product=upsell_product,
+                           is_upsell_product=bool(upsell_product), is_related_product=len(related_product) >= 4,
+                           related_product=related_product, cart_data=get_cart_for_base(),
+                           categories_for_base=get_categories())
 
 
 @app.route('/product/<product_id>')
 def product(product_id):
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
     # Берется по id товар
-    # product = (id, name, img_href_list, text, price, is_sale, sale)
-    # text - краткое описание
-    # text_2 - полное описание
-    # img_href_list = [img_href_1, img_href_2, img_href_3, img_href_4]
-    # img_href_1 - основная картинка (Обязательна)
-    # img_href_2, img_href_3, img_href_4 - доп. картинки (Необязательны, макс. 3)
+    filters = f"id == {product_id}"
 
-    product_data = cur.execute(f"""SELECT * FROM products WHERE id == {product_id}""").fetchall()[0]
-    product_data = list(product_data)
-    if product_data[7] != 0:
-        product_data[7] = int(product_data[8] * (1 - product_data[7] * 0.01))
-    else:
-        product_data[7] = None
-    product_data[3] = product_data[3].split("\n")
-    product_data = tuple(product_data)
+    product_data = [select_from_db(filters=filters)[0]]
 
-    # related_product - похожие продукты или которые могут понравиться (На рандом скорее всего)
-    # related_product = [(id, name, img_href, text, price, is_sale, sale),
-    #                    (id, name, img_href, text, price, is_sale, sale),
-    #                    (id, name, img_href, text, price, is_sale, sale)]
+    product_data = recycle_list(
+        "id, name, short_description, description, img_href, manufacturer, categories, sale, price",
+        "id, name, short_description, description, img_href, manufacturer, categories, price_with_sale, price",
+        product_data)
+
+    product_data = tuple(product_data[0])
+
     # related_product - 7шт
-    related_product = cur.execute(
-        f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE manufacturer == '{product_data[5]}' or categories like '%{product_data[6]}%'""").fetchall()
+    colums_name = "id, name, img_href, short_description, price, sale"
+    filters = f"manufacturer == '{product_data[5]}' or categories like '%{product_data[6]}%'"
+
+    related_product = select_from_db(colums_name=colums_name, filters=filters)
+
     random.shuffle(related_product)
     related_product = random.sample(related_product, min(7, len(related_product)))
-    print(related_product)
 
-    new_related_product = []
-    for id, name, img_href, text, price, sale in related_product:
-        new_product = [id, name, img_href, text, price]
-        if sale != 0:
-            new_product.append(int(price * (1 - sale * 0.01)))
-            new_product.append(sale)
-        else:
-            new_product.append(None)
-            new_product.append(None)
-
-        new_related_product.append(tuple(new_product))
+    related_product = recycle_list("id, name, img_href, text, price, sale",
+                                   "id, name, img_href, text, price, price_with_sale, sale",
+                                   related_product)
 
     # upsell_product - товары по скидке (Рандомные со скидкой)
-    # upsell_product = [(id, name, img_href, text, price, is_sale, sale),
-    #                    (id, name, img_href, text, price, is_sale, sale),
-    #                    (id, name, img_href, text, price, is_sale, sale)]
-    # upsell_product - 7шт
-    upsell_product = cur.execute(
-        f"""SELECT id, name, img_href, short_description, price, sale FROM products WHERE sale != 0""").fetchall()
+    colums_name = "id, name, img_href, short_description, price, sale"
+    filters = "sale != 0"
+    upsell_product = select_from_db(colums_name=colums_name, filters=filters)
+
     random.shuffle(upsell_product)
     upsell_product = random.sample(upsell_product, min(7, len(upsell_product)))
-    print(upsell_product)
 
-    new_upsell_product = []
-    for id, name, img_href, text, price, sale in upsell_product:
-        new_product = [id, name, img_href, text, price]
-        if sale != 0:
-            new_product.append(int(price * (1 - sale * 0.01)))
-            new_product.append(sale)
-        else:
-            new_product.append(None)
-            new_product.append(None)
-
-        new_upsell_product.append(tuple(new_product))
-
-    con.close()
+    upsell_product = recycle_list("id, name, img_href, short_description, price, sale",
+                                  "id, name, img_href, short_description, price, price_with_sale, sale",
+                                  upsell_product)
 
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
-                        levelness="../", url=WEBSITE_URL, related_product=new_related_product,
-                        upsell_product=new_upsell_product, product_id=product_id, cart_data=get_cart_for_base(),
-                        categories_for_base=get_categories_for_base(), is_upsell_product=bool(upsell_product),
+                        levelness="../", url=WEBSITE_URL, related_product=related_product,
+                        upsell_product=upsell_product, product_id=product_id, cart_data=get_cart_for_base(),
+                        categories_for_base=get_categories(), is_upsell_product=bool(upsell_product),
                         is_related_product=bool(related_product)))
+
     res.set_cookie("last_manufacturer_and_categories", f"{product_data[5]}${product_data[6]}")
-    print(product_data)
     return res
 
 
@@ -240,8 +133,6 @@ def shop(product_filter, sorting_settings, page):
 
     categories_filter_list = [] if categories_filter_list == [""] else categories_filter_list
 
-    print(manufacturer, categories_filter_list)
-
     for i in range(categories_filter_list.count('')):
         categories_filter_list.remove('')
 
@@ -257,7 +148,8 @@ def shop(product_filter, sorting_settings, page):
 
     # Производители
     # manufacturers = [(name, n), (name, n), (name, n)] входные данные из списка
-    manufacturers_list = cur.execute(f"""SELECT manufacturer FROM products""").fetchall()
+    colums_name = "manufacturer"
+    manufacturers_list = select_from_db(colums_name=colums_name)
     manufacturers_list = list(map(lambda x: x[0], manufacturers_list))
     manufacturers_non_recurring = list(set(manufacturers_list))
     manufacturers = sorted(list(map(lambda x: (x, manufacturers_list.count(x)), manufacturers_non_recurring)))
@@ -277,9 +169,10 @@ def shop(product_filter, sorting_settings, page):
 
     # Тип товара
     # categories = [(name, n), (name, n), (name, n)]
-    categories_list = cur.execute(f"""SELECT categories FROM products""").fetchall()
+    colums_name = "categories"
+    categories_list = select_from_db(colums_name=colums_name)
+
     all_categories_list = []
-    print(categories_list)
     for categories_str in categories_list:
         all_categories_list += categories_str[0].split("&")
 
@@ -311,25 +204,17 @@ def shop(product_filter, sorting_settings, page):
     # [[(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)],
     #  [(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)],
     #  [(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)]]
-    random_product_list = cur.execute(
-        f"""SELECT id, name, img_href, price, sale FROM products""").fetchall()
+    colums_name = "id, name, img_href, price, sale"
+    random_product_list = select_from_db(colums_name=colums_name)
     random.shuffle(random_product_list)
     random_product_list_new = random.sample(random_product_list, 9)
     random_product_mat = [random_product_list_new[:3], random_product_list_new[3:6], random_product_list_new[6:]]
 
     new_random_product_mat = []
     for product_list in random_product_mat:
-        new_product_list = []
-        for id, name, img_href, price, sale in product_list:
-            new_product = [id, name, img_href, price]
-            if sale:
-                sale_price = int(price * (1 - sale * 0.01))
-                new_product.append(sale_price)
-            else:
-                new_product.append(None)
-            new_product.append(sale)
-
-            new_product_list.append(tuple(new_product))
+        new_product_list = recycle_list("id, name, img_href, price, sale",
+                                        "id, name, img_href, price, price_with_sale, sale",
+                                        product_list)
         new_random_product_mat.append(new_product_list)
 
     # На выходе (id, name, img_href, text, price, sale_price, sale)
@@ -403,7 +288,7 @@ def shop(product_filter, sorting_settings, page):
     if page > max_page:
         con.close()
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-                               cart_data=get_cart_for_base(), categories_for_base=get_categories_for_base())
+                               cart_data=get_cart_for_base(), categories_for_base=get_categories())
 
     grid_item_list_text = f"Товары {1 + 12 * (page - 1)}-{min(len(products_list), 12 * page)} из {len(products_list)}"
 
@@ -419,7 +304,7 @@ def shop(product_filter, sorting_settings, page):
                         grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
                         full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
                         arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
-                        categories_for_base=get_categories_for_base(),
+                        categories_for_base=get_categories(),
                         wishlist_product_list=wishlist_product_list_new))
     res.set_cookie("last_ssesion", f"/shop/{product_filter}$${sorting_settings}$${page}")
 
@@ -429,7 +314,7 @@ def shop(product_filter, sorting_settings, page):
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html', url=WEBSITE_URL, cart_data=get_cart_for_base(),
-                           title='SoundRepair | Контакты', categories_for_base=get_categories_for_base())
+                           title='SoundRepair | Контакты', categories_for_base=get_categories())
 
 
 @app.route('/wishlist/<action>$$<product_id>')
@@ -481,7 +366,7 @@ def wishlist(action, product_id):
     res = make_response(
         render_template('wishlist.html', title='SoundRepair | Понравившиеся', levelness="../../", url=WEBSITE_URL,
                         new_product_data=wishlist_product_list_new, cart_data=get_cart_for_base(),
-                        categories_for_base=get_categories_for_base()))
+                        categories_for_base=get_categories()))
 
     res.set_cookie("wishlist", "$".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
     return res
@@ -552,7 +437,7 @@ def cart(action, product_id):
     res = make_response(
         render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=new_cart_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories_for_base(),
+                        cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
                         last_ssesion=last_ssesion))
     res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
 
@@ -562,26 +447,33 @@ def cart(action, product_id):
 @app.route('/about_us')
 def about():
     return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL, cart_data=get_cart_for_base(),
-                           categories_for_base=get_categories_for_base())
+                           categories_for_base=get_categories())
 
 
 @app.route('/our_works/<page>')
 def our_works(page):
-    works = get_works()
+    colums_name = "id, title, description, date, img_href"
+    table_name = "our_works"
+
+    works = select_from_db(colums_name=colums_name, table_name=table_name)
+
     works_count = len(works)
     pages_count = math.ceil(works_count / 12)
-    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
-                           categories_for_base=get_categories_for_base(), works=works[12 * (int(page) - 1):12 * int(page)], page=int(page),
-                           pages_count=pages_count)
+
+    return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL,
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories(),
+                           works=works[12 * (int(page) - 1):12 * int(page)], page=int(page), pages_count=pages_count)
 
 
 @app.route('/work/<id>')
 def work(id):
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
+    table_name = our_works
+    filters = f"id == {id}"
 
-    work_data = cur.execute(f"""SELECT * FROM our_works WHERE id == {id}""").fetchone()
-    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
-                           categories_for_base=get_categories_for_base(), work_data=work_data)
+    work_data = select_from_db(table_name=table_name, filters=filters)[0]
+    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL,
+                           cart_data=get_cart_for_base(),
+                           categories_for_base=get_categories(), work_data=work_data)
+
 
 app.run(host=HOST, port=PORT)
