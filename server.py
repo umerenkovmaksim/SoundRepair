@@ -1,6 +1,7 @@
 import math
 import sqlite3
 import random
+import json
 
 from flask import Flask, render_template, request, make_response
 
@@ -467,13 +468,27 @@ def our_works(page):
 
 @app.route('/work/<id>')
 def work(id):
-    table_name = our_works
+    table_name = "our_works"
     filters = f"id == {id}"
 
-    work_data = select_from_db(table_name=table_name, filters=filters)[0]
-    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL,
-                           cart_data=get_cart_for_base(),
-                           categories_for_base=get_categories(), work_data=work_data)
+    other_works = []
+    all_works = select_from_db(table_name=table_name)
 
+    cur_id = 0
+    for index, elem in enumerate(all_works):
+        if int(elem[0]) != int(id):
+            other_works.append(elem)
+        else:
+            cur_id = index
+        
+    first, last = int(all_works[0][0]) == int(id), int(all_works[-1][0]) == int(id)
+    previous_work, next_work = all_works[cur_id - 1] if not first else None, all_works[cur_id + 1] if not last else None
+
+    random_works = random.sample(other_works, 4)
+
+    work_data = select_from_db(table_name=table_name, filters=filters)[0]
+    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
+                           categories_for_base=get_categories_for_base(), work_data=work_data, random_works=random_works, first=first, last=last,
+                             previous_work=previous_work, next_work=next_work)
 
 app.run(host=HOST, port=PORT)

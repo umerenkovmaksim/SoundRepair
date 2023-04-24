@@ -42,8 +42,12 @@
                         <!--  Blog-Pager Start  -->
                         <div class="blog-pager">
                             <ul class="pager">
-                                <li class="previous"><a href="#"><i class="zmdi zmdi-chevron-left"></i>prev post</a></li>
-                                <li class="next"><a href="#">Next post<i class="zmdi zmdi-chevron-right"></i></a></li>
+                                {% if not first %}
+                                <li class="previous"><a href="{{url}}/work/{{previous_work[0]}}"><i class="zmdi zmdi-chevron-left"></i>Предыдущий</a></li>
+                                {% endif %}
+                                {% if not last %}
+                                <li class="next"><a href="{{url}}/work/{{next_work[0]}}"><i class="zmdi zmdi-chevron-right">Следующий</i></a></li>
+                                {% endif %}
                             </ul>
                         </div>
                         <!--  Blog-Pager End  -->
@@ -59,66 +63,26 @@
                     <div class="recent-post pt-30 same-sidebar">
                         <h3 class="sidebar-title">Другие работы</h3>
                         <ul>
-                            <!-- Singel Post Thumb Start -->
+                            {% for work_data in random_works %}
                             <li class="post-thumb fix">
                                 <div class="left-post-thumb f-left mr-20 mb-20">
-                                    <a href="#"><img class="img" src="static/img/products/1.jpg" alt="latest-post-imgae"></a>
+                                    <a href="{{url}}/work/{{work_data[0]}}">
+                                        {% if work_data[4] == 'None' %}
+                                        <img src="{{url_for('static', filename='img/blog/1.jpg')}}" alt="blog-image">
+                                        {% else %}
+                                        <img src="{{url_for('static', filename=work_data[4])}}" alt="blog-image">
+                                        {% endif %}
+                                    </a>
                                 </div>
                                 <div class="right-post-thumb fix">
-                                    <h4><a href="#">Lorem ipsum dolor sit amet</a></h4>
-                                    <span>August 10, 2018</span>
+                                    <h4><a href="{{url}}/work/{{work_data[0]}}">{{work_data[1]}}</a></h4>
+                                    <span>{{work_data[3]}}</span>
                                 </div>
                             </li>
-                            <!-- Singel Post Thumb End -->
-                            <!-- Singel Post Thumb Start -->
-                            <li class="post-thumb fix">
-                                <div class="left-post-thumb f-left mr-20 mb-20">
-                                    <a href="#"><img class="img" src="static/img/products/2.jpg" alt="latest-post-imgae"></a>
-                                </div>
-                                <div class="right-post-thumb fix">
-                                    <h4><a href="#">porro delectus itaque saepe</a></h4>
-                                    <span>August 10, 2018</span>
-                                </div>
-                            </li>
-                            <!-- Singel Post Thumb End -->
-                            <!-- Singel Post Thumb Start -->
-                            <li class="post-thumb fix">
-                                <div class="left-post-thumb f-left mr-20 mb-20">
-                                    <a href="#"><img class="img" src="static/img/products/3.jpg" alt="latest-post-imgae"></a>
-                                </div>
-                                <div class="right-post-thumb fix">
-                                    <div class="right-post-thumb">
-                                        <h4><a href="#">neque odio sequi hic animis</a></h4>
-                                        <span>August 10, 2018</span>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- Singel Post Thumb End -->
-                            <!-- Singel Post Thumb Start -->
-                            <li class="post-thumb fix">
-                                <div class="left-post-thumb f-left mr-20">
-                                    <a href="#"><img class="img" src="static/img/products/4.jpg" alt="latest-post-imgae"></a>
-                                </div>
-                                <div class="right-post-thumb fix">
-                                    <h4><a href="#">Expedita provident eostseim</a></h4>
-                                    <span>August 10, 2018</span>
-                                </div>
-                            </li>
-                             <!-- Singel Post Thumb End -->
+                            {% endfor %}
                         </ul>
                     </div>
                     <!-- Recent Post End -->
-                    <!-- Meta Post Start -->
-                    <div class="categorie recent-post same-sidebar">
-                         <h3 class="sidebar-title mt-40">others</h3>
-                         <ul class="categorie-list">
-                             <li><a href="log-in.html">Log in</a></li>
-                             <li><a href="#">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
-                             <li><a href="#">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
-                             <li><a href="#">WordPress.org</a></li>
-                         </ul>
-                    </div>
-                    <!-- Meta Post End -->
                 </div>
             </div>
             <!-- Sidebar Main Blog End -->
