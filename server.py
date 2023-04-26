@@ -6,6 +6,7 @@ import json
 from flask import Flask, render_template, request, make_response
 
 from functions import *
+from telegram_bot_functions import *
 
 app = Flask(__name__)
 HOST = '0.0.0.0'
@@ -72,6 +73,7 @@ def main_page():
 def index_2():
     return render_template("index-2.html", url=WEBSITE_URL, levelness="../",
                            cart_data=get_cart_for_base(), categories_for_base=get_categories())
+
 
 @app.route('/index_3')
 def index_3():
@@ -376,6 +378,8 @@ def cart(action, product_id):
                         cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
                         last_ssesion=last_ssesion))
     res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
+
+    order("Богдан", "+79081433305", cart_list)
 
     return res
 
