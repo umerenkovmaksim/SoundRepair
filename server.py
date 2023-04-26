@@ -68,6 +68,17 @@ def main_page():
                            categories_for_base=get_categories())
 
 
+@app.route('/index_2')
+def index_2():
+    return render_template("index-2.html", url=WEBSITE_URL, levelness="../",
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+
+@app.route('/index_3')
+def index_3():
+    return render_template("index-3.html", url=WEBSITE_URL, levelness="../",
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+
+
 @app.route('/product/<product_id>')
 def product(product_id):
     # Берется по id товар
@@ -273,7 +284,8 @@ def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=
                         arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
                         categories_for_base=get_categories(),
                         wishlist_product_list=wishlist_product_list))
-    res.set_cookie("last_ssesion", f"/shop/{manufacturers_filter}-{category}|{sort_type}-{is_reverse}|{page}")
+    res.set_cookie("last_ssesion", f"/shop/{manufacturers_filter if bool(manufacturers_filter) else 'None'}-"
+                                   f"{category if category else 'None'}|{sort_type}-{is_reverse}|{page}")
 
     return res
 
