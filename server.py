@@ -12,7 +12,7 @@ HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
 
-SHOP_URL = f'{WEBSITE_URL}/shop/$$$name$up$$1'
+SHOP_URL = f'{WEBSITE_URL}/shop/-|name-False|1'
 
 
 @app.errorhandler(404)
@@ -68,6 +68,17 @@ def main_page():
                            categories_for_base=get_categories())
 
 
+@app.route('/index_2')
+def index_2():
+    return render_template("index-2.html", url=WEBSITE_URL, levelness="../",
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+
+@app.route('/index_3')
+def index_3():
+    return render_template("index-3.html", url=WEBSITE_URL, levelness="../",
+                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+
+
 @app.route('/product/<product_id>')
 def product(product_id):
     # Берется по id товар
@@ -118,35 +129,25 @@ def product(product_id):
     return res
 
 
-@app.route('/shop/<product_filter>$$<sorting_settings>$$<page>')
-def shop(product_filter, sorting_settings, page):
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
+@app.route('/shop/<manufacturers_filter>-<category>|<sort_type>-<is_reverse>|<page>')
+def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=False, page=1):
+    print(manufacturers_filter, category, sort_type, is_reverse, page)
+    full_url = f"{manufacturers_filter}-{category}|{sort_type}-{is_reverse}"
+
+    manufacturers_filter = '' if manufacturers_filter == "None" else manufacturers_filter
+    category = '' if category == "None" else category
+
+    is_reverse = True if is_reverse == "True" else False
+    manufacturers_filters_list = manufacturers_filter.split("&") if manufacturers_filter else []
+
+    button_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}|" \
+                       f"{'name' if sort_type == 'price' else 'price'}-{is_reverse}|{page}"
+    arrow_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}|" \
+                      f"{sort_type}-{not is_reverse}|{page}"
 
     page = int(page)
-    full_url = f"{product_filter}$${sorting_settings}$$"
 
-    # product_filter это все фильтры для поиска
-    # категории и производителя делит знак $
-    # Это текст где фильтры делит знак &
-    manufacturer_filter, categories_filter = tuple(product_filter.split("$"))
-    manufacturer, categories_filter_list = manufacturer_filter, categories_filter.split("&")
-
-    categories_filter_list = [] if categories_filter_list == [""] else categories_filter_list
-
-    for i in range(categories_filter_list.count('')):
-        categories_filter_list.remove('')
-
-    print(manufacturer, categories_filter_list)
-
-    # is_reverse это реверсивный поиск или нет
-    # sort_type это тип сортировки по названию, или по цене
-    sort_type, is_reverse_text = tuple(sorting_settings.split("$"))
-    is_reverse = False if is_reverse_text == "up" else True
-
-    button_sort_href = f"{manufacturer}${'&'.join(categories_filter_list)}$${'name' if sort_type == 'price' else 'price'}${is_reverse_text}$${page}"
-    arrow_sort_href = f"{manufacturer}${'&'.join(categories_filter_list)}$${sort_type}${'up' if is_reverse else 'down'}$${page}"
-
+    # ------- MANUFACTURERS -------
     # Производители
     # manufacturers = [(name, n), (name, n), (name, n)] входные данные из списка
     colums_name = "manufacturer"
@@ -155,19 +156,26 @@ def shop(product_filter, sorting_settings, page):
     manufacturers_non_recurring = list(set(manufacturers_list))
     manufacturers = sorted(list(map(lambda x: (x, manufacturers_list.count(x)), manufacturers_non_recurring)))
 
-    href_end = f"$${sorting_settings}$${page}"
+    href_end = f"|{sort_type}-{is_reverse}|{page}"
 
     out_manufacturers = []
     for name, n in manufacturers:
         f = False
-        if name == manufacturer:
+        if name in manufacturers_filters_list:
             f = True
-            href = f"${'&'.join(categories_filter_list)}{href_end}"
+            manufacturers_filters_list_copy = manufacturers_filters_list[:]
+            manufacturers_filters_list_copy.remove(name)
+            href = f"{'&'.join(manufacturers_filters_list_copy) if bool(manufacturers_filters_list_copy) else 'None'}" \
+                   f"-{category if category else 'None'}{href_end}"
         else:
-            href = f"{name}${'&'.join(categories_filter_list)}{href_end}"
+            manufacturers_filters_list_copy = manufacturers_filters_list[:]
+            manufacturers_filters_list_copy.append(name)
+            href = f"{'&'.join(manufacturers_filters_list_copy) if bool(manufacturers_filters_list_copy) else 'None'}" \
+                   f"-{category if category else 'None'}{href_end}"
 
         out_manufacturers.append((name, n, href, f))
 
+    # ------- CATEGORIES -------
     # Тип товара
     # categories = [(name, n), (name, n), (name, n)]
     colums_name = "categories"
@@ -183,23 +191,15 @@ def shop(product_filter, sorting_settings, page):
     out_categories = []
     for name, n in categories:
         f = False
-        if name in categories_filter_list:
+        if name == category:
             f = True
-
-            categories_filter_list_copy = categories_filter_list[:]
-            categories_filter_list_copy.remove(name)
-            href = f"{manufacturer}${'&'.join(categories_filter_list_copy)}{href_end}"
+            href = f"{manufacturers_filter if bool(manufacturers_filter) else 'None'}-None{href_end}"
         else:
-            categories_filter_list_copy = categories_filter_list[:]
-            categories_filter_list_copy.append(name)
-            href = f"{manufacturer}${'&'.join(categories_filter_list_copy)}{href_end}"
+            href = f"{manufacturers_filter if bool(manufacturers_filter) else 'None'}-{name}{href_end}"
 
         out_categories.append((name, n, href, f))
 
-    # Максимальная/минимальная цены
-    # prices = (max, min)
-    prices = (100, 1)
-
+    # ------- RANDOM PRODUCTS -------
     # Случайные товары
     # random_product_mat =
     # [[(id, name, img_href, text, price, sale), (id, name, img_href, text, price, sale)],
@@ -218,96 +218,74 @@ def shop(product_filter, sorting_settings, page):
                                         product_list)
         new_random_product_mat.append(new_product_list)
 
+    # ------- WISHLIST -------
     # На выходе (id, name, img_href, text, price, sale_price, sale)
-    wishlist_list = request.cookies.get("wishlist")
-    if wishlist_list:
-        wishlist_list = wishlist_list.split("$")
-        wishlist_list = list(map(int, wishlist_list))
-        wishlist_list = wishlist_list[:3]
+    wishlist_list = get_wishlist_list()
+
+    filters = ""
+    if bool(wishlist_list):
         if len(wishlist_list) > 1:
-            wishlist_product_list = cur.execute(
-                f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(wishlist_list)} """).fetchall()
-        else:
-            wishlist_product_list = cur.execute(
-                f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {wishlist_list[0]} """).fetchall()
+            filters = f"id in {tuple(wishlist_list)}"
+        elif len(wishlist_list) == 1:
+            filters = f"id == {wishlist_list[0]}"
+
+    if bool(filters):
+        colums_name = "id, name, img_href, price, sale"
+        wishlist_product_list = select_from_db(colums_name=colums_name, filters=filters)
     else:
         wishlist_product_list = []
 
-    wishlist_product_list_new = []
-    for id, name, img_href, price, sale in wishlist_product_list:
-        new_product = [id, name, img_href, price]
-        if sale:
-            sale_price = int(price * (1 - sale * 0.01))
-            new_product.append(sale_price)
-        else:
-            new_product.append(None)
-        new_product.append(sale)
-        wishlist_product_list_new.append(new_product)
+    wishlist_product_list = recycle_list("id, name, img_href, price, sale",
+                                         "id, name, img_href, price, price_with_sale, sale",
+                                         wishlist_product_list)
 
-    print(wishlist_product_list_new)
-
+    # ------- PRODUCTS -------
     # Все товары
     # products_list = [(id, name, img_href, text, price, sale),
     #                  (id, name, img_href, text, price, sale)]
-    manufacturer_request = ""
-    if manufacturer or categories_filter_list:
-        manufacturer_request += "WHERE "
-        requect_list = []
-        if manufacturer:
-            requect_list.append(f"manufacturer == '{manufacturer}'")
 
-        if len(categories_filter_list) > 1:
-            requect_list.append(f"categories IN {tuple(categories_filter_list)}")
-        elif categories_filter_list:
-            requect_list.append(f"categories == '{categories_filter_list[0]}'")
-
-        manufacturer_request += " AND ".join(requect_list)
-
-    print(f"""SELECT id, name, img_href, short_description, price, sale FROM products {manufacturer_request}""")
-    products_list = cur.execute(
-        f"""SELECT id, name, img_href, short_description, price, sale FROM products {manufacturer_request}""").fetchall()
-
-    print(products_list)
-
-    new_products_list = []
-    for id, name, img_href, text, price, sale in products_list:
-        new_product = [id, str(name), img_href, text, price]
-        print(name)
-        if sale != 0:
-            new_product.append(int(price * (1 - sale * 0.01)))
-            new_product.append(sale)
+    filters = ""
+    requect_list = []
+    if manufacturers_filter:
+        if len(manufacturers_filters_list) > 1:
+            requect_list.append(f"manufacturer IN {tuple(manufacturers_filters_list)}")
         else:
-            new_product.append(None)
-            new_product.append(None)
+            requect_list.append(f"manufacturer == '{manufacturers_filters_list[0]}'")
 
-        new_products_list.append(tuple(new_product))
+    if category:
+        requect_list.append(f"categories == '{category}'")
 
-    # На выходе (id, name, img_href, text, price, sale_price, sale)
+    filters += " AND ".join(requect_list)
+
+    colums_name = "id, name, img_href, short_description, price, sale"
+    products_list = select_from_db(colums_name=colums_name, filters=filters)
+
+    products_list = recycle_list("id, name, img_href, text, price, sale",
+                                 "id, name, img_href, text, price, price_with_sale, sale",
+                                 products_list)
 
     max_page = math.ceil(len(products_list) / 12)
 
     if page > max_page:
-        con.close()
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
                                cart_data=get_cart_for_base(), categories_for_base=get_categories())
 
     grid_item_list_text = f"Товары {1 + 12 * (page - 1)}-{min(len(products_list), 12 * page)} из {len(products_list)}"
 
-    new_products_list = sorted(new_products_list, key=lambda x: (x[1], x[4]) if sort_type == "name" else (x[4], x[1]),
-                               reverse=is_reverse)[(page - 1) * 12:page * 12]
+    products_list = sorted(products_list, key=lambda x: (x[1], x[4]) if sort_type == "name" else (x[4], x[1]),
+                           reverse=is_reverse)[(page - 1) * 12:page * 12]
 
-    print(new_products_list)
-    con.close()
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', levelness="../../../", url=WEBSITE_URL,
                         manufacturers=out_manufacturers, categories=out_categories,
-                        product_mat=new_random_product_mat, products_list=new_products_list,
+                        product_mat=new_random_product_mat, products_list=products_list,
                         grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
                         full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
                         arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
                         categories_for_base=get_categories(),
-                        wishlist_product_list=wishlist_product_list_new))
-    res.set_cookie("last_ssesion", f"/shop/{product_filter}$${sorting_settings}$${page}")
+                        wishlist_product_list=wishlist_product_list))
+    res.set_cookie("last_ssesion", f"/shop/{manufacturers_filter if bool(manufacturers_filter) else 'None'}-"
+                                   f"{category if category else 'None'}|{sort_type}-{is_reverse}|{page}")
 
     return res
 
@@ -320,123 +298,80 @@ def contact_page():
 
 @app.route('/wishlist/<action>$$<product_id>')
 def wishlist(action, product_id):
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
-
-    # Находим все товары с id из wishlist_list
-    # product_data = [(id, name, img_href, price, sale)]
-
-    wishlist_list = request.cookies.get("wishlist")
-    if wishlist_list:
-        wishlist_list = wishlist_list.split("$")
-        wishlist_list = list(map(int, wishlist_list))
-    else:
-        wishlist_list = []
+    wishlist_list = get_wishlist_list()
 
     if action == "add":
         wishlist_list.append(int(product_id))
     elif action == "del" and int(product_id) in wishlist_list:
         wishlist_list.remove(int(product_id))
 
+    filters = ""
     if bool(wishlist_list):
         if len(wishlist_list) > 1:
-            wishlist_product_list = cur.execute(
-                f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(wishlist_list)} """).fetchall()
+            filters = f"id in {tuple(wishlist_list)}"
         elif len(wishlist_list) == 1:
-            wishlist_product_list = cur.execute(
-                f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {wishlist_list[0]} """).fetchall()
-        else:
-            wishlist_product_list = []
+            filters = f"id == {wishlist_list[0]}"
 
+    if bool(filters):
+        colums_name = "id, name, img_href, price, sale"
+        wishlist_product_list = select_from_db(colums_name=colums_name, filters=filters)
     else:
         wishlist_product_list = []
 
-    wishlist_product_list_new = []
-    for id, name, img_href, price, sale in wishlist_product_list:
-        product_list = [id, name, img_href]
-        if sale:
-            product_list.append(int(price * (1 - sale * 0.01)))
-        else:
-            product_list.append(price)
+    wishlist_product_list = recycle_list("id, name, img_href, price, sale",
+                                         "id, name, img_href, price, price_with_sale_or_price, sale",
+                                         wishlist_product_list)
 
-        wishlist_product_list_new.append(tuple(product_list))
+    total_price = sum(list(map(lambda x: x[4] if x[4] else x[3], wishlist_product_list)))
+    total_price_with_sale = sum(list(map(lambda x: x[3], wishlist_product_list)))
 
-    # По выходу получиться new_product_data = [(id, name, img_href, price)]
-    con.close()
-    print(wishlist_product_list_new)
+    last_ssesion = request.cookies.get("last_ssesion")
     res = make_response(
-        render_template('wishlist.html', title='SoundRepair | Понравившиеся', levelness="../../", url=WEBSITE_URL,
-                        new_product_data=wishlist_product_list_new, cart_data=get_cart_for_base(),
-                        categories_for_base=get_categories()))
-
+        render_template('wishlist.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
+                        product_data=wishlist_product_list,
+                        levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
+                        cart_data=get_cart_for_base(), categories_for_base=get_categories(),
+                        last_ssesion=last_ssesion))
     res.set_cookie("wishlist", "$".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
+
     return res
 
 
 @app.route('/cart/<action>$$<product_id>')
 def cart(action, product_id):
-    con = sqlite3.connect("db/data.db")
-    cur = con.cursor()
-
     # Находим все товары с id из wishlist_list
     # product_data = [(id, name, img_href, price, sale)]
 
-    cart_list = request.cookies.get("cart")
-    if cart_list:
-        cart_list = cart_list.split("$")
-        cart_list = list(map(int, cart_list))
-    else:
-        cart_list = []
-    print(cart_list)
+    cart_list = get_cart_list()
 
     if action == "add":
         cart_list.append(int(product_id))
     elif action == "del" and int(product_id) in cart_list:
         cart_list.remove(int(product_id))
 
+    filters = ""
     if bool(cart_list):
         if len(cart_list) > 1:
-            cart_product_list = cur.execute(
-                f"""SELECT id, name, img_href, price, sale FROM products WHERE id in {tuple(cart_list)} """).fetchall()
+            filters = f"id in {tuple(cart_list)}"
         elif len(cart_list) == 1:
-            cart_product_list = cur.execute(
-                f"""SELECT id, name, img_href, price, sale FROM products WHERE id == {cart_list[0]} """).fetchall()
-        else:
-            cart_product_list = []
+            filters = f"id == {cart_list[0]}"
 
+    if bool(filters):
+        colums_name = "id, name, img_href, price, sale"
+        cart_product_list = select_from_db(colums_name=colums_name, filters=filters)
     else:
         cart_product_list = []
-    print(cart_list)
 
-    new_cart_product_list = []
-    sale_f = False
-    for id, name, img_href, price, sale in cart_product_list:
-        product_list = [id, name, img_href, price]
-        if sale:
-            sale_f = True
-            product_list.append(int(price * (1 - sale * 0.01)))
-        else:
-            product_list.append(price)
+    cart_product_list = recycle_list("id, name, img_href, price, sale",
+                                     "id, name, img_href, price, price_with_sale_or_price, sale",
+                                     cart_product_list)
 
-        product_list.append(sale)
-
-        new_cart_product_list.append(tuple(product_list))
-
-    if sale_f:
-        total_price_with_sale = sum(list(map(lambda x: x[4], new_cart_product_list)))
-    else:
-        total_price_with_sale = None
-
-    if bool(new_cart_product_list):
-        total_price = sum(list(map(lambda x: x[3], new_cart_product_list)))
-    else:
-        total_price = 0
-
-    con.close()
+    total_price = sum(list(map(lambda x: x[4] if x[4] else x[3], cart_product_list)))
+    total_price_with_sale = sum(list(map(lambda x: x[3], cart_product_list)))
 
     last_ssesion = request.cookies.get("last_ssesion")
     res = make_response(
-        render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=new_cart_product_list,
+        render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=cart_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
                         cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
                         last_ssesion=last_ssesion))
@@ -480,15 +415,18 @@ def work(id):
             other_works.append(elem)
         else:
             cur_id = index
-        
+
     first, last = int(all_works[0][0]) == int(id), int(all_works[-1][0]) == int(id)
     previous_work, next_work = all_works[cur_id - 1] if not first else None, all_works[cur_id + 1] if not last else None
 
     random_works = random.sample(other_works, 4)
 
     work_data = select_from_db(table_name=table_name, filters=filters)[0]
-    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL, cart_data=get_cart_for_base(), 
-                           categories_for_base=get_categories_for_base(), work_data=work_data, random_works=random_works, first=first, last=last,
-                             previous_work=previous_work, next_work=next_work)
+    return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL,
+                           cart_data=get_cart_for_base(),
+                           categories_for_base=get_categories(), work_data=work_data, random_works=random_works,
+                           first=first, last=last,
+                           previous_work=previous_work, next_work=next_work)
+
 
 app.run(host=HOST, port=PORT)

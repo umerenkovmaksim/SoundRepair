@@ -50,6 +50,20 @@ def get_cart_list():
     # Иначе list с id товаров
 
 
+def get_wishlist_list():
+    #
+    # % get_wishlist_list нужен для получения списка id товаров в хотелках %
+    #
+
+    wishlist_list = request.cookies.get("wishlist")
+    if wishlist_list:
+        wishlist_list = wishlist_list.split("$")
+        return wishlist_list
+    return []
+
+    # Если в карзине пусто вывод tuple (None, None, None)
+    # Иначе list с id товаров
+
 def recycle_list(inp, out, data_list):
     print("recycle_list")
     print(inp, out, data_list)
@@ -90,6 +104,13 @@ def recycle_list(inp, out, data_list):
                     out_list.append(data_dict["price"] * (1 - data_dict["sale"] * 0.01))
                 else:
                     out_list.append(None)
+
+            elif key == "price_with_sale_or_price":
+                if data_dict["sale"] != 0:
+                    out_list.append(int(data_dict["price"] * (1 - data_dict["sale"] * 0.01)))
+                else:
+                    out_list.append(data_dict["price"])
+
         out_data_list.append(out_list)
 
     # вывод list с изменеными tuple
