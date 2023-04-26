@@ -259,6 +259,16 @@
 .popup_wrapper{
     display: none;
 }
+.menu-wrap {
+    display: flex;
+    margin-left: -15px;
+}
+.menu-wrap nav {
+    top: 85px;
+}
+.sort-section {
+    display: none;
+}
 .ht-about-work {
     margin-top: 12px;
 }
@@ -846,6 +856,12 @@ p.checkout-coupon input[type="submit"] {
     font-size: 26px;
     line-height: 34px;
 }
+.sort-section {
+    display: none;
+}
+.menu-wrap {
+    display: flex;
+}
 .text-content h4{
     font-size: 20px;
 }
@@ -853,7 +869,9 @@ p.checkout-coupon input[type="submit"] {
     float: left;
     margin-top: 5px;
 }
-
+.menu-wrap nav {
+    top: 50px;
+}
  .main-toolbar-sorter.f-right {
     float: right;
 }
@@ -986,6 +1004,12 @@ p.checkout-coupon input[type="submit"] {
 }
 .upper-banner.banner .row [class*="col"]:not(:last-child) {
     margin-bottom: 30px;
+}
+.sort-section {
+    display: none;
+}
+.menu-wrap {
+    display: flex;
 }
 .company-policy {
     padding-bottom: 50px;

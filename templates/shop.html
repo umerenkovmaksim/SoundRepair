@@ -47,7 +47,7 @@
                         <ul  class="manufactures-list">
                             {% for name, n, href, activ in manufacturers %}
                             {% if activ %}
-                            <li><a href="{{url}}/shop/{{href}}" style="color:#f1ac06">
+                            <li><a href="{{url}}/shop/{{href}}" style="color:#ce0000">
                                 {{name}} ({{n}})
                             </a></li>
                             {% else %}
@@ -156,7 +156,7 @@
                     <!-- Single Banner End -->
                 </div>
             </div>
-            <!-- Sidebar Shopping Option End -->                    
+            <!-- Sidebar Shopping Option End -->                  
             <!-- Product Categorie List Start -->
             <div class="col-lg-9 order-lg-2">
                 <!-- Grid & List View Start -->
@@ -171,7 +171,22 @@
                     <!-- Toolbar Short Area Start -->
                     <div class="main-toolbar-sorter f-right">
                         <div class="toolbar-sorter">
-                            <label>Сортировать по</label>
+                            <div class="menu-wrap">
+                                <input type="checkbox" id="checkbox">
+                                <nav>
+                                    <ul>
+                                        <li><a class="active" href="#">По возрастанию цены</a></li>
+                                        <li><a href="#">По убыванию цены</a></li>
+                                        <li><a href="#">От А до Я</a></li>
+                                        <li><a href="#">От Я до А</a></li>
+                                    </ul>
+                                </nav>
+                                <label for="checkbox">
+                                    <i class="fa fa-angle-down menu-icon"> По возрастанию цены</i>
+                                </label>
+                            </div>
+                            <div class="sort-section">
+                                <label>Сортировать по</label>
                             {% if sort_type == "name" %}
                                 <a class="sort" href="{{url}}/shop/{{button_sort_href}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
                             {% else %}
@@ -189,6 +204,7 @@
                             {% else %}
                                 <span><a href="{{url}}/shop/{{arrow_sort_href}}"><i class="fa fa-arrow-up"></i></a></span>
                             {% endif %}
+                            </div>
                         </div>
                     </div>
                     <!-- Toolbar Short Area End -->

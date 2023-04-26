@@ -809,6 +809,65 @@ ul.ht-dropdown.dropdown-style-two li {
     bottom: 15px;
     width: 100%;
 }
+.menu-wrap {
+    display: none;
+    justify-content: space-between;
+    padding: 0 15px;
+    margin-top: 2px;
+}
+.menu-wrap nav {
+    position: absolute;
+    background-color: #ebebeb;
+    top: 50px;
+    max-width: 200px;
+    z-index: 99009;
+}
+.menu-wrap nav ul {
+    list-style-type: none;
+    max-height: 0px;
+    overflow: hidden;
+    transition: all 0.5s;
+}
+.menu-wrap label {
+    border: 2px solid rgb(170, 170, 170);
+}
+.menu-wrap .menu-icon {
+    margin: 5px;
+}
+.menu-wrap .active {
+    color: #ce0000;
+}
+.menu-wrap nav ul li {
+    margin-left: 10px;
+    margin-right: 10px;
+    border-bottom: 1px solid rgb(170, 170, 170);
+}
+.menu-wrap nav ul li:last-child {
+    border: none;
+}
+.menu-wrap nav ul li a {
+    display: inline-block;
+    padding: 12px;
+    /* Add your custom styles below to change appearance of links */
+    color: #161616;
+    text-decoration: none;
+}
+.menu-wrap nav ul li a:hover, nav ul li a:focus {
+    color: #a8a8a8;
+}
+#checkbox {
+    display: none;
+}
+#checkbox:checked ~ nav ul {
+    max-height: 200px;
+    transition: all 0.5s;
+}
+#checkbox ~ nav {
+    border: none;
+}
+#checkbox:checked ~ nav {
+    border: 1px solid rgb(170, 170, 170);
+}
 
 .nivo-controlNav a {
     font-size: 0;
