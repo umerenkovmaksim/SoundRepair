@@ -29,7 +29,7 @@ def select_from_db(table_name="products", colums_name="*", filters=None):
     print(request)
     print()
 
-    res = cur.execute(request).fetchall()
+    res = cur.execute(request).fetchall() if 'None' not in request else []
 
     # Вывод list содержащий tuple со значениями
     return res
