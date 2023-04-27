@@ -335,7 +335,7 @@ def wishlist(action, product_id):
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
                         cart_data=get_cart_for_base(), categories_for_base=get_categories(),
                         last_ssesion=last_ssesion))
-    res.set_cookie("wishlist", "$".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
+    res.set_cookie("wishlist", "&".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
 
     return res
 
@@ -346,11 +346,14 @@ def cart(action, product_id):
     # product_data = [(id, name, price, sale)]
 
     cart_list = get_cart_list()
+    print(cart_list, action, product_id)
 
     if action == "add":
         cart_list.append(int(product_id))
     elif action == "del" and int(product_id) in cart_list:
         cart_list.remove(int(product_id))
+
+    print(cart_list)
 
     filters = ""
     if bool(cart_list):
@@ -378,8 +381,8 @@ def cart(action, product_id):
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
                         cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
                         last_ssesion=last_ssesion))
-    res.set_cookie("cart", "$".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
-
+    res.set_cookie("cart", "&".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
+    print(cart_list)
     order("Богдан", "+79081433305", cart_list)
 
     return res

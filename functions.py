@@ -42,9 +42,19 @@ def get_cart_list():
 
     cart_list = request.cookies.get("cart")
     if cart_list:
-        cart_list = cart_list.split("$")
+        cart_list = cart_list.split("&")
+        cart_list = list(map(int, cart_list))
         return cart_list
-    return None, None, None
+    return []
+
+    # cart_list = request.cookies.get("cart")
+    # cart_dict = {}
+    # if cart_list:
+    #     for line in cart_list.split("\n"):
+    #         id, n = tuple(line.split(":"))
+    #         cart_dict[int(id)] = int(n)
+    #     return cart_dict
+    # return {}
 
     # Если в карзине пусто вывод tuple (None, None, None)
     # Иначе list с id товаров
@@ -57,12 +67,14 @@ def get_wishlist_list():
 
     wishlist_list = request.cookies.get("wishlist")
     if wishlist_list:
-        wishlist_list = wishlist_list.split("$")
+        wishlist_list = wishlist_list.split("&")
+        wishlist_list = list(map(int, wishlist_list))
         return wishlist_list
     return []
 
     # Если в карзине пусто вывод tuple (None, None, None)
     # Иначе list с id товаров
+
 
 def recycle_list(inp, out, data_list):
     # print("recycle_list")
@@ -111,6 +123,10 @@ def recycle_list(inp, out, data_list):
                 else:
                     out_list.append(data_dict["price"])
 
+            elif key == "count_in_cart":
+                cart_list = get_cart_list()
+                # if data_dict["id"] in c
+
         out_data_list.append(out_list)
 
     # вывод list с изменеными tuple
@@ -127,6 +143,9 @@ def get_cart_for_base(cart_list=None):
 
     if not cart_list:
         cart_list = get_cart_list()
+
+    if not bool(cart_list):
+        return None, [], None
 
     colums_name = "id, name, price, sale"
     filters = f"id in {tuple(cart_list)}" if len(cart_list) > 1 else f"id == {cart_list[0]}"
