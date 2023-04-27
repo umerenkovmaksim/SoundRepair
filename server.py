@@ -13,7 +13,7 @@ HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
 
-SHOP_URL = f'{WEBSITE_URL}/shop/-|name-False|1'
+SHOP_URL = f'{WEBSITE_URL}/shop/-&name-False&1'
 
 
 @app.errorhandler(404)
@@ -131,10 +131,10 @@ def product(product_id):
     return res
 
 
-@app.route('/shop/<manufacturers_filter>-<category>|<sort_type>-<is_reverse>|<page>')
+@app.route('/shop/<manufacturers_filter>-<category>&<sort_type>-<is_reverse>&<page>')
 def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=False, page=1):
     print(manufacturers_filter, category, sort_type, is_reverse, page)
-    full_url = f"{manufacturers_filter}-{category}|{sort_type}-{is_reverse}"
+    full_url = f"{manufacturers_filter}-{category}&{sort_type}-{is_reverse}"
 
     manufacturers_filter = '' if manufacturers_filter == "None" else manufacturers_filter
     category = '' if category == "None" else category
@@ -142,10 +142,10 @@ def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=
     is_reverse = True if is_reverse == "True" else False
     manufacturers_filters_list = manufacturers_filter.split("&") if manufacturers_filter else []
 
-    button_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}|" \
-                       f"{'name' if sort_type == 'price' else 'price'}-{is_reverse}|{page}"
-    arrow_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}|" \
-                      f"{sort_type}-{not is_reverse}|{page}"
+    button_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}&" \
+                       f"{'name' if sort_type == 'price' else 'price'}-{is_reverse}&{page}"
+    arrow_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}&" \
+                      f"{sort_type}-{not is_reverse}&{page}"
 
     page = int(page)
 
@@ -158,7 +158,7 @@ def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=
     manufacturers_non_recurring = list(set(manufacturers_list))
     manufacturers = sorted(list(map(lambda x: (x, manufacturers_list.count(x)), manufacturers_non_recurring)))
 
-    href_end = f"|{sort_type}-{is_reverse}|{page}"
+    href_end = f"&{sort_type}-{is_reverse}&{page}"
 
     out_manufacturers = []
     for name, n in manufacturers:
@@ -268,11 +268,12 @@ def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=
 
     max_page = math.ceil(len(products_list) / 12)
 
-    if page > max_page:
+    if page > max_page and len(products_list) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
                                cart_data=get_cart_for_base(), categories_for_base=get_categories())
 
-    grid_item_list_text = f"Товары {1 + 12 * (page - 1)}-{min(len(products_list), 12 * page)} из {len(products_list)}"
+    grid_item_list_text = f"Товары {1 + 12 * (page - 1) if len(products_list) > 0 else 0}-" \
+                          f"{min(len(products_list), 12 * page)} из {len(products_list)}"
 
     products_list = sorted(products_list, key=lambda x: (x[1], x[4]) if sort_type == "name" else (x[4], x[1]),
                            reverse=is_reverse)[(page - 1) * 12:page * 12]
@@ -287,7 +288,7 @@ def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=
                         categories_for_base=get_categories(),
                         wishlist_product_list=wishlist_product_list))
     res.set_cookie("last_ssesion", f"/shop/{manufacturers_filter if bool(manufacturers_filter) else 'None'}-"
-                                   f"{category if category else 'None'}|{sort_type}-{is_reverse}|{page}")
+                                   f"{category if category else 'None'}&{sort_type}-{is_reverse}&{page}")
 
     return res
 

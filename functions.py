@@ -4,8 +4,8 @@ from flask import request
 
 
 def select_from_db(table_name="products", colums_name="*", filters=None):
-    print("select_from_db")
-    print(table_name, colums_name, filters)
+    # print("select_from_db")
+    # print(table_name, colums_name, filters)
     #
     # % select_from_db нужен для получения данных из db %
     #
@@ -26,8 +26,8 @@ def select_from_db(table_name="products", colums_name="*", filters=None):
     if filters:
         request += f" WHERE {filters}"
 
-    print(request)
-    print()
+    # print(request)
+    # print()
 
     res = cur.execute(request).fetchall() if 'None' not in request else []
 
@@ -65,9 +65,9 @@ def get_wishlist_list():
     # Иначе list с id товаров
 
 def recycle_list(inp, out, data_list):
-    print("recycle_list")
-    print(inp, out, data_list)
-    print()
+    # print("recycle_list")
+    # print(inp, out, data_list)
+    # print()
     #
     # % recycle_list нужен для преоброзования списка tuple по заданному принципу %
     #

@@ -159,6 +159,7 @@
             <!-- Sidebar Shopping Option End -->                  
             <!-- Product Categorie List Start -->
             <div class="col-lg-9 order-lg-2">
+                {% if max_page != 0 %}
                 <!-- Grid & List View Start -->
                 <div class="grid-list-top border-default universal-padding fix mb-30">
                     <div class="grid-list-view f-left">
@@ -313,6 +314,9 @@
                     </ul>
                 </div>
                 <!--Breadcrumb and Page Show End -->
+                {% else %}
+                <h1>Здесь ничего нет</h1>
+                {% endif %}
             </div>
             <!-- product Categorie List End -->
         </div>
