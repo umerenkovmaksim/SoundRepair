@@ -18,15 +18,11 @@
     <div class="container">
         <!-- Row End -->
         <div class="row">
-            {% for id, title, description, date, img_href in works %}
+            {% for id, title, description, date in works %}
             <div class="col-lg-4 col-md-6 col-sm-6">
                 <div class="single-blog">
                     <div class="blog-img">
-                        {% if img_href == 'None' %}
-                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename='img/blog/1.jpg')}}" alt="blog-image"></a>
-                        {% else %}
-                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename=img_href)}}" alt="blog-image"></a>
-                        {% endif %}
+                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename='img/blog/{{id}}.jpg')}}" alt="blog-image"></a>
                     </div>
                     <div class="blog-content">
                             <h4 class="blog-title"><a href="{{url}}/work/{{id}}">{{title}}</a></h4>

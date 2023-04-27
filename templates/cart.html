@@ -42,10 +42,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for id, name, img_href, price, price_with_sale, sale in product_data %}
+                                        {% for id, name, price, price_with_sale, sale in product_data %}
                                         <tr>
                                             <td class="product-thumbnail">
-                                                <a href="#"><img src="{{levelness}}{{img_href}}" alt="cart-image" /></a>
+                                                <a href="#"><img src="{{levelness}}static/img/products/{{id}}.jpg" alt="cart-image" /></a>
                                             </td>
                                             <td class="product-name"><a href="{{url}}">{{name}}</a></td>
                                             <td class="product-price"><span class="amount">{{price}}₽ </span></td>

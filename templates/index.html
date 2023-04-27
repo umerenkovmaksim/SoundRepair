@@ -34,10 +34,10 @@
                  <!-- Popular Categorie Activation Start -->
                  <div class="blog-active owl-carousel">
                     <!-- Single Blog Start -->
-                     {%for id, name, img_href, text in random_product%}
+                     {%for id, name, text in random_product%}
                     <div class="single-blog">
                         <div class="blog-img">
-                            <a href="{{url}}/product/{{id}}"><img src="{{ img_href }}" alt="product-image"></a>
+                            <a href="{{url}}/product/{{id}}"><img src="{{levelness}}static/img/products/{{id}}.jpg" alt="product-image"></a>
                         </div>
                         <div class="blog-content">
                                 <h4 class="blog-title"><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
@@ -65,12 +65,12 @@
                 </div>
                 <!-- Realted Product Activation Start -->
                 <div class="new-upsell-pro owl-carousel">
-                    {% for id, name, img_href, text, price, price_with_sale, sale in related_product %}
+                    {% for id, name, text, price, price_with_sale, sale in related_product %}
                     <div class="single-product">
                         <!-- Product Image Start -->
                         <div class="pro-img">
                             <a href="{{url}}/product/{{id}}">
-                                <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                                <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                             </a>
                         </div>
                         <!-- Product Image End -->
@@ -107,12 +107,12 @@
                 </div>
                 <!-- Upsell Product Activation Start -->
                 <div class="new-upsell-pro owl-carousel">
-                    {% for id, name, img_href, text, price, price_with_sale, sale in upsell_product %}
+                    {% for id, name, text, price, price_with_sale, sale in upsell_product %}
                     <div class="single-product">
                         <!-- Product Image Start -->
                         <div class="pro-img">
                             <a href="{{url}}/product/{{id}}">
-                                <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                                <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                             </a>
                         </div>
                         <!-- Product Image End -->

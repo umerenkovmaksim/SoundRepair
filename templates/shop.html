@@ -68,12 +68,12 @@
                             {% for product_list in product_mat %}
                             <div class="best-seller-multi-product">
                                 <!-- Single Product Start -->
-                                {%for id, name, img_href, price, sale_price, sale in product_list%}
+                                {%for id, name, price, sale_price, sale in product_list%}
                                 <div class="single-product">
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
                                         <a href="{{url}}/product/{{id}}">
-                                            <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                                            <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                                         </a>
                                     </div>
                                     <!-- Product Image End -->
@@ -108,7 +108,7 @@
                         </div>
                         <div class="best-seller-pro-two compare-pro best-seller-pro-two owl-carousel">
                             <!-- Best Seller Multi Product Start -->
-                            {%for id, name, img_href, price, sale_price, sale in wishlist_product_list%}
+                            {%for id, name, price, sale_price, sale in wishlist_product_list%}
                             <div class="best-seller-multi-product">
                                 <!-- Single Product Start -->
 
@@ -116,7 +116,7 @@
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
                                         <a href="{{url}}/product/{{id}}">
-                                            <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                                            <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                                         </a>
                                     </div>
                                     <!-- Product Image End -->
@@ -217,14 +217,14 @@
                         <div id="grid-view" class="tab-pane ">
                             <div class="row">
                                 <!-- Single Product Start -->
-                                {% for id, name, img_href, text, price, sale_price, sale in products_list %}
+                                {% for id, name, text, price, sale_price, sale in products_list %}
                                 <div class="col-lg-4 col-sm-6">
                                     <div class="single-product">
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="{{url}}/product/{{id}}">
-                                                <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
-                                                <img class="secondary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                                                <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                                <img class="secondary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -257,13 +257,13 @@
                         <!-- #grid view End -->
                         <div id="list-view" class="tab-pane active">
                             <!-- Single Product Start -->
-                            {% for id, name, img_href, text, price, sale_price, sale in products_list %}
+                            {% for id, name, text, price, sale_price, sale in products_list %}
                             <div class="single-product">
                                 <!-- Product Image Start -->
                                 <div class="pro-img">
                                     <a href="{{url}}/product/{{id}}">
-                                        <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
-                                        <img class="secondary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                                        <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                        <img class="secondary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                                     </a>
                                 </div>
                                 <!-- Product Image End -->

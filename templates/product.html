@@ -107,12 +107,12 @@
             </div>
             <!-- Realted Product Activation Start -->
             <div class="new-upsell-pro owl-carousel">
-                {% for id, name, img_href, text, price, price_with_sale, sale in related_product %}
+                {% for id, name, text, price, price_with_sale, sale in related_product %}
                 <div class="single-product">
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="{{url}}/product/{{id}}">
-                            <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                            <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                         </a>
                     </div>
                     <!-- Product Image End -->
@@ -149,12 +149,12 @@
             </div>
             <!-- Upsell Product Activation Start -->
             <div class="new-upsell-pro owl-carousel">
-                {% for id, name, img_href, text, price, price_with_sale, sale in upsell_product %}
+                {% for id, name, text, price, price_with_sale, sale in upsell_product %}
                 <div class="single-product">
                     <!-- Product Image Start -->
                     <div class="pro-img">
                         <a href="{{url}}/product/{{id}}">
-                            <img class="primary-img" src="{{levelness}}{{img_href}}" alt="single-product">
+                            <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
                         </a>
                     </div>
                     <!-- Product Image End -->

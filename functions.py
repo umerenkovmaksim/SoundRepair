@@ -128,15 +128,15 @@ def get_cart_for_base(cart_list=None):
     if not cart_list:
         cart_list = get_cart_list()
 
-    colums_name = "id, name, img_href, price, sale"
+    colums_name = "id, name, price, sale"
     filters = f"id in {tuple(cart_list)}" if len(cart_list) > 1 else f"id == {cart_list[0]}"
 
     product_data = select_from_db(colums_name=colums_name, filters=filters)
 
-    product_data = recycle_list("id, name, img_href, price, sale",
-                                "id, name, img_href, price, price_with_sale, sale", product_data)
+    product_data = recycle_list("id, name, price, sale",
+                                "id, name, price, price_with_sale, sale", product_data)
 
-    total_sum = sum(list(map(lambda x: x[4] if x[4] else x[3], product_data)))
+    total_sum = sum(list(map(lambda x: x[3] if x[3] else x[2], product_data)))
 
     # вывод состоит из tuple с 3 элементами (product_data_len, product_data, total_sum)
     return len(product_data), product_data, total_sum
