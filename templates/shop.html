@@ -23,39 +23,47 @@
             <div class="col-lg-3  order-2">
                 <div class="sidebar white-bg">
                     <div class="single-sidebar">
+                        <div class="shop-filter">
+                            <div class="price-filter">
+                                <div class="min-price price-input">
+                                    <span>От</span><input type="number"><span>руб.</span>
+                                </div>
+                                <div class="max-price price-input">
+                                    <span>До</span><input type="number"><span>руб.</span>
+                                </div>
+                            </div>
+                            <div class="border"></div>
+                            <div class="categories-filter">
+                                <div class="filter__header">
+                                    <button class="filter__collapse-btn fa fa-angle-down"> Производители</button>
+                                </div>
+                                <div class="filter__content">
+                                    <ul class="filter__category-list">
+                                        {% for name in all_manufacturers %}
+                                        <li>
+                                            {% if name[0] in kwargs['manufacturer'] %}
+                                            <input type="checkbox" id="filter-manufacturer-{{name[0]}}" name="manufacturer" value="{{name[0]}}" checked>
+                                            {% else %}
+                                            <input type="checkbox" id="filter-manufacturer-{{name[0]}}" name="manufacturer" value="{{name[0]}}">
+                                            {% endif %}
+                                            <label for="filter-manufacturer-{{name[0]}}">{{name[0]}}</label>
+                                        </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>  
+                            <button onclick="ApplyFilters()" class="apply-filters">Применить</button>
+                        </div>
+                    </div>
+                    <div class="single-sidebar">
                         <div class="group-title">
                             <h2>Категории</h2>
                         </div>
                         <ul>
-                            {% for name, n, href, activ in categories %}
-                            {% if activ %}
-                            <li><a href="{{url}}/shop/{{href}}" style="color:#ce0000">
-                                {{name}} ({{n}})
-                            </a></li>
-                            {% else %}
+                            {% for name in all_categories %}
                             <li><a href="{{url}}/shop/{{href}}">
-                                {{name}} ({{n}})
+                                {{name[0]}}
                             </a></li>
-                            {% endif %}
-                            {% endfor %}
-                        </ul>
-                        </div>
-                    <div class="single-sidebar">
-                        <div class="group-title">
-                            <h2>Производители</h2>
-                        </div>
-                        <ul  class="manufactures-list">
-                            {% for name, n, href, activ in manufacturers %}
-                            {% if activ %}
-                            <li><a href="{{url}}/shop/{{href}}" style="color:#ce0000">
-                                {{name}} ({{n}})
-                            </a></li>
-                            {% else %}
-                            <li><a href="{{url}}/shop/{{href}}">
-                                {{name}} ({{n}})
-                            </a></li>
-                            {% endif %}
-
                             {% endfor %}
                         </ul>
                     </div>
@@ -73,7 +81,7 @@
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
                                         <a href="{{url}}/product/{{id}}">
-                                            <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                            <img class="primary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
                                         </a>
                                     </div>
                                     <!-- Product Image End -->
@@ -116,7 +124,7 @@
                                     <!-- Product Image Start -->
                                     <div class="pro-img">
                                         <a href="{{url}}/product/{{id}}">
-                                            <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                            <img class="primary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
                                         </a>
                                     </div>
                                     <!-- Product Image End -->
@@ -150,8 +158,8 @@
                     {% endif %}
                     <!-- Single Banner Start -->
                     <div class="single-sidebar single-banner zoom pt-20">
-                        <a href="#" class="hidden-sm"><img src="{{levelness}}static/img/banner/8.jpg" alt="slider-banner"></a>
-                        <a href="#" class="visible-sm"><img src="{{levelness}}static/img/banner/6.jpg" alt="slider-banner"></a>
+                        <a href="#" class="hidden-sm"><img src="{{url_for('static', filename='img/products/8.jpg')}}" alt="slider-banner"></a>
+                        <a href="#" class="visible-sm"><img src="{{url_for('static', filename='img/products/6.jpg')}}" alt="slider-banner"></a>
                     </div>
                     <!-- Single Banner End -->
                 </div>
@@ -188,22 +196,20 @@
                             </div>
                             <div class="sort-section">
                                 <label>Сортировать по</label>
-                            {% if sort_type == "name" %}
-                                <a class="sort" href="{{url}}/shop/{{button_sort_href}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
+                            {% if kwargs.get('sort_type') == "name" %}
+                                <a class="sort" href="{{url_for('shop', sort_type='name', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
+                                <a class="sort-2" href="{{url_for('shop', sort_type='cost', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
                             {% else %}
-                                <a class="sort-2" href="{{url}}/shop/{{button_sort_href}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
-                            {% endif %}
-
-                            {% if sort_type == "name" %}
-                                <a class="sort-2" href="{{url}}/shop/{{button_sort_href}}" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
-                            {% else %}
-                                <a class="sort" href="{{url}}/shop/{{button_sort_href}}" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
+                                <a class="sort-2" href="{{url_for('shop', sort_type='name', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
+                                <a class="sort" href="{{url_for('shop', sort_type='cost', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
                             {% endif %}
 
                             {% if is_reverse %}
-                                <span><a href="{{url}}/shop/{{arrow_sort_href}}"><i class="fa fa-arrow-down"></i></a></span>
+                                {%- set _ = kwargs.update({'is_reverse': 0}) -%}
+                                <span><a href="{{url_for('shop', **kwargs)}}"><i class="fa fa-arrow-down"></i></a></span>
                             {% else %}
-                                <span><a href="{{url}}/shop/{{arrow_sort_href}}"><i class="fa fa-arrow-up"></i></a></span>
+                                {%- set _ = kwargs.update({'is_reverse': 1}) -%}
+                                <span><a href="{{url_for('shop', **kwargs)}}"><i class="fa fa-arrow-up"></i></a></span>
                             {% endif %}
                             </div>
                         </div>

@@ -131,8 +131,87 @@ def product(product_id):
     return res
 
 
-@app.route('/shop/<manufacturers_filter>-<category>&<sort_type>-<is_reverse>&<page>')
-def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=False, page=1):
+@app.route('/shop')
+def shop():
+    kwargs = {'page': 1, 'is_reverse': 0, 'sort_type': 'name'} | dict(request.args)
+
+    manufactures = kwargs.get('manufacturer').split(',') if kwargs.get('manufacturer') else []
+    categories = kwargs.get('categories').split(',') if kwargs.get('categories') else []
+
+    filters = []
+    if manufactures:
+        filters.append(f'''manufacturer IN {tuple(manufactures) if len(manufactures) > 1 else f"('{manufactures[0]}')"}''')
+    if categories:
+        filters.append(f'''categories IN {tuple(categories) if len(categories) > 1 else f"('{categories[0]}')"}''')
+
+    #  PRODUCTS ---------------------------------------------------------------------------------------------------
+    products = select_from_db(colums_name="id, name, short_description, price, sale",
+                              filters=' AND '.join(filters))
+    print(filters)
+    products = sorted(products, key=lambda x: (x[1], x[3]) if kwargs.get('sort_type') == "name" else (x[3], x[1]),
+                      reverse=int(kwargs.get('is_reverse')))
+
+    products = recycle_list("id, name, text, price, sale",
+                            "id, name, text, price, price_with_sale, sale",
+                            products)
+    #  RANDOM PRODUCTS --------------------------------------------------------------------------------------------
+    random_product_list = select_from_db(colums_name="id, name, price, sale")
+    random_product_list = random.sample(random_product_list, 9)
+    random_product_mat = [random_product_list[:3], random_product_list[3:6], random_product_list[6:]]
+
+    new_random_product_mat = []
+    for product_list in random_product_mat:
+        new_product_list = recycle_list("id, name, price, sale",
+                                        "id, name, price, price_with_sale, sale",
+                                        product_list)
+        new_random_product_mat.append(new_product_list)
+
+    #  WISHLIST --------------------------------------------------------------------------------------------------
+    wishlist_list = get_wishlist_list()
+
+    filters = ""
+    if wishlist_list:
+        if len(wishlist_list) > 1:
+            filters = f"id in {tuple(wishlist_list)}"
+        elif len(wishlist_list) == 1:
+            filters = f"id == {wishlist_list[0]}"
+
+    if filters:
+        colums_name = "id, name, price, sale"
+        wishlist_product_list = select_from_db(colums_name=colums_name, filters=filters)
+    else:
+        wishlist_product_list = []
+
+    wishlist_product_list = recycle_list("id, name, price, sale",
+                                         "id, name, price, price_with_sale, sale",
+                                         wishlist_product_list)
+
+    #  OTHER ------------------------------------------------------------------------------------------------------
+    
+    max_page = math.ceil(len(products) / 12)
+    page = int(kwargs.get('page'))
+
+    grid_item_list_text = f"Товары {1 + 12 * (page - 1) if len(products) > 0 else 0}-" \
+                          f"{min(len(products), 12 * page)} из {len(products)}"
+
+    all_categories = sorted(list(set(select_from_db(colums_name="categories"))), key=lambda x: x[0])
+    all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
+
+    if page > max_page and len(products) != 0:
+        return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
+                               cart_data=get_cart_for_base(), categories_for_base=get_categories())
+
+    res = make_response(
+        render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs, all_categories=all_categories,
+                        product_mat=new_random_product_mat, products_list=products, grid_item_list_text=grid_item_list_text, 
+                        max_page=max_page, page=page, cart_data=get_cart_for_base(), categories_for_base=get_categories(),
+                        wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')), all_manufacturers=all_manufacturers))
+
+    return res
+
+
+# @app.route('/shop/<manufacturers_filter>-<category>&<sort_type>-<is_reverse>&<page>')
+# def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=False, page=1):
     print(manufacturers_filter, category, sort_type, is_reverse, page)
     full_url = f"{manufacturers_filter}-{category}&{sort_type}-{is_reverse}"
 

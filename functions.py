@@ -26,7 +26,7 @@ def select_from_db(table_name="products", colums_name="*", filters=None):
     if filters:
         request += f" WHERE {filters}"
 
-    # print(request)
+    print(request)
     # print()
 
     res = cur.execute(request).fetchall() if 'None' not in request else []
@@ -67,7 +67,7 @@ def get_wishlist_list():
 
     wishlist_list = request.cookies.get("wishlist")
     if wishlist_list:
-        wishlist_list = wishlist_list.split("&")
+        wishlist_list = wishlist_list.split("$")
         wishlist_list = list(map(int, wishlist_list))
         return wishlist_list
     return []
