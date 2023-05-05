@@ -115,7 +115,7 @@ def recycle_list(inp, out, data_list):
                 if data_dict["sale"] != 0:
                     out_list.append(data_dict["price"] * (1 - data_dict["sale"] * 0.01))
                 else:
-                    out_list.append(None)
+                    out_list.append(int(data_dict["price"]) if int(data_dict["price"]) == data_dict["price"] else data_dict["price"])
 
             elif key == "price_with_sale_or_price":
                 if data_dict["sale"] != 0:

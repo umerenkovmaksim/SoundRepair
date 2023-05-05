@@ -71,7 +71,7 @@
                             <div class="middle-menu pull-right">
                                 <nav>
                                     <ul class="middle-menu-list">
-                                        <li><a href="{{url}}/shop/None-None&name-False&1">Каталог<i class="fa fa-angle-down"></i></a>
+                                        <li><a href="{{url}}/shop">Каталог<i class="fa fa-angle-down"></i></a>
                                             <!-- Home Version Dropdown Start -->
                                             <ul class="ht-dropdown dropdown-style-two">
                                                 {% for category in categories_for_base %}
@@ -275,6 +275,8 @@
     <script src="{{url_for('static', filename='js/shop-filter.js')}}"></script>
     <!-- price slider js -->
     <script src="{{url_for('static', filename='js/price-slider.js')}}"></script>
+    <!-- filter menu slider js -->
+    <script src="{{url_for('static', filename='js/filter-menu-slider.js')}}"></script>
 </body>
 
 </html>

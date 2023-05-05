@@ -137,6 +137,7 @@ def shop():
 
     manufactures = kwargs.get('manufacturer').split(',') if kwargs.get('manufacturer') else []
     categories = kwargs.get('categories').split(',') if kwargs.get('categories') else []
+    price = tuple(map(float, kwargs.get('price').split('-'))) if kwargs.get('price') else []
 
     filters = []
     if manufactures:
@@ -147,13 +148,15 @@ def shop():
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
     products = select_from_db(colums_name="id, name, short_description, price, sale",
                               filters=' AND '.join(filters))
-    print(filters)
-    products = sorted(products, key=lambda x: (x[1], x[3]) if kwargs.get('sort_type') == "name" else (x[3], x[1]),
-                      reverse=int(kwargs.get('is_reverse')))
 
     products = recycle_list("id, name, text, price, sale",
                             "id, name, text, price, price_with_sale, sale",
                             products)
+    
+    products = sorted(products, key=lambda x: (x[1], x[4]) if kwargs.get('sort_type') == "name" else (x[4], x[1]),
+                      reverse=int(kwargs.get('is_reverse')))
+    
+    products = list(filter(lambda x: price[0] <= x[4] and (price[1] >= x[4] if price[1] != 'inf' else True), products)) if price else products
     #  RANDOM PRODUCTS --------------------------------------------------------------------------------------------
     random_product_list = select_from_db(colums_name="id, name, price, sale")
     random_product_list = random.sample(random_product_list, 9)
@@ -197,14 +200,19 @@ def shop():
     all_categories = sorted(list(set(select_from_db(colums_name="categories"))), key=lambda x: x[0])
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
 
+    filter_price = kwargs.get('price').split('-') if kwargs.get('price') else ['', 'inf']
+    
+    price_sorted = sorted(products, key=lambda x: x[4])
+    min_price, max_price = price_sorted[0][4], price_sorted[-1][4]
+
     if page > max_page and len(products) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
                                cart_data=get_cart_for_base(), categories_for_base=get_categories())
 
     res = make_response(
-        render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs, all_categories=all_categories,
-                        product_mat=new_random_product_mat, products_list=products, grid_item_list_text=grid_item_list_text, 
-                        max_page=max_page, page=page, cart_data=get_cart_for_base(), categories_for_base=get_categories(),
+        render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs, all_categories=all_categories, filter_price=filter_price,
+                        product_mat=new_random_product_mat, products_list=products, grid_item_list_text=grid_item_list_text, max_price=max_price,
+                        max_page=max_page, page=page, cart_data=get_cart_for_base(), categories_for_base=get_categories(), min_price=min_price,
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')), all_manufacturers=all_manufacturers))
 
     return res

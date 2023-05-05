@@ -15,6 +15,28 @@
 </div>
 <!-- Breadcrumb End -->
 <!-- Shop Page Start -->
+<div class="wrapper">
+	<div class="menu-mobile--itself">
+		<div class="close">
+			<i class="fa fa-times-circle" aria-hidden="true"></i>
+		</div>
+		<ul>
+			<li>Option #1</li>
+			<li>Option #2</li>
+			<li>Option #3</li>
+			<li>Option #4</li>
+			<li>Option #5</li>
+		</ul>		
+	</div>
+	<div class="menu_block">
+		<div class="image-block logo">
+			<img src="http://www.juggcash.com/images/hd_tools/default_logo.png" alt="" />
+		</div>
+		<div class="menu_icon">
+			<i class="fa fa-bars" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
 <div class="main-shop-page pb-60">
     <div class="container">
         <!-- Row End -->
@@ -26,10 +48,19 @@
                         <div class="shop-filter">
                             <div class="price-filter">
                                 <div class="min-price price-input">
-                                    <span>От</span><input type="number"><span>руб.</span>
+                                    {% if kwargs.get('price') %}
+                                        <span>От</span><input id="minPriceInput" type="number" placeholder="{{min_price}}" value={{filter_price[0]}}><span>руб.</span>
+                                    {% else %}
+                                        <span>От</span><input id="minPriceInput" type="number" placeholder="{{min_price}}"><span>руб.</span>
+                                    {% endif %}
                                 </div>
                                 <div class="max-price price-input">
-                                    <span>До</span><input type="number"><span>руб.</span>
+                                    {% if kwargs.get('price') %}
+                                        <span>До</span><input id="maxPriceInput" type="number" placeholder="{{max_price}}" value={{filter_price[1]}}><span>руб.</span>
+                                    {% else %}
+                                        <span>До</span><input id="maxPriceInput" type="number" placeholder="{{max_price}}"><span>руб.</span>
+                                    {% endif %}
+                                    
                                 </div>
                             </div>
                             <div class="border"></div>

@@ -11,55 +11,43 @@ filterHeaders.forEach(filterHeader => {
     collapseBtn.classList.toggle('fa-angle-down');
 
   });
-
-  // Add change event to checkbox
-  const checkboxes = filterContent.querySelectorAll('input[type="checkbox"]');
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => {
-      const selectedCategories = getSelectedCategories();
-      const url = buildUrl(selectedCategories);
-    //   window.location.href = url;
-    });
-  });
 });
 
-// Get selected categories
-function getSelectedCategories() {
-  const checkboxes = document.querySelectorAll('input[name="manufacturer"]');
-  const selectedCategories = [];
-  checkboxes.forEach(checkbox => {
-    if (checkbox.checked) {
-      selectedCategories.push(checkbox.value);
-    }
-  });
-  return selectedCategories;
-}
-
-// Build url with selected categories
-function buildUrl(selectedCategories) {
-    const url = new URL(window.location.href);
-    const categories = url.searchParams.getAll('category');
-    categories.forEach(category => {
-      url.searchParams.delete('category');
-    });
-    selectedCategories.forEach(category => {
-      categories.push(category);
-    });
-    categories.forEach(category => {
-      url.searchParams.append('category', category);
-    });
-    return url.href;
-  }
-  
 function ApplyFilters() {
-    console.log('dsfdsf')
     const selectedFilters = [];
     const checkboxes = document.querySelectorAll('input[name="manufacturer"]:checked');
     checkboxes.forEach(checkbox => {
         selectedFilters.push(checkbox.value);
     });
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.set('manufacturer', selectedFilters.join(','));
+    if (selectedFilters.length > 0) {
+      currentUrl.searchParams.set('manufacturer', selectedFilters.join(','));
+    } else {
+        currentUrl.searchParams.delete('manufacturer');
+    }
+    let minPrice = document.getElementById('minPriceInput').value;
+    let maxPrice = document.getElementById('maxPriceInput').value;
+  
+    // Если значения не были введены, то удаляем параметр
+    if (!minPrice && !maxPrice) {
+      currentUrl.searchParams.delete('price');
+      window.location.href = currentUrl;
+      return;
+    }
+  
+    // Если отсутствует minPrice, то устанавливаем его в 0
+    if (!minPrice) {
+      minPrice = 0;
+    }
+  
+    // Если отсутствует maxPrice, то устанавливаем его в inf
+    if (!maxPrice) {
+      maxPrice = 'inf';
+    }
+  
+    // Объединяем значения в одну строку и устанавливаем параметр в url
+    const priceRange = `${minPrice}-${maxPrice}`;
+    currentUrl.searchParams.set('price', priceRange);
     window.location.href = currentUrl;
 }
   

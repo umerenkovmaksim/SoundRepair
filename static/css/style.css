@@ -547,6 +547,7 @@ input[type="checkbox"] {
   .filter__content {
     padding: 10px;
     display: none;
+    transition: all 0.3s ease 0s;
   }
   
   .filter__content.show {
@@ -563,7 +564,63 @@ input[type="checkbox"] {
     display: block;
     white-space: nowrap;
   }
-
+  .menu-mobile--itself {
+    position: absolute;
+    padding: 30px;
+    background-color: #333;
+    width: 50%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    -webkit-transform: translateX(100%);
+            transform: translateX(100%);
+    -webkit-transition: cubic-bezier(0.52, 0.26, 0, 0.92) 0.5s;
+    transition: cubic-bezier(0.52, 0.26, 0, 0.92) 0.5s;
+    color: #fff;
+    z-index: 10000;
+  }
+  .menu-mobile--itself.show {
+    -webkit-transform: translateX(0);
+            transform: translateX(0);
+  }
+  .menu-mobile--itself .close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 22px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
+  .menu_block {
+    border: 1px solid #f2f2f2;
+    display: table;
+    width: 100%;
+  }
+  .menu_block .logo, .menu_block .menu_icon {
+    display: table-cell;
+    width: 50%;
+    vertical-align: middle;
+  }
+  .menu_block .logo {
+    padding: 10px;
+  }
+  .menu_block .logo img {
+    max-width: 200px;
+    width: 100%;
+    vertical-align: middle;
+  }
+  .menu_block .menu_icon {
+    font-size: 32px;
+    text-align: right;
+    padding: 0 30px;
+    -webkit-transition: 500ms;
+    transition: 500ms;
+    cursor: pointer;
+  }
+  .menu_block .menu_icon:hover {
+    color: #727272;
+  }
   
 /*----------------------------------------*/
 /* 3.3 Header Bottom CSS 
