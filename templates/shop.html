@@ -215,24 +215,49 @@
                                 <input type="checkbox" id="checkbox">
                                 <nav>
                                     <ul>
-                                        <li><a class="active" href="#">По возрастанию цены</a></li>
-                                        <li><a href="#">По убыванию цены</a></li>
-                                        <li><a href="#">От А до Я</a></li>
-                                        <li><a href="#">От Я до А</a></li>
+                                        {% if not is_reverse and kwargs['sort_type'] == 'cost' %}
+                                        <li><a class="active" data-type="cost" data-reverse="0" href="#">По возрастанию цены</a></li>
+                                        <li><a data-type="cost" data-reverse="1" href="#">По убыванию цены</a></li>
+                                        <li><a data-type="name" data-reverse="0" href="#">От А до Я</a></li>
+                                        <li><a data-type="name" data-reverse="1" href="#">От Я до А</a></li>
+                                        {% elif is_reverse and kwargs['sort_type'] == 'cost' %}
+                                        <li><a data-type="cost" data-reverse="0" href="#">По возрастанию цены</a></li>
+                                        <li><a class="active" data-type="cost" data-reverse="1" href="#">По убыванию цены</a></li>
+                                        <li><a data-type="name" data-reverse="0" href="#">От А до Я</a></li>
+                                        <li><a data-type="name" data-reverse="1" href="#">От Я до А</a></li>
+                                        {% elif not is_reverse and kwargs['sort_type'] == 'name' %}
+                                        <li><a data-type="cost" data-reverse="0" href="#">По возрастанию цены</a></li>
+                                        <li><a data-type="cost" data-reverse="1" href="#">По убыванию цены</a></li>
+                                        <li><a class="active" data-type="name" data-reverse="0" href="#">От А до Я</a></li>
+                                        <li><a data-type="name" data-reverse="1" href="#">От Я до А</a></li>
+                                        {% else %}
+                                        <li><a data-type="cost" data-reverse="0" href="#">По возрастанию цены</a></li>
+                                        <li><a data-type="cost" data-reverse="1" href="#">По убыванию цены</a></li>
+                                        <li><a data-type="name" data-reverse="0" href="#">От А до Я</a></li>
+                                        <li><a class="active" data-type="name" data-reverse="1" href="#">От Я до А</a></li>
+                                        {% endif %}
                                     </ul>
                                 </nav>
                                 <label for="checkbox">
+                                    {% if not is_reverse and kwargs['sort_type'] == 'cost' %}
                                     <i class="fa fa-angle-down menu-icon"> По возрастанию цены</i>
+                                    {% elif is_reverse and kwargs['sort_type'] == 'cost' %}
+                                    <i class="fa fa-angle-down menu-icon"> По убыванию цены</i>
+                                    {% elif not is_reverse and kwargs['sort_type'] == 'name' %}
+                                    <i class="fa fa-angle-down menu-icon"> От А до Я</i>
+                                    {% else %}
+                                    <i class="fa fa-angle-down menu-icon"> От Я до А</i>
+                                    {% endif %}
                                 </label>
                             </div>
                             <div class="sort-section">
                                 <label>Сортировать по</label>
                             {% if kwargs.get('sort_type') == "name" %}
-                                <a class="sort" href="{{url_for('shop', sort_type='name', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
-                                <a class="sort-2" href="{{url_for('shop', sort_type='cost', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
+                                <a class="sort sort-name" href="" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
+                                <a class="sort-2 sort-cost" href="" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
                             {% else %}
-                                <a class="sort-2" href="{{url_for('shop', sort_type='name', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
-                                <a class="sort" href="{{url_for('shop', sort_type='cost', is_reverse=is_reverse)}}" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
+                                <a class="sort-2 sort-name" href="" data-toggle="tooltip" title="Сортировать продукты по названию">Названию</a>
+                                <a class="sort sort-cost" href="" data-toggle="tooltip" title="Сортировать продукты по цене">Цене</a>
                             {% endif %}
 
                             {% if is_reverse %}

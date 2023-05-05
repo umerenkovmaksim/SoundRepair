@@ -50,4 +50,32 @@ function ApplyFilters() {
     currentUrl.searchParams.set('price', priceRange);
     window.location.href = currentUrl;
 }
-  
+
+const sortNameLink = document.querySelector('.sort-name');
+const sortCostLink = document.querySelector('.sort-cost');
+
+sortNameLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('sort_type', 'name');
+  window.location.href = currentUrl.toString();
+});
+
+sortCostLink.addEventListener('click', (event) => {
+  event.preventDefault();
+  const currentUrl = new URL(window.location.href);
+  currentUrl.searchParams.set('sort_type', 'cost');
+  window.location.href = currentUrl.toString();
+});
+function sortProducts(e) {
+  e.preventDefault();
+  const sortType = this.getAttribute("data-type");
+  const isReverse = this.getAttribute("data-reverse");
+  const url = new URL(window.location.href);
+  url.searchParams.set("sort_type", sortType);
+  url.searchParams.set("is_reverse", isReverse);
+  window.location.href = url.toString();
+  document.querySelector(".menu-icon").textContent = this.textContent;
+}
+const menuLinks = document.querySelectorAll(".menu-wrap a");
+menuLinks.forEach(link => link.addEventListener("click", sortProducts));
