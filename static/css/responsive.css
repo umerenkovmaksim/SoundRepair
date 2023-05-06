@@ -247,12 +247,18 @@
 .dashboard-content #orders .table-responsive .table > tbody > tr > td {
   min-width: 130px;
 }
+.menu_block {
+    display: table;
+  }
 }
 
 /*----------------------------------------*/
 /*  small mobile :320px.
 /*----------------------------------------*/
 @media (max-width: 767px) {
+.menu_block {
+    display: table;
+    }
 .single-policy .icone-img {
     width: 56px;
 }
@@ -852,6 +858,9 @@ p.checkout-coupon input[type="submit"] {
 .contact-block {
     display: none
 }
+.menu_block {
+    display: table;
+  }
 .text-content h1 {
     font-size: 26px;
     line-height: 34px;
@@ -1002,6 +1011,9 @@ p.checkout-coupon input[type="submit"] {
 .contact-block {
     display: none
 }
+.menu_block {
+    display: table;
+  }
 .upper-banner.banner .row [class*="col"]:not(:last-child) {
     margin-bottom: 30px;
 }
