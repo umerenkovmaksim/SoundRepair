@@ -220,7 +220,6 @@ def shop():
 
 # @app.route('/shop/<manufacturers_filter>-<category>&<sort_type>-<is_reverse>&<page>')
 # def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=False, page=1):
-    print(manufacturers_filter, category, sort_type, is_reverse, page)
     full_url = f"{manufacturers_filter}-{category}&{sort_type}-{is_reverse}"
 
     manufacturers_filter = '' if manufacturers_filter == "None" else manufacturers_filter
@@ -386,14 +385,17 @@ def contact_page():
                            title='SoundRepair | Контакты', categories_for_base=get_categories())
 
 
-@app.route('/wishlist/<action>$$<product_id>')
-def wishlist(action, product_id):
-    wishlist_list = get_wishlist_list()
+@app.route('/wishlist')
+def wishlist():
+    kwargs = {'action': "see", 'product_id': None} | dict(request.args)
 
-    if action == "add":
-        wishlist_list.append(int(product_id))
-    elif action == "del" and int(product_id) in wishlist_list:
-        wishlist_list.remove(int(product_id))
+    wishlist_list = get_wishlist_list()
+    print(wishlist_list)
+
+    if kwargs["action"] == "add":
+        wishlist_list.append(int(kwargs["product_id"]))
+    elif kwargs["action"] == "del" and int(kwargs["product_id"]) in wishlist_list:
+        wishlist_list.remove(int(kwargs["product_id"]))
 
     filters = ""
     if bool(wishlist_list):
@@ -427,18 +429,19 @@ def wishlist(action, product_id):
     return res
 
 
-@app.route('/cart/<action>$$<product_id>')
-def cart(action, product_id):
+@app.route('/cart')
+def cart():
     # Находим все товары с id из wishlist_list
     # product_data = [(id, name, price, sale)]
+    kwargs = {'action': "see", 'product_id': None} | dict(request.args)
 
     cart_list = get_cart_list()
-    print(cart_list, action, product_id)
+    print(cart_list, kwargs["action"], kwargs["product_id"])
 
-    if action == "add":
-        cart_list.append(int(product_id))
-    elif action == "del" and int(product_id) in cart_list:
-        cart_list.remove(int(product_id))
+    if kwargs["action"] == "add":
+        cart_list.append(int(kwargs["product_id"]))
+    elif kwargs["action"] == "del" and int(kwargs["product_id"]) in cart_list:
+        cart_list.remove(int(kwargs["product_id"]))
 
     print(cart_list)
 

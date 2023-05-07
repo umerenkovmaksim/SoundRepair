@@ -57,7 +57,7 @@
                                                 {% endif %}
                                             </td>
                                             <td class="product-subtotal"><span class="amount">{{price_with_sale}}₽</span></td>
-                                            <td class="product-remove"> <a href="{{url}}/cart/del$${{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                                            <td class="product-remove"> <a href="{{url}}/cart?action=del&product_id={{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

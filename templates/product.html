@@ -7,7 +7,7 @@
         <div class="breadcrumb">
             <ul>
                 <li><a href="{{url}}">Главная страница</a></li>
-                <li><a href="{{url}}/shop/&$&/name$up/1">Каталог</a></li>
+                <li><a href="{{url}}/shop">Каталог</a></li>
                 <li class="active"><a href="{{url}}/product/{{product_id}}">Товар</a></li>
             </ul>
         </div>
@@ -50,12 +50,12 @@
                     <br>
                     <div class="box-quantity">
                         <form action="#">
-                            <a class="add-cart" href="{{url}}/cart/add$${{product_data[0]}}">add to cart</a>
+                            <a class="add-cart" href="{{url}}/cart?action=add&product_id={{product_data[0]}}">add to cart</a>
                         </form>
                     </div>
                     <div class="product-link">
                         <ul class="list-inline">
-                            <li><a href="wishlist.html">Добавить в Избранное</a></li>
+                            <li><a href="{{url}}/wishlist?action=add&product_id={{product_data[0]}}">Добавить в Избранное</a></li>
                         </ul>
                     </div>
                     <p class="ptb-20">{{product_data[2]}}</p>

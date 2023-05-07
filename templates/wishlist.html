@@ -46,13 +46,13 @@
                                     <tbody>
                                     {%for id, name, price in new_product_data %}
                                         <tr>
-                                            <td class="product-remove"> <a href="{{url}}/wishlist/del$${{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
+                                            <td class="product-remove"> <a href="{{url}}/wishlist?action=del&product_id={{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                             <td class="product-thumbnail">
                                                 <a href="{{url}}/product/{{id}}"><img src="{{levelness}}/static/img/products/{{id}}.jpg.jpg" alt="cart-image" /></a>
                                             </td>
                                             <td class="product-name"><a href="{{url}}/product/{{id}}">{{name}}</a></td>
                                             <td class="product-price"><span class="amount">{{price}}₽</span></td>
-                                            <td class="product-add-to-cart"><a href="{{url}}/cart/add$${{id}}">Добавить</a></td>
+                                            <td class="product-add-to-cart"><a href="{{url}}/cart?action=add&product_id={{id}}">Добавить</a></td>
                                         </tr>
                                     {% endfor %}
                                     </tbody>

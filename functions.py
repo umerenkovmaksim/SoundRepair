@@ -67,7 +67,7 @@ def get_wishlist_list():
 
     wishlist_list = request.cookies.get("wishlist")
     if wishlist_list:
-        wishlist_list = wishlist_list.split("$")
+        wishlist_list = wishlist_list.split("&")
         wishlist_list = list(map(int, wishlist_list))
         return wishlist_list
     return []
