@@ -27,6 +27,7 @@ function ApplyFilters() {
     }
     let minPrice = document.getElementById('minPriceInput').value;
     let maxPrice = document.getElementById('maxPriceInput').value;
+    console.log(minPrice)
   
     // Если значения не были введены, то удаляем параметр
     if (!minPrice && !maxPrice) {
@@ -50,6 +51,52 @@ function ApplyFilters() {
     currentUrl.searchParams.set('price', priceRange);
     window.location.href = currentUrl;
 }
+
+function ApplyFilters_2() {
+  const selectedFilters = [];
+  const checkboxes = document.querySelectorAll('input[name="manufacturer-2"]:checked');
+  checkboxes.forEach(checkbox => {
+      selectedFilters.push(checkbox.value);
+  });
+  const currentUrl = new URL(window.location.href);
+  if (selectedFilters.length > 0) {
+    currentUrl.searchParams.set('manufacturer', selectedFilters.join(','));
+  } else {
+      currentUrl.searchParams.delete('manufacturer');
+  }
+  let minPrice = document.getElementById('minPriceInput-2').value;
+  let maxPrice = document.getElementById('maxPriceInput-2').value;
+  console.log(minPrice)
+
+  // Если значения не были введены, то удаляем параметр
+  if (!minPrice && !maxPrice) {
+    currentUrl.searchParams.delete('price');
+    window.location.href = currentUrl;
+    return;
+  }
+
+  // Если отсутствует minPrice, то устанавливаем его в 0
+  if (!minPrice) {
+    minPrice = 0;
+  }
+
+  // Если отсутствует maxPrice, то устанавливаем его в inf
+  if (!maxPrice) {
+    maxPrice = 'inf';
+  }
+
+  // Объединяем значения в одну строку и устанавливаем параметр в url
+  const priceRange = `${minPrice}-${maxPrice}`;
+  currentUrl.searchParams.set('price', priceRange);
+  window.location.href = currentUrl;
+}
+
+function setPageNumber(pageNumber) {
+  var url = new URL(window.location.href);
+  url.searchParams.set('page', pageNumber);
+  window.location.href = url;
+}
+
 
 const sortNameLink = document.querySelector('.sort-name');
 const sortCostLink = document.querySelector('.sort-cost');

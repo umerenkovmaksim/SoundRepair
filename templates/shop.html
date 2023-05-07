@@ -20,13 +20,46 @@
 		<div class="close">
 			<i class="fa fa-times-circle" aria-hidden="true"></i>
 		</div>
-		<ul>
-			<li>Option #1</li>
-			<li>Option #2</li>
-			<li>Option #3</li>
-			<li>Option #4</li>
-			<li>Option #5</li>
-		</ul>		
+		<div class="shop-filter">
+            <div class="price-filter">
+                <div class="min-price price-input">
+                    {% if kwargs.get('price') %}
+                        <span>От</span><input id="minPriceInput-2" type="number" placeholder="{{min_price}}" value={{filter_price[0]}}><span>руб.</span>
+                    {% else %}
+                        <span>От</span><input id="minPriceInput-2" type="number" placeholder="{{min_price}}"><span>руб.</span>
+                    {% endif %}
+                </div>
+                <div class="max-price price-input">
+                    {% if kwargs.get('price') %}
+                        <span>До</span><input id="maxPriceInput-2" type="number" placeholder="{{max_price}}" value={{filter_price[1]}}><span>руб.</span>
+                    {% else %}
+                        <span>До</span><input id="maxPriceInput-2" type="number" placeholder="{{max_price}}"><span>руб.</span>
+                    {% endif %}
+                    
+                </div>
+            </div>
+            <div class="border"></div>
+            <div class="categories-filter">
+                <div class="filter__header">
+                    <button class="filter__collapse-btn fa fa-angle-down"> Производители</button>
+                </div>
+                <div class="filter__content">
+                    <ul class="filter__category-list">
+                        {% for name in all_manufacturers %}
+                        <li>
+                            {% if name[0] in kwargs['manufacturer'] %}
+                            <input type="checkbox" id="filter-manufacturer-{{name[0]}}" name="manufacturer-2" value="{{name[0]}}" checked>
+                            {% else %}
+                            <input type="checkbox" id="filter-manufacturer-{{name[0]}}" name="manufacturer-2" value="{{name[0]}}">
+                            {% endif %}
+                            <label for="filter-manufacturer-{{name[0]}}">{{name[0]}}</label>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>  
+            <button onclick="ApplyFilters_2()" class="apply-filters">Применить</button>
+        </div>
 	</div>
 	<div class="menu_block">
 		<div class="image-block logo">
@@ -365,9 +398,9 @@
                     <ul class="blog-pagination ">
                         {% for n in range(1, max_page + 1) %}
                         {% if n == page %}
-                            <li class="active"><a href="{{url}}/shop/{{full_url}}{{n}}">{{n}}</a></li>
+                            <li class="active"><button onclick="setPageNumber({{n}})">{{n}}</button></li>
                         {% else %}
-                            <li><a href="{{url}}/shop/{{full_url}}{{n}}">{{n}}</a></li>
+                            <li><button onclick="setPageNumber({{n}})">{{n}}</button></li>
                         {% endif %}
                         {% endfor %}
 
@@ -377,7 +410,7 @@
                 </div>
                 <!--Breadcrumb and Page Show End -->
                 {% else %}
-                <h1>Здесь ничего нет</h1>
+                <center><h1>Ничего не найдено</h1></center>
                 {% endif %}
             </div>
             <!-- product Categorie List End -->

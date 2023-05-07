@@ -86,11 +86,11 @@ def product(product_id):
     # Берется по id товар
     filters = f"id == {product_id}"
 
-    product_data = [select_from_db(filters=filters)[0]]
+    product_data = [select_from_db(filters=filters, colums_name='id, name, short_description, description, manufacturer, categories, sale, price')[0]]
 
     product_data = recycle_list(
         "id, name, short_description, description, manufacturer, categories, sale, price",
-        "id, name, short_description, description, manufacturer, categories, price_with_sale, price",
+        "id, name, short_description, description, manufacturer, categories, sale, price_with_sale, price",
         product_data)
 
     product_data = tuple(product_data[0])
@@ -119,7 +119,7 @@ def product(product_id):
     upsell_product = recycle_list("id, name, short_description, price, sale",
                                   "id, name, short_description, price, price_with_sale, sale",
                                   upsell_product)
-
+    print(product_data)
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
                         levelness="../", url=WEBSITE_URL, related_product=related_product,
@@ -150,7 +150,7 @@ def shop():
                               filters=' AND '.join(filters))
 
     products = recycle_list("id, name, text, price, sale",
-                            "id, name, text, price, price_with_sale, sale",
+                            "id, name, text, price, price_with_sale_or_price, sale",
                             products)
     
     products = sorted(products, key=lambda x: (x[1], x[4]) if kwargs.get('sort_type') == "name" else (x[4], x[1]),
@@ -165,7 +165,7 @@ def shop():
     new_random_product_mat = []
     for product_list in random_product_mat:
         new_product_list = recycle_list("id, name, price, sale",
-                                        "id, name, price, price_with_sale, sale",
+                                        "id, name, price, price_with_sale_or_price, sale",
                                         product_list)
         new_random_product_mat.append(new_product_list)
 
@@ -186,7 +186,7 @@ def shop():
         wishlist_product_list = []
 
     wishlist_product_list = recycle_list("id, name, price, sale",
-                                         "id, name, price, price_with_sale, sale",
+                                         "id, name, price, price_with_sale_or_price, sale",
                                          wishlist_product_list)
 
     #  OTHER ------------------------------------------------------------------------------------------------------
@@ -203,7 +203,7 @@ def shop():
     filter_price = kwargs.get('price').split('-') if kwargs.get('price') else ['', 'inf']
     
     price_sorted = sorted(products, key=lambda x: x[4])
-    min_price, max_price = price_sorted[0][4], price_sorted[-1][4]
+    min_price, max_price = (price_sorted[0][4], price_sorted[-1][4]) if price_sorted else ('', '')
 
     if page > max_page and len(products) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
@@ -211,7 +211,7 @@ def shop():
 
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs, all_categories=all_categories, filter_price=filter_price,
-                        product_mat=new_random_product_mat, products_list=products, grid_item_list_text=grid_item_list_text, max_price=max_price,
+                        product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12], grid_item_list_text=grid_item_list_text, max_price=max_price,
                         max_page=max_page, page=page, cart_data=get_cart_for_base(), categories_for_base=get_categories(), min_price=min_price,
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')), all_manufacturers=all_manufacturers))
 

@@ -113,15 +113,15 @@ def recycle_list(inp, out, data_list):
 
             elif key == "price_with_sale":
                 if data_dict["sale"] != 0:
-                    out_list.append(data_dict["price"] * (1 - data_dict["sale"] * 0.01))
+                    out_list.append(int((data_dict["price"]) * (1 - int(data_dict["sale"]) * 0.01)))
                 else:
-                    out_list.append(int(data_dict["price"]) if int(data_dict["price"]) == data_dict["price"] else data_dict["price"])
+                    out_list.append(None)
 
             elif key == "price_with_sale_or_price":
                 if data_dict["sale"] != 0:
                     out_list.append(int(data_dict["price"] * (1 - data_dict["sale"] * 0.01)))
                 else:
-                    out_list.append(data_dict["price"])
+                    out_list.append(int(data_dict["price"]))
 
             elif key == "count_in_cart":
                 cart_list = get_cart_list()
