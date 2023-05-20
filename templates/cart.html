@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Form Start -->
-                        <form action="#">
+                        <form action="" method="post">
                             <!-- Table Content Start -->
                             <div class="table-content table-responsive mb-50">
                                 <table>
@@ -46,9 +46,9 @@
                                         {% for id, name, price, price_with_sale, sale in product_data %}
                                         <tr>
                                             <td class="product-thumbnail">
-                                                <a href="#"><img src="{{levelness}}static/img/products/{{id}}.jpg" alt="cart-image" /></a>
+                                                <a href="{{url}}/product/{{id}}"><img src="{{levelness}}static/img/products/{{id}}.jpg" alt="cart-image" /></a>
                                             </td>
-                                            <td class="product-name"><a href="{{url}}">{{name}}</a></td>
+                                            <td class="product-name"><a href="{{url}}/product/{{id}}">{{name}}</a></td>
                                             <td class="product-price"><span class="amount">{{price}}₽ </span></td>
                                             <td class="product-quantity">
                                                 {% if sale%}
@@ -57,7 +57,7 @@
                                                 0%
                                                 {% endif %}
                                             </td>
-                                            <td class="product-quantity"><input type="number" value="1"></td>
+                                            <td class="product-quantity"><input type="number" value="1" name="{{id}}"></td>
                                             <td class="product-subtotal"><span class="amount">{{price_with_sale}}₽</span></td>
                                             <td class="product-remove"> <a href="{{url}}/cart?action=del&product_id={{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                         </tr>

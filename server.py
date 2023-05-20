@@ -209,7 +209,8 @@ def shop():
         kwargs_copy = kwargs.copy()
         kwargs_copy["categories"] = categorie
         kwargs_copy["page"] = 1
-        href = "?" + "&".join(list(map(lambda x: f'{x[0]}={x[1]}', list(zip(kwargs_copy.keys(), kwargs_copy.values())))))
+        href = "?" + "&".join(
+            list(map(lambda x: f'{x[0]}={x[1]}', list(zip(kwargs_copy.keys(), kwargs_copy.values())))))
 
         categories.append((categorie, href))
 
@@ -236,7 +237,7 @@ def shop():
 
     href = []
     for key in kwargs.keys():
-        href.append(f"{key}={kwargs.get('key')}")
+        href.append(f"{key}={kwargs.get(key)}")
     href = "&".join(href)
     if bool(href):
         href = "?" + href
@@ -460,55 +461,60 @@ def wishlist():
     return res
 
 
-@app.route('/cart')
+@app.route('/cart', methods=['post', 'get'])
 def cart():
     # Находим все товары с id из wishlist_list
     # product_data = [(id, name, price, sale)]
     kwargs = {'action': "see", 'product_id': None} | dict(request.args)
+    if request.method == 'POST':
+        print()
+        return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
+                               cart_data=get_cart_for_base(), categories_for_base=get_categories())
 
-    cart_list = get_cart_list()
-    print(cart_list, kwargs["action"], kwargs["product_id"])
-
-    if kwargs["action"] == "add":
-        cart_list.append(int(kwargs["product_id"]))
-    elif kwargs["action"] == "del" and int(kwargs["product_id"]) in cart_list:
-        cart_list.remove(int(kwargs["product_id"]))
-
-    print(cart_list)
-
-    filters = ""
-    if bool(cart_list):
-        if len(cart_list) > 1:
-            filters = f"id in {tuple(cart_list)}"
-        elif len(cart_list) == 1:
-            filters = f"id == {cart_list[0]}"
-
-    if bool(filters):
-        colums_name = "id, name, price, sale"
-        cart_product_list = select_from_db(colums_name=colums_name, filters=filters)
     else:
-        cart_product_list = []
+        cart_list = get_cart_list()
+        print(cart_list, kwargs["action"], kwargs["product_id"])
 
-    cart_product_list = recycle_list("id, name, price, sale",
-                                     "id, name, price, price_with_sale_or_price, sale",
-                                     cart_product_list)
+        if kwargs["action"] == "add":
+            cart_list.append(int(kwargs["product_id"]))
+        elif kwargs["action"] == "del" and int(kwargs["product_id"]) in cart_list:
+            cart_list.remove(int(kwargs["product_id"]))
 
-    total_price = sum(list(map(lambda x: x[4] if x[4] else x[3], cart_product_list)))
-    total_price_with_sale = sum(list(map(lambda x: x[3], cart_product_list)))
+        print(cart_list)
 
-    last_ssesion = request.cookies.get("last_ssesion")
-    if last_ssesion == None:
-        last_ssesion = ""
-    res = make_response(
-        render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=cart_product_list,
-                        levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
-                        last_ssesion=last_ssesion))
-    res.set_cookie("cart", "&".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
-    print(cart_list)
-    order("Богдан", "+79081433305", cart_list)
+        filters = ""
+        if bool(cart_list):
+            if len(cart_list) > 1:
+                filters = f"id in {tuple(cart_list)}"
+            elif len(cart_list) == 1:
+                filters = f"id == {cart_list[0]}"
 
-    return res
+        if bool(filters):
+            colums_name = "id, name, price, sale"
+            cart_product_list = select_from_db(colums_name=colums_name, filters=filters)
+        else:
+            cart_product_list = []
+
+        cart_product_list = recycle_list("id, name, price, sale",
+                                         "id, name, price, price_with_sale_or_price, sale",
+                                         cart_product_list)
+
+        total_price = sum(list(map(lambda x: x[4] if x[4] else x[3], cart_product_list)))
+        total_price_with_sale = sum(list(map(lambda x: x[3], cart_product_list)))
+
+        last_ssesion = request.cookies.get("last_ssesion")
+        if last_ssesion == None:
+            last_ssesion = ""
+        res = make_response(
+            render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=cart_product_list,
+                            levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
+                            cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
+                            last_ssesion=last_ssesion))
+        res.set_cookie("cart", "&".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
+        print(cart_list)
+        order("Богдан", "+79081433305", cart_list)
+
+        return res
 
 
 @app.route('/about_us')

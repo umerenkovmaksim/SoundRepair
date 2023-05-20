@@ -172,3 +172,6 @@ def get_categories():
     categories_non_recurring = list(set(all_categories_list))
 
     return categories_non_recurring
+
+
+
