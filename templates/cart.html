@@ -37,6 +37,7 @@
                                             <th class="product-name">Название</th>
                                             <th class="product-price">Цена</th>
                                             <th class="product-quantity">Скидка</th>
+                                            <th class="product-quantity">Колличество</th>
                                             <th class="product-subtotal">Итог</th>
                                             <th class="product-remove">Удалить</th>
                                         </tr>
@@ -56,6 +57,7 @@
                                                 0%
                                                 {% endif %}
                                             </td>
+                                            <td class="product-quantity"><input type="number" value="1"></td>
                                             <td class="product-subtotal"><span class="amount">{{price_with_sale}}₽</span></td>
                                             <td class="product-remove"> <a href="{{url}}/cart?action=del&product_id={{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
                                         </tr>
@@ -68,6 +70,7 @@
                                <!-- Cart Button Start -->
                                 <div class="col-lg-8 col-md-7">
                                     <div class="buttons-cart">
+                                        <input type="submit" value="Обновить корзину">
                                         <a href="{{url}}{{last_ssesion}}">Продолжить просмотр товаров</a>
                                     </div>
                                 </div>

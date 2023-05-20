@@ -7,7 +7,7 @@
         <div class="breadcrumb">
             <ul>
                 <li><a href="{{url}}">Главная страница</a></li>
-                <li class="active"><a href="{{url}}/shop/$$$name$up$$1">Каталог</a></li>
+                <li class="active"><a href="{{url}}/shop">Каталог</a></li>
             </ul>
         </div>
     </div>
@@ -124,9 +124,9 @@
                             <h2>Категории</h2>
                         </div>
                         <ul>
-                            {% for name in all_categories %}
-                            <li><a href="{{url}}/shop/{{href}}">
-                                {{name[0]}}
+                            {% for data in categories %}
+                            <li><a href="{{url}}/shop{{data[1]}}">
+                                {{data[0]}}
                             </a></li>
                             {% endfor %}
                         </ul>
