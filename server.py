@@ -3,7 +3,7 @@ import sqlite3
 import random
 import json
 
-from flask import Flask, render_template, request, make_response
+from flask import Flask, render_template, request, make_response, url_for
 
 from functions import *
 from telegram_bot_functions import *
@@ -209,8 +209,7 @@ def shop():
         kwargs_copy = kwargs.copy()
         kwargs_copy["categories"] = categorie
         kwargs_copy["page"] = 1
-        href = "?" + "&".join(
-            list(map(lambda x: f'{x[0]}={x[1]}', list(zip(kwargs_copy.keys(), kwargs_copy.values())))))
+        href = url_for('shop', **kwargs)
 
         categories.append((categorie, href))
 
@@ -235,13 +234,8 @@ def shop():
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')),
                         all_manufacturers=all_manufacturers))
 
-    href = []
-    for key in kwargs.keys():
-        href.append(f"{key}={kwargs.get(key)}")
-    href = "&".join(href)
-    if bool(href):
-        href = "?" + href
-    res.set_cookie("last_ssesion", f"/shop{href}")
+    href = url_for('shop', **kwargs)
+    res.set_cookie("last_ssesion", href)
 
     return res
 
