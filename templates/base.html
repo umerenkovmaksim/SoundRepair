@@ -94,9 +94,7 @@
                                 <ul>
                                     <li><a href="{{url}}/wishlist"><i class="fa fa-heart-o"></i></a></li>
                                         <li><a href="{{url}}/cart"><i class="fa fa-shopping-basket"></i>
-                                            {% if cart_data[0] %}
-                                            <span class="cart-counter">{{cart_data[0]}}</span>
-                                            {% endif %}
+                                            <span class="cart-counter">0</span>
                                         </a>
                                             {% if cart_data[1] %}
                                         <ul class="ht-dropdown main-cart-box">
@@ -144,11 +142,11 @@
                             <div class="mobile-menu">
                                 <nav>
                                     <ul>
-                                        <li><a href="{{url}}/shop/None-None&name-False&1">Каталог</a>
+                                        <li><a href="{{url}}/shop">Каталог</a>
                                             <!-- Mobile Menu Dropdown Start -->
                                             <ul>
                                                 {% for category in categories_for_base %}
-                                                <li><a href="{{url}}/shop/None-{{category}}&name-False&1">{{category}}</a></li>
+                                                <li><a href="{{url}}/shop?categories={{category}}">{{category}}</a></li>
                                                 {% endfor %}
                                             </ul>
                                             <!-- Mobile Menu Dropdown End -->
@@ -209,7 +207,7 @@
                                 <h3 class="footer-title">Аккаунт</h3>
                                 <div class="footer-content">
                                     <ul class="footer-list">
-                                        <li><a href="{{url}}/cart/see$$all">Корзина</a></li>
+                                        <li><a href="{{url}}/cart">Корзина</a></li>
                                         <li><a href="{{url}}/wishlist/see$$all">Понравившиеся</a></li>
                                     </ul>
                                 </div>
@@ -277,6 +275,8 @@
     <script src="{{url_for('static', filename='js/price-slider.js')}}"></script>
     <!-- filter menu slider js -->
     <script src="{{url_for('static', filename='js/filter-menu-slider.js')}}"></script>
+    <!-- cart js -->
+    <script src="{{url_for('static', filename='js/cart.js')}}"></script>
 </body>
 
 </html>

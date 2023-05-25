@@ -209,7 +209,7 @@ def shop():
         kwargs_copy = kwargs.copy()
         kwargs_copy["categories"] = categorie
         kwargs_copy["page"] = 1
-        href = url_for('shop', **kwargs)
+        href = url_for('shop', **kwargs_copy)
 
         categories.append((categorie, href))
 

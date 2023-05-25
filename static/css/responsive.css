@@ -250,6 +250,9 @@
 .menu_block {
     display: table;
   }
+.desktop-shop-filter {
+    display: none;
+}
 }
 
 /*----------------------------------------*/
@@ -259,6 +262,9 @@
 .menu_block {
     display: table;
     }
+.desktop-shop-filter {
+    display: none;
+}
 .single-policy .icone-img {
     width: 56px;
 }
@@ -861,6 +867,9 @@ p.checkout-coupon input[type="submit"] {
 .menu_block {
     display: table;
   }
+.desktop-shop-filter {
+    display: none;
+}
 .text-content h1 {
     font-size: 26px;
     line-height: 34px;
@@ -879,10 +888,11 @@ p.checkout-coupon input[type="submit"] {
     margin-top: 5px;
 }
 .menu-wrap nav {
+    position: absolute;
+    background-color: #ebebeb;
     top: 50px;
-}
- .main-toolbar-sorter.f-right {
-    float: right;
+    max-width: 260px;
+    z-index: 99009;
 }
 .grid-list-view.f-left {
     margin-bottom: 0px;
@@ -1014,6 +1024,9 @@ p.checkout-coupon input[type="submit"] {
 .menu_block {
     display: table;
   }
+.desktop-shop-filter {
+    display: none;
+}
 .upper-banner.banner .row [class*="col"]:not(:last-child) {
     margin-bottom: 30px;
 }

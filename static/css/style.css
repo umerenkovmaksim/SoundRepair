@@ -522,7 +522,6 @@ input[type="checkbox"] {
 .filter {
     margin-bottom: 20px;
   }
-  
   .filter__header {
     display: inline;
     white-space: nowrap;
@@ -533,8 +532,15 @@ input[type="checkbox"] {
     margin-bottom: 5px;
   }
   
-  .filter__collapse-btn {
-    background-color: #fff;
+   .filter__collapse-btn {
+    background-color: #f5f5f5;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    left: 0;
+  }
+  .desktop-shop-filter .filter__collapse-btn {
+    background-color: #ffffff;
     border: none;
     outline: none;
     cursor: pointer;
@@ -572,14 +578,11 @@ input[type="checkbox"] {
     height: 100%;
     top: 0;
     right: 0;
-    transform: translateX(100%);
-    transition: cubic-bezier(0.52, 0.26, 0, 0.92) 0.5s;
     z-index: 10000;
     display: none;
   }
   .menu-mobile--itself.show {
     display: block;
-    transform: translateX(0);
   }
   
   .menu-mobile--itself .close {
@@ -1463,55 +1466,18 @@ input[type="checkbox"] {
     visibility: visible;
     bottom: 35px;
 }
-.actions-secondary a {
+.actions-secondary button {
     display: inline-block;
 }
 
-.actions-secondary a {
-    margin-left: 5px;
+.actions-secondary .add-cart-btn, .add-wishlist-btn {
+    width: 125px;
+    font-size: 12px;
+    text-transform: uppercase;
 }
 
-.actions-secondary a {
-    background: #eef0f1 none repeat scroll 0 0;
-    border-radius: 5px;
-    color: #555;
-    display: inline-block;
-    font-size: 16px;
-    height: 32px;
-    line-height: 32px;
-    position: relative;
-    text-align: center;
-    -webkit-transition: all 0.15s ease 0s;
-    transition: all 0.15s ease 0s;
-    width: 33px;
-}
-.actions-secondary a.add-cart {
-    width: 115px;
-    font-size: 12px;
-    text-transform: uppercase;
-}
-}
-.actions-secondary a.sort {
-    width: 115px;
-    font-size: 12px;
-    text-transform: uppercase;
-}
-}
-.actions-secondary a.sort-2 {
-    width: 115px;
-    font-size: 12px;
-    text-transform: uppercase;
-}
-.actions-secondary {
-    width: 100%;
-    background: #fff;
-}
-.actions-secondary a:hover {
-    background: #ce0000;
-    color: #fff;
-}
 
-.actions-secondary a {
+.actions-secondary button {
     width: 33px;
 }
 
@@ -2119,17 +2085,31 @@ input[type="checkbox"] {
     margin-right: 15px;
     text-align: center;
 }
-
-.add-cart {
-    background: #ce0000 none repeat scroll 0 0;
-    border-color: #ce0000;
+.product-remove-btn:focus {
+    outline: none;
+  box-shadow: none;
+}
+.product-remove-btn {
+    background-color: #fff;
+}
+.add-wishlist-btn {
     border-radius: 3px;
-    color: #fff;
+    color: #2b2b2b;
     display: inline-block;
-    height: 35px;
-    line-height: 36px;
+    outline: none;
+    box-shadow: none;
+    border: 2px solid rgb(190, 190, 190);
+    height: 32px;
+}
+.add-cart-btn{
+    border-radius: 3px;
+    color: #2b2b2b;
+    display: inline-block;
+    outline: none;
+    box-shadow: none;
+    border: 2px solid rgb(190, 190, 190);
+    height: 32px;
     padding: 0 10px;
-    text-align: center;
     text-transform: capitalize;
     width: 117px;
 }
@@ -2161,9 +2141,17 @@ input[type="checkbox"] {
     text-transform: capitalize;
     width: 90px;
 }
-
-.add-cart:hover,.add-cart:focus {
+.add-wishlist-btn:focus,.add-cart-btn:focus {
+    outline: none;
+    box-shadow: none;
     opacity: 0.8;
+}
+.add-cart-btn:hover,.add-wishlist-btn:hover {
+    outline: none;
+    box-shadow: none;
+    opacity: 0.8;
+    background: #ce0000 none repeat scroll 0 0;
+    border-color: #ce0000;
     color: #fff;
 }
 .sort:hover,.sort:focus {
@@ -2385,7 +2373,7 @@ input[type="checkbox"] {
     background: #e5e5e5 none repeat scroll 0 0;
     border: medium none;
     border-radius: 3px;
-    color: #6f6f6f;
+    color: #000;
     font-size: 15px;
     font-weight: normal;
     height: 40px;
@@ -2404,7 +2392,6 @@ input[type="checkbox"] {
     font-size: 14px;
     font-weight: 500;
     margin-left: 10px;
-    color: #6f6f6f;
     text-transform: capitalize;
 }
 
@@ -2453,10 +2440,13 @@ input[type="checkbox"] {
 }
 
 .table-content table td.product-name a:hover,
-.buttons-cart a:hover {
+.buttons-cart button:hover {
     color: #ce0000;
 }
-
+.buttons-cart button:focus {
+    outline: none;
+    box-shadow: none;
+}
 .product-thumbnail img {
     width: 100%;
 }
@@ -2468,10 +2458,9 @@ input[type="checkbox"] {
 
 .buttons-cart input,
 .coupon input[type="submit"],
-.buttons-cart a,
+.buttons-cart button,
 .coupon-info p.form-row input[type="submit"] {
-    background: #363f4d none repeat scroll 0 0;
-    border: medium none;
+    background: #ce0000 none repeat scroll 0 0;
     border-radius: 0;
     -webkit-box-shadow: none;
     box-shadow: none;
@@ -2484,6 +2473,7 @@ input[type="checkbox"] {
     line-height: 40px;
     margin-right: 15px;
     padding: 0 15px;
+    border: none;
     text-shadow: none;
     text-transform: uppercase;
     -webkit-transition: all 0.3s ease 0s;
@@ -2500,12 +2490,17 @@ input[type="checkbox"] {
 
 .buttons-cart input:hover,
 .coupon input[type="submit"]:hover,
-.buttons-cart a:hover {
-    background: #ce0000 none repeat scroll 0 0;
+.buttons-cart button:hover {
+    background: #363f4d none repeat scroll 0 0;
     color: #fff;
 }
-
-.buttons-cart a {
+#cart-items button {
+    border: none;
+}
+#cart-items span, a {
+    color: #000;
+}
+.buttons-cart button {
     color: #fff;
     float: left;
     height: 40px;

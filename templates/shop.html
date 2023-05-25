@@ -77,7 +77,7 @@
             <!-- Sidebar Shopping Option Start -->
             <div class="col-lg-3  order-2">
                 <div class="sidebar white-bg">
-                    <div class="single-sidebar">
+                    <div class="single-sidebar desktop-shop-filter">
                         <div class="shop-filter">
                             <div class="price-filter">
                                 <div class="min-price price-input">
@@ -125,7 +125,7 @@
                         </div>
                         <ul>
                             {% for data in categories %}
-                            <li><a href="{{url}}/shop{{data[1]}}">
+                            <li><a href="{{url}}{{data[1]}}">
                                 {{data[0]}}
                             </a></li>
                             {% endfor %}
@@ -330,12 +330,6 @@
                                             {% if sale %}
                                             <del class="prev-price">{{price}}₽</del></p>
                                             {% endif %}
-                                            <div class="pro-actions">
-                                                <div class="actions-secondary">
-                                                    <a href="{{url}}/wishlist?action=add&product_id={{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                                    <a class="add-cart" href="{{url}}/cart?action=add&product_id={{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
-                                                </div>
-                                            </div>
                                         </div>
                                         <!-- Product Content End -->
                                         {% if sale %}
@@ -376,8 +370,8 @@
                                     <p>{{text}}</p>
                                     <div class="pro-actions">
                                         <div class="actions-secondary">
-                                            <a href="{{url}}/wishlist?action=add&product_id={{id}}" data-toggle="tooltip" title="Add to Wishlist"><i class="fa fa-heart"></i></a>
-                                            <a class="add-cart" href="{{url}}/cart?action=add&product_id={{id}}" data-toggle="tooltip" title="Add to Cart">Add To Cart</a>
+                                            <button class="add-wishlist-btn" data-toggle="tooltip" title="Добавить в понравившиеся"><i class="fa fa-heart"></i></button>
+                                            <button class="add-cart-btn" data-id="{{id}}" data-name="{{name}}" data-price="{{price}}" data-price_with_sale="{{sale_price}}" data-sale="{{sale}}" data-image_href="{{url_for('static', filename='img/products/' ~ id ~ '.jpg')}}" data-toggle="tooltip" title="Добавить в корзину">В корзину</button>
                                         </div>
                                     </div>
                                 </div>

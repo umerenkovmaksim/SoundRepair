@@ -19,6 +19,7 @@
             </div>
             <!-- Container End -->
         </div>
+        <div id="page-url" data-url="{{url}}"></div>
         <!-- Breadcrumb End -->
         <!-- Cart Main Area Start -->
         <div class="cart-main-area pb-80 pb-sm-50">
@@ -27,7 +28,6 @@
                 <div class="row">
                     <div class="col-md-12">
                         <!-- Form Start -->
-                        <form action="" method="post">
                             <!-- Table Content Start -->
                             <div class="table-content table-responsive mb-50">
                                 <table>
@@ -37,31 +37,12 @@
                                             <th class="product-name">Название</th>
                                             <th class="product-price">Цена</th>
                                             <th class="product-quantity">Скидка</th>
-                                            <th class="product-quantity">Колличество</th>
+                                            <th class="product-quantity">Количество</th>
                                             <th class="product-subtotal">Итог</th>
                                             <th class="product-remove">Удалить</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        {% for id, name, price, price_with_sale, sale in product_data %}
-                                        <tr>
-                                            <td class="product-thumbnail">
-                                                <a href="{{url}}/product/{{id}}"><img src="{{levelness}}static/img/products/{{id}}.jpg" alt="cart-image" /></a>
-                                            </td>
-                                            <td class="product-name"><a href="{{url}}/product/{{id}}">{{name}}</a></td>
-                                            <td class="product-price"><span class="amount">{{price}}₽ </span></td>
-                                            <td class="product-quantity">
-                                                {% if sale%}
-                                                {{sale}}%
-                                                {% else %}
-                                                0%
-                                                {% endif %}
-                                            </td>
-                                            <td class="product-quantity"><input type="number" value="1" name="{{id}}"></td>
-                                            <td class="product-subtotal"><span class="amount">{{price_with_sale}}₽</span></td>
-                                            <td class="product-remove"> <a href="{{url}}/cart?action=del&product_id={{id}}"><i class="fa fa-times" aria-hidden="true"></i></a></td>
-                                        </tr>
-                                        {% endfor %}
+                                    <tbody id="cart-items">
                                     </tbody>
                                 </table>
                             </div>
@@ -70,8 +51,7 @@
                                <!-- Cart Button Start -->
                                 <div class="col-lg-8 col-md-7">
                                     <div class="buttons-cart">
-                                        <input type="submit" value="Обновить корзину">
-                                        <a href="{{url}}{{last_ssesion}}">Продолжить просмотр товаров</a>
+                                        <button class="clear-cart">Очистить корзину</button>
                                     </div>
                                 </div>
                                 <!-- Cart Button Start -->
@@ -82,25 +62,16 @@
                                         <br />
                                         <table>
                                             <tbody>
-                                            {% if total_price_with_sale %}
-                                                <tr class="cart-subtotal">
-                                                    <th>Subtotal</th>
-                                                    <td><span class="amount">{{total_price}}₽</span></td>
-                                                </tr>
-                                                <tr class="order-total">
-                                                    <th>Total</th>
-                                                    <td>
-                                                        <strong><span class="amount">{{total_price_with_sale}}₽</span></strong>
-                                                    </td>
-                                                </tr>
-                                            {% else %}
-                                                <tr class="order-total">
-                                                    <th>Total</th>
-                                                    <td>
-                                                        <strong><span class="amount">{{total_price}}₽</span></strong>
-                                                    </td>
-                                                </tr>
-                                            {% endif %}
+                                            <tr class="cart-subtotal">
+                                                <th>Без скидок</th>
+                                                <td><span class="amount subtotal-amount">0₽</span></td>
+                                            </tr>
+                                            <tr class="order-total">
+                                                <th>Со скидками</th>
+                                                <td>
+                                                    <strong><span class="amount total-amount">0₽</span></strong>
+                                                </td>
+                                            </tr>
 
                                             </tbody>
                                         </table>
@@ -112,8 +83,6 @@
                                 <!-- Cart Totals End -->
                             </div>
                             <!-- Row End -->
-                        </form>
-                        <!-- Form End -->
                     </div>
                 </div>
                  <!-- Row End -->
