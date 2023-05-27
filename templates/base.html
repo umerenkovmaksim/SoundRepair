@@ -98,45 +98,13 @@
                                         </a>
                                             {% if cart_data[1] %}
                                         <ul class="ht-dropdown main-cart-box">
-                                            <li>
-
-                                            {% for id, name, price, price_with_sale, sale in cart_data[1] %}
-                                                <div class="single-cart-box">
-                                                    <div class="cart-img">
-                                                        <a href="{{url}}/product/{{id}}"><img src="{{levelness}}static/img/products/{{id}}.jpg" alt="cart-image"></a>
-                                                    </div>
-                                                    <div class="cart-content">
-                                                        <h6><a href="{{url}}/product/{{id}}">{{name}}</a></h6>
-                                                        <span>{% if sale %}
-                                                        <span class="price">{{price_with_sale}}₽</span>
-                                                        <del class="prev-price">{{price}}₽</del>
-                                                        {% else %}
-                                                        <span class="price">{{price}}₽</span>
-                                                        {% endif %}
-                                                        </span>
-                                                    </div>
-
-                                                </div>
-                                            {% endfor %}
-
-                                                <!-- Cart Box End -->
-                                                <!-- Cart Footer Inner Start -->
-                                                <div class="cart-footer fix">
-                                                    {% if cart_data[2] %}
-                                                    <h5>total :<span class="f-right">{{cart_data[2]}}₽</span></h5>
-                                                    {% endif %}
-                                                    <div class="cart-actions">
-                                                        <a class="checkout" href="{{url}}/cart/see$$all">В корзину</a>
-                                                    </div>
-                                                </div>
-                                                <!-- Cart Footer Inner End -->
-                                            </li>
                                         </ul>
                                             {% endif %}
                                     </li>
                                 </ul>
                             </div>
                         </div>
+                        <div id="page-url" data-url="{{url}}"></div>
                         <!-- Cartt Box End -->
                         <div class="col-sm-12 d-lg-none">
                             <div class="mobile-menu">

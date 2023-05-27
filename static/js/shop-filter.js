@@ -25,9 +25,9 @@ function ApplyFilters() {
     } else {
         currentUrl.searchParams.delete('manufacturer');
     }
+    currentUrl.searchParams.delete('page');
     let minPrice = document.getElementById('minPriceInput').value;
     let maxPrice = document.getElementById('maxPriceInput').value;
-    console.log(minPrice)
   
     // Если значения не были введены, то удаляем параметр
     if (!minPrice && !maxPrice) {
@@ -64,6 +64,7 @@ function ApplyFilters_2() {
   } else {
       currentUrl.searchParams.delete('manufacturer');
   }
+  currentUrl.searchParams.delete('page');
   let minPrice = document.getElementById('minPriceInput-2').value;
   let maxPrice = document.getElementById('maxPriceInput-2').value;
   console.log(minPrice)
