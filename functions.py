@@ -35,31 +35,6 @@ def select_from_db(table_name="products", colums_name="*", filters=None):
     return res
 
 
-def get_cart_list():
-    #
-    # % get_cart_list нужен для получения списка id товаров в карзине %
-    #
-
-    cart_list = request.cookies.get("cart")
-    if cart_list:
-        cart_list = cart_list.split("&")
-        cart_list = list(map(int, cart_list))
-        return cart_list
-    return []
-
-    # cart_list = request.cookies.get("cart")
-    # cart_dict = {}
-    # if cart_list:
-    #     for line in cart_list.split("\n"):
-    #         id, n = tuple(line.split(":"))
-    #         cart_dict[int(id)] = int(n)
-    #     return cart_dict
-    # return {}
-
-    # Если в карзине пусто вывод tuple (None, None, None)
-    # Иначе list с id товаров
-
-
 def get_wishlist_list():
     #
     # % get_wishlist_list нужен для получения списка id товаров в хотелках %
@@ -123,42 +98,10 @@ def recycle_list(inp, out, data_list):
                 else:
                     out_list.append(int(data_dict["price"]))
 
-            elif key == "count_in_cart":
-                cart_list = get_cart_list()
-                # if data_dict["id"] in c
-
         out_data_list.append(out_list)
 
     # вывод list с изменеными tuple
     return out_data_list
-
-
-def get_cart_for_base(cart_list=None):
-    #
-    # % get_cart_for_base нужен для нахождения продуктов из карзины и подачи их в базовый шаблон %
-    #
-    # cart_list - list
-    # cart_list можно задать при вызове функции (нужно для крректного отоброжения в корзине)
-    #
-
-    if not cart_list:
-        cart_list = get_cart_list()
-
-    if not bool(cart_list):
-        return None, [], None
-
-    colums_name = "id, name, price, sale"
-    filters = f"id in {tuple(cart_list)}" if len(cart_list) > 1 else f"id == {cart_list[0]}"
-
-    product_data = select_from_db(colums_name=colums_name, filters=filters)
-
-    product_data = recycle_list("id, name, price, sale",
-                                "id, name, price, price_with_sale, sale", product_data)
-
-    total_sum = sum(list(map(lambda x: x[3] if x[3] else x[2], product_data)))
-
-    # вывод состоит из tuple с 3 элементами (product_data_len, product_data, total_sum)
-    return len(product_data), product_data, total_sum
 
 
 def get_categories():
@@ -172,6 +115,3 @@ def get_categories():
     categories_non_recurring = list(set(all_categories_list))
 
     return categories_non_recurring
-
-
-

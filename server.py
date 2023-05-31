@@ -20,7 +20,7 @@ SHOP_URL = f'{WEBSITE_URL}/shop/None-None&name-False&1'
 @app.route('/Error<e>')
 def handle_bad_request(e):
     return render_template("404.html", title='Error 404', levelness="../../../", url=WEBSITE_URL,
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+                           categories_for_base=get_categories())
 
 
 @app.route('/')
@@ -65,20 +65,20 @@ def main_page():
     return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL,
                            random_product=random_product_list_new, upsell_product=upsell_product,
                            is_upsell_product=bool(upsell_product), is_related_product=len(related_product) >= 4,
-                           related_product=related_product, cart_data=get_cart_for_base(),
+                           related_product=related_product,
                            categories_for_base=get_categories())
 
 
 @app.route('/index_2')
 def index_2():
     return render_template("index-2.html", url=WEBSITE_URL, levelness="../",
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+                           categories_for_base=get_categories())
 
 
 @app.route('/index_3')
 def index_3():
     return render_template("index-3.html", url=WEBSITE_URL, levelness="../",
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories())
+                           categories_for_base=get_categories())
 
 
 @app.route('/product/<product_id>')
@@ -125,7 +125,7 @@ def product(product_id):
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
                         levelness="../", url=WEBSITE_URL, related_product=related_product,
-                        upsell_product=upsell_product, product_id=product_id, cart_data=get_cart_for_base(),
+                        upsell_product=upsell_product, product_id=product_id,
                         categories_for_base=get_categories(), is_upsell_product=bool(upsell_product),
                         is_related_product=bool(related_product)))
 
@@ -222,14 +222,14 @@ def shop():
 
     if page > max_page and len(products) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-                               cart_data=get_cart_for_base(), categories_for_base=get_categories())
+                               categories_for_base=get_categories())
 
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs,
                         categories=categories, filter_price=filter_price,
                         product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12],
                         grid_item_list_text=grid_item_list_text, max_price=max_price,
-                        max_page=max_page, page=page, cart_data=get_cart_for_base(),
+                        max_page=max_page, page=page,
                         categories_for_base=get_categories(), min_price=min_price,
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')),
                         all_manufacturers=all_manufacturers))
@@ -239,175 +239,10 @@ def shop():
 
     return res
 
-    # @app.route('/shop/<manufacturers_filter>-<category>&<sort_type>-<is_reverse>&<page>')
-    # def shop(manufacturers_filter=None, category=None, sort_type="name", is_reverse=False, page=1):
-    # full_url = f"{manufacturers_filter}-{category}&{sort_type}-{is_reverse}"
-    #
-    # manufacturers_filter = '' if manufacturers_filter == "None" else manufacturers_filter
-    # category = '' if category == "None" else category
-    #
-    # is_reverse = True if is_reverse == "True" else False
-    # manufacturers_filters_list = manufacturers_filter.split("&") if manufacturers_filter else []
-    #
-    # button_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}&" \
-    #                    f"{'name' if sort_type == 'price' else 'price'}-{is_reverse}&{page}"
-    # arrow_sort_href = f"{manufacturers_filter if manufacturers_filter else 'None'}-{category if category else 'None'}&" \
-    #                   f"{sort_type}-{not is_reverse}&{page}"
-    #
-    # page = int(page)
-    #
-    # # ------- MANUFACTURERS -------
-    # # Производители
-    # # manufacturers = [(name, n), (name, n), (name, n)] входные данные из списка
-    # colums_name = "manufacturer"
-    # manufacturers_list = select_from_db(colums_name=colums_name)
-    # manufacturers_list = list(map(lambda x: x[0], manufacturers_list))
-    # manufacturers_non_recurring = list(set(manufacturers_list))
-    # manufacturers = sorted(list(map(lambda x: (x, manufacturers_list.count(x)), manufacturers_non_recurring)))
-    #
-    # href_end = f"&{sort_type}-{is_reverse}&{page}"
-    #
-    # out_manufacturers = []
-    # for name, n in manufacturers:
-    #     f = False
-    #     if name in manufacturers_filters_list:
-    #         f = True
-    #         manufacturers_filters_list_copy = manufacturers_filters_list[:]
-    #         manufacturers_filters_list_copy.remove(name)
-    #         href = f"{'&'.join(manufacturers_filters_list_copy) if bool(manufacturers_filters_list_copy) else 'None'}" \
-    #                f"-{category if category else 'None'}{href_end}"
-    #     else:
-    #         manufacturers_filters_list_copy = manufacturers_filters_list[:]
-    #         manufacturers_filters_list_copy.append(name)
-    #         href = f"{'&'.join(manufacturers_filters_list_copy) if bool(manufacturers_filters_list_copy) else 'None'}" \
-    #                f"-{category if category else 'None'}{href_end}"
-    #
-    #     out_manufacturers.append((name, n, href, f))
-    #
-    # # ------- CATEGORIES -------
-    # # Тип товара
-    # # categories = [(name, n), (name, n), (name, n)]
-    # colums_name = "categories"
-    # categories_list = select_from_db(colums_name=colums_name)
-    #
-    # all_categories_list = []
-    # for categories_str in categories_list:
-    #     all_categories_list += categories_str[0].split("&")
-    #
-    # categories_non_recurring = list(set(all_categories_list))
-    # categories = sorted(list(map(lambda x: (x, all_categories_list.count(x)), categories_non_recurring)))
-    #
-    # out_categories = []
-    # for name, n in categories:
-    #     f = False
-    #     if name == category:
-    #         f = True
-    #         href = f"{manufacturers_filter if bool(manufacturers_filter) else 'None'}-None{href_end}"
-    #     else:
-    #         href = f"{manufacturers_filter if bool(manufacturers_filter) else 'None'}-{name}{href_end}"
-    #
-    #     out_categories.append((name, n, href, f))
-    #
-    # # ------- RANDOM PRODUCTS -------
-    # # Случайные товары
-    # # random_product_mat =
-    # # [[(id, name, text, price, sale), (id, name, text, price, sale)],
-    # #  [(id, name, text, price, sale), (id, name, text, price, sale)],
-    # #  [(id, name, text, price, sale), (id, name, text, price, sale)]]
-    # colums_name = "id, name, price, sale"
-    # random_product_list = select_from_db(colums_name=colums_name)
-    # random.shuffle(random_product_list)
-    # random_product_list_new = random.sample(random_product_list, 9)
-    # random_product_mat = [random_product_list_new[:3], random_product_list_new[3:6], random_product_list_new[6:]]
-    #
-    # new_random_product_mat = []
-    # for product_list in random_product_mat:
-    #     new_product_list = recycle_list("id, name, price, sale",
-    #                                     "id, name, price, price_with_sale, sale",
-    #                                     product_list)
-    #     new_random_product_mat.append(new_product_list)
-    #
-    # # ------- WISHLIST -------
-    # # На выходе (id, name, text, price, sale_price, sale)
-    # wishlist_list = get_wishlist_list()
-    #
-    # filters = ""
-    # if bool(wishlist_list):
-    #     if len(wishlist_list) > 1:
-    #         filters = f"id in {tuple(wishlist_list)}"
-    #     elif len(wishlist_list) == 1:
-    #         filters = f"id == {wishlist_list[0]}"
-    #
-    # if bool(filters):
-    #     colums_name = "id, name, price, sale"
-    #     wishlist_product_list = select_from_db(colums_name=colums_name, filters=filters)
-    # else:
-    #     wishlist_product_list = []
-    #
-    # wishlist_product_list = recycle_list("id, name, price, sale",
-    #                                      "id, name, price, price_with_sale, sale",
-    #                                      wishlist_product_list)
-    #
-    # # ------- PRODUCTS -------
-    # # Все товары
-    # # products_list = [(id, name, text, price, sale),
-    # #                  (id, name, text, price, sale)]
-    #
-    # filters = ""
-    # requect_list = []
-    # if manufacturers_filter:
-    #     if len(manufacturers_filters_list) > 1:
-    #         requect_list.append(f"manufacturer IN {tuple(manufacturers_filters_list)}")
-    #     else:
-    #         requect_list.append(f"manufacturer == '{manufacturers_filters_list[0]}'")
-    #
-    # if category:
-    #     requect_list.append(f"categories == '{category}'")
-    #
-    # filters += " AND ".join(requect_list)
-    #
-    # colums_name = "id, name, short_description, price, sale"
-    # products_list = select_from_db(colums_name=colums_name, filters=filters)
-    #
-    # products_list = recycle_list("id, name, text, price, sale",
-    #                              "id, name, text, price, price_with_sale, sale",
-    #                              products_list)
-    #
-    # max_page = math.ceil(len(products_list) / 12)
-    #
-    # if page > max_page and len(products_list) != 0:
-    #     return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-    #                            cart_data=get_cart_for_base(), categories_for_base=get_categories())
-    #
-    # grid_item_list_text = f"Товары {1 + 12 * (page - 1) if len(products_list) > 0 else 0}-" \
-    #                       f"{min(len(products_list), 12 * page)} из {len(products_list)}"
-    #
-    # products_list = sorted(products_list, key=lambda x: (x[1], x[3]) if kwargs["sort_type"] == "name" else (x[3], x[1]),
-    #                        reverse=is_reverse)[(page - 1) * 12:page * 12]
-    #
-    # res = make_response(
-    #     render_template('shop.html', title='SoundRepair | Каталог', levelness="../../../", url=WEBSITE_URL,
-    #                     manufacturers=out_manufacturers, categories=out_categories,
-    #                     product_mat=new_random_product_mat, products_list=products_list,
-    #                     grid_item_list_text=grid_item_list_text, sort_type=sort_type, max_page=max_page, page=page,
-    #                     full_url=full_url, next_page_url=f"{full_url}{page + 1}", button_sort_href=button_sort_href,
-    #                     arrow_sort_href=arrow_sort_href, is_reverse=is_reverse, cart_data=get_cart_for_base(),
-    #                     categories_for_base=get_categories(),
-    #                     wishlist_product_list=wishlist_product_list))
-    # href = []
-    # for key in kwargs.keys():
-    #     href.append(f"{key}={kwargs[key]}")
-    # href = "&".join(href)
-    # if bool(href):
-    #     href = "/?" + href
-    # res.set_cookie("last_ssesion", f"/shop{href}")
-    #
-    # return res
-
 
 @app.route('/contact')
 def contact_page():
-    return render_template('contact.html', url=WEBSITE_URL, cart_data=get_cart_for_base(),
+    return render_template('contact.html', url=WEBSITE_URL,
                            title='SoundRepair | Контакты', categories_for_base=get_categories())
 
 
@@ -448,7 +283,7 @@ def wishlist():
         render_template('wishlist.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
                         product_data=wishlist_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        cart_data=get_cart_for_base(), categories_for_base=get_categories(),
+                        categories_for_base=get_categories(),
                         last_ssesion=last_ssesion))
     res.set_cookie("wishlist", "&".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
 
@@ -457,63 +292,13 @@ def wishlist():
 
 @app.route('/cart', methods=['post', 'get'])
 def cart():
-    # Находим все товары с id из wishlist_list
-    # product_data = [(id, name, price, sale)]
-    kwargs = {'action': "see", 'product_id': None} | dict(request.args)
-    if request.method == 'POST':
-        print()
-        return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-                               cart_data=get_cart_for_base(), categories_for_base=get_categories())
-
-    else:
-        cart_list = get_cart_list()
-        print(cart_list, kwargs["action"], kwargs["product_id"])
-
-        if kwargs["action"] == "add":
-            cart_list.append(int(kwargs["product_id"]))
-        elif kwargs["action"] == "del" and int(kwargs["product_id"]) in cart_list:
-            cart_list.remove(int(kwargs["product_id"]))
-
-        print(cart_list)
-
-        filters = ""
-        if bool(cart_list):
-            if len(cart_list) > 1:
-                filters = f"id in {tuple(cart_list)}"
-            elif len(cart_list) == 1:
-                filters = f"id == {cart_list[0]}"
-
-        if bool(filters):
-            colums_name = "id, name, price, sale"
-            cart_product_list = select_from_db(colums_name=colums_name, filters=filters)
-        else:
-            cart_product_list = []
-
-        cart_product_list = recycle_list("id, name, price, sale",
-                                         "id, name, price, price_with_sale_or_price, sale",
-                                         cart_product_list)
-
-        total_price = sum(list(map(lambda x: x[4] if x[4] else x[3], cart_product_list)))
-        total_price_with_sale = sum(list(map(lambda x: x[3], cart_product_list)))
-
-        last_ssesion = request.cookies.get("last_ssesion")
-        if last_ssesion == None:
-            last_ssesion = ""
-        res = make_response(
-            render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, product_data=cart_product_list,
-                            levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                            cart_data=get_cart_for_base(cart_list), categories_for_base=get_categories(),
-                            last_ssesion=last_ssesion))
-        res.set_cookie("cart", "&".join(list(map(str, cart_list))), max_age=60 * 60 * 24 * 365 * 2)
-        print(cart_list)
-        order("Богдан", "+79081433305", cart_list)
-
-        return res
+    return render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
+                           levelness="../../", categories_for_base=get_categories())
 
 
 @app.route('/about_us')
 def about():
-    return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL, cart_data=get_cart_for_base(),
+    return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL,
                            categories_for_base=get_categories())
 
 
@@ -528,7 +313,7 @@ def our_works(page):
     pages_count = math.ceil(works_count / 12)
 
     return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL,
-                           cart_data=get_cart_for_base(), categories_for_base=get_categories(),
+                           categories_for_base=get_categories(),
                            works=works[12 * (int(page) - 1):12 * int(page)], page=int(page), pages_count=pages_count)
 
 
@@ -554,10 +339,25 @@ def work(id):
 
     work_data = select_from_db(table_name=table_name, filters=filters)[0]
     return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL,
-                           cart_data=get_cart_for_base(),
+
                            categories_for_base=get_categories(), work_data=work_data, random_works=random_works,
                            first=first, last=last,
                            previous_work=previous_work, next_work=next_work)
+
+
+@app.route('/services/<page>')
+def our_works(page):
+    colums_name = "id, title, description, date"
+    table_name = "our_works"
+
+    works = select_from_db(colums_name=colums_name, table_name=table_name)
+
+    works_count = len(works)
+    pages_count = math.ceil(works_count / 12)
+
+    return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
+                           categories_for_base=get_categories(),
+                           works=works[12 * (int(page) - 1):12 * int(page)], page=int(page), pages_count=pages_count)
 
 
 app.run(host=HOST, port=PORT)
