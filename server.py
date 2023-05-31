@@ -346,7 +346,7 @@ def work(id):
 
 
 @app.route('/services/<page>')
-def our_works(page):
+def services(page):
     colums_name = "id, title, description, date"
     table_name = "our_works"
 
