@@ -12,6 +12,18 @@ app = Flask(__name__)
 HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
+ALL_CATEGORIES = {
+    'Автомагнитолы': ['Автомагнитолы 1 DIN', 'Автомагнитолы 2 DIN', 'Android-ГУ', 'Переходные рамки', 'ISO Адаптеры и переходники', 'Камеры', 'Аксессуары'],
+    'Автомобильная акустика': ['Компонентная акустика', 'Коаксиальная акустика', 'Твитеры', 'Отдельные компоненты'],
+    'Эстрадная акустика': ['Эстрадные динамики', 'ВЧ динамики, Рупора, Драйверы'],
+    'Сабвуферы': ['Сабвуферные динамики', 'Корпуса для сабвуферов', 'Сабвуферы корпусные активные', 'Сабвуферы корпусные пассивные'],
+    'Усилители': ['Усилители 1 канал (Моноблоки)', 'Усилители 2 и 3 канала', 'Усилители 4 и более каналов', 'Процессоры, Кроссоверы, Конденсаторы'],
+    'Кабельная продукция': ['Кабель межблочный (RCA)', 'Кабель акустический', 'Кабель силовой', 'Y-Разветвители, RCA адаптеры, переходники', 'Кабель сигнальный, Интерфейсный', 'Полиэстеровый рукав (Змеиная кожа)'],
+    'Аксессуары для автозвука': ['Предохранители и автоматические прерыватели', 'Держатели предохранителя', 'Дистрибьюторы и разветвители питания', 'Проставочные кольца', 'Акустические подиумы, Полки, Лифтинговые платформы', 'Сетки, Грили для акустики', 'Расходные материалы, Крепёж', 'Зарядные устройства'],
+    'Шумоизоляция': ['Шумоизоляционные материалы', 'Виброизоляционные материалы', 'Инструмент, Аксессуары'],
+    'Охранные системы': ['Автосигнализации', 'Центральные замки и комплектующие', 'Аксессуары для монтажа охранных систем'],
+    'Автосвет': ['Автолампы (LED, Галоген)', 'Линзы, Маски', 'ПТФ', 'Комплектующие и аксессуары для монтажа']
+    }
 
 SHOP_URL = f'{WEBSITE_URL}/shop/None-None&name-False&1'
 
@@ -20,7 +32,7 @@ SHOP_URL = f'{WEBSITE_URL}/shop/None-None&name-False&1'
 @app.route('/Error<e>')
 def handle_bad_request(e):
     return render_template("404.html", title='Error 404', levelness="../../../", url=WEBSITE_URL,
-                           categories_for_base=get_categories())
+                           all_categories=ALL_CATEGORIES)
 
 
 @app.route('/')
@@ -44,7 +56,6 @@ def main_page():
                                   "id, name, short_description, price, price_with_sale, sale",
                                   upsell_product)
 
-    #
     last_manufacturer_and_categories = request.cookies.get("last_manufacturer_and_categories")
     related_product = []
     if last_manufacturer_and_categories:
@@ -61,24 +72,24 @@ def main_page():
         related_product = recycle_list("id, name, text, price, sale",
                                        "id, name, text, price, price_with_sale, sale",
                                        related_product)
+    
 
     return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL,
                            random_product=random_product_list_new, upsell_product=upsell_product,
                            is_upsell_product=bool(upsell_product), is_related_product=len(related_product) >= 4,
-                           related_product=related_product,
-                           categories_for_base=get_categories())
+                           related_product=related_product, all_categories=ALL_CATEGORIES)
 
 
 @app.route('/index_2')
 def index_2():
     return render_template("index-2.html", url=WEBSITE_URL, levelness="../",
-                           categories_for_base=get_categories())
+                           all_categories=ALL_CATEGORIES)
 
 
 @app.route('/index_3')
 def index_3():
     return render_template("index-3.html", url=WEBSITE_URL, levelness="../",
-                           categories_for_base=get_categories())
+                           all_categories=ALL_CATEGORIES)
 
 
 @app.route('/product/<product_id>')
@@ -125,8 +136,8 @@ def product(product_id):
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
                         levelness="../", url=WEBSITE_URL, related_product=related_product,
-                        upsell_product=upsell_product, product_id=product_id,
-                        categories_for_base=get_categories(), is_upsell_product=bool(upsell_product),
+                        upsell_product=upsell_product, product_id=product_id, 
+                        is_upsell_product=bool(upsell_product), all_categories=ALL_CATEGORIES,
                         is_related_product=bool(related_product)))
 
     res.set_cookie("last_manufacturer_and_categories", f"{product_data[5]}${product_data[6]}")
@@ -212,7 +223,7 @@ def shop():
         href = url_for('shop', **kwargs_copy)
 
         categories.append((categorie, href))
-
+    subcategories = {}
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
 
     filter_price = kwargs.get('price').split('-') if kwargs.get('price') else ['', 'inf']
@@ -222,15 +233,14 @@ def shop():
 
     if page > max_page and len(products) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
-                               categories_for_base=get_categories())
+                               all_categories=ALL_CATEGORIES)
 
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs,
-                        categories=categories, filter_price=filter_price,
+                        categories=categories, filter_price=filter_price, all_categories=ALL_CATEGORIES,
                         product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12],
                         grid_item_list_text=grid_item_list_text, max_price=max_price,
-                        max_page=max_page, page=page,
-                        categories_for_base=get_categories(), min_price=min_price,
+                        max_page=max_page, page=page, subcategories=subcategories, min_price=min_price,
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')),
                         all_manufacturers=all_manufacturers))
 
@@ -243,7 +253,7 @@ def shop():
 @app.route('/contact')
 def contact_page():
     return render_template('contact.html', url=WEBSITE_URL,
-                           title='SoundRepair | Контакты', categories_for_base=get_categories())
+                           title='SoundRepair | Контакты', all_categories=ALL_CATEGORIES)
 
 
 @app.route('/wishlist')
@@ -283,7 +293,7 @@ def wishlist():
         render_template('wishlist.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
                         product_data=wishlist_product_list,
                         levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        categories_for_base=get_categories(),
+                        all_categories=ALL_CATEGORIES,
                         last_ssesion=last_ssesion))
     res.set_cookie("wishlist", "&".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
 
@@ -293,13 +303,13 @@ def wishlist():
 @app.route('/cart', methods=['post', 'get'])
 def cart():
     return render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
-                           levelness="../../", categories_for_base=get_categories())
+                           levelness="../../", all_categories=ALL_CATEGORIES)
 
 
 @app.route('/about_us')
 def about():
     return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL,
-                           categories_for_base=get_categories())
+                           all_categories=ALL_CATEGORIES)
 
 
 @app.route('/our_works/<page>')
@@ -313,7 +323,7 @@ def our_works(page):
     pages_count = math.ceil(works_count / 12)
 
     return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL,
-                           categories_for_base=get_categories(),
+                           all_categories=ALL_CATEGORIES,
                            works=works[12 * (int(page) - 1):12 * int(page)], page=int(page), pages_count=pages_count)
 
 
@@ -340,7 +350,7 @@ def work(id):
     work_data = select_from_db(table_name=table_name, filters=filters)[0]
     return render_template('blog-details.html', title=f'SoundRepair | {work_data[1]}', url=WEBSITE_URL,
 
-                           categories_for_base=get_categories(), work_data=work_data, random_works=random_works,
+                           all_categories=ALL_CATEGORIES, work_data=work_data, random_works=random_works,
                            first=first, last=last,
                            previous_work=previous_work, next_work=next_work)
 
@@ -356,7 +366,7 @@ def services(page):
     pages_count = math.ceil(works_count / 12)
 
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
-                           categories_for_base=get_categories(),
+                           all_categories=ALL_CATEGORIES,
                            works=works[12 * (int(page) - 1):12 * int(page)], page=int(page), pages_count=pages_count)
 
 

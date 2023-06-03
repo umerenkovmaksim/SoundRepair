@@ -70,23 +70,31 @@
                         <div class="col-xl-6 col-lg-7 d-none d-lg-block">
                             <div class="middle-menu pull-right">
                                 <nav>
-                                    <ul class="middle-menu-list">
-                                        <li><a href="{{url}}/shop">Каталог<i class="fa fa-angle-down"></i></a>
-                                            <!-- Home Version Dropdown Start -->
-                                            <ul class="ht-dropdown dropdown-style-two">
-                                                {% for category in categories_for_base %}
-                                                <li><a href="{{url}}/shop?categories={{category}}">{{category}}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                            <!-- Home Version Dropdown End -->
+                                  <ul class="middle-menu-list">
+                                    <li class="dropdown">
+                                      <a href="{{url}}/shop">Каталог<i class="fa fa-angle-down"></i></a>
+                                      <!-- Первый уровень выпадающего меню -->
+                                      <ul class="ht-dropdown dropdown-style-two first-dropdown">
+                                        {% for category in all_categories %}
+                                        <li class="dropdown-item">
+                                          <a href="{{url}}/shop?categories={{category}}">{{category}}</a>
+                                          <!-- Второй уровень выпадающего меню -->
+                                          <ul class="ht-dropdown dropdown-style-two right-submenu" id="submenu-{{category}}">
+                                            {% for subcategory in all_categories[category] %}
+                                            <li><a href="{{url}}/shop?categories={{category}}&subcategories={{subcategory}}">{{subcategory}}</a></li>
+                                            {% endfor %}
+                                          </ul>
                                         </li>
-                                        <li><a href="{{url}}/our_works/1">Услуги</a></li>
-                                        <li><a href="{{url}}/our_works/1">Наши работы</a></li>
-                                        <li><a href="{{url}}/contact">Контакты</a></li>
-                                        <li><a href="{{url}}/about_us">О нас</a></li>
-                                    </ul>
+                                        {% endfor %}
+                                      </ul>
+                                    </li>
+                                    <li><a href="{{url}}/our_works/1">Наши работы</a></li>
+                                    <li><a href="{{url}}/contact">Контакты</a></li>
+                                    <li><a href="{{url}}/about_us">О нас</a></li>
+                                  </ul>
                                 </nav>
-                            </div>
+                              </div>
+                              
                         </div>
                         <!-- Search Box End -->
                         <!-- Cartt Box Start -->
@@ -94,9 +102,11 @@
                             <div class="cart-box text-right">
                                 <ul>
                                     <li><a href="{{url}}/wishlist"><i class="fa fa-heart-o"></i></a></li>
-                                        <li><a href="{{url}}/cart"><i class="fa fa-shopping-basket"></i>
-                                            <span class="cart-counter">0</span>
-                                        </a>
+                                    <li><a href="{{url}}/cart"><i class="fa fa-shopping-basket"></i>
+                                        <span class="cart-counter">0</span>
+                                    </a>
+                                    <ul class="ht-dropdown main-cart-box">
+                                    </ul>
                                     </li>
                                 </ul>
                             </div>
@@ -242,6 +252,8 @@
     <script src="{{url_for('static', filename='js/filter-menu-slider.js')}}"></script>
     <!-- cart js -->
     <script src="{{url_for('static', filename='js/cart.js')}}"></script>
+    <!-- categories js -->
+    <script src="{{url_for('static', filename='js/categories.js')}}"></script>
 </body>
 
 </html>

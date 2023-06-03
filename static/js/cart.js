@@ -252,16 +252,14 @@ window.addEventListener('DOMContentLoaded', function() {
 
 function updateCartMenu() {
   var cartItems = localStorage.getItem('cartItems');
+  var cartBox = document.querySelector('.main-cart-box');  
+  cartBox.innerHTML = '';
   if (cartItems) {
     cartItems = JSON.parse(cartItems);
 
     // Получаем элемент, представляющий окно корзины
-    var cartBox = document.querySelector('.main-cart-box');
     const myElement = document.getElementById('page-url');
     const url = myElement.dataset.url;
-
-    // Очищаем содержимое корзины перед обновлением
-    cartBox.innerHTML = '';
 
     // Создаем HTML-разметку для каждого товара и добавляем ее в окно корзины
     cartItems.forEach(function(item) {
