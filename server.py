@@ -13,17 +13,26 @@ HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
 ALL_CATEGORIES = {
-    'Автомагнитолы': ['Автомагнитолы 1 DIN', 'Автомагнитолы 2 DIN', 'Android-ГУ', 'Переходные рамки', 'ISO Адаптеры и переходники', 'Камеры', 'Аксессуары'],
+    'Автомагнитолы': ['Автомагнитолы 1 DIN', 'Автомагнитолы 2 DIN', 'Android-ГУ', 'Переходные рамки',
+                      'ISO Адаптеры и переходники', 'Камеры', 'Аксессуары'],
     'Автомобильная акустика': ['Компонентная акустика', 'Коаксиальная акустика', 'Твитеры', 'Отдельные компоненты'],
     'Эстрадная акустика': ['Эстрадные динамики', 'ВЧ динамики, Рупора, Драйверы'],
-    'Сабвуферы': ['Сабвуферные динамики', 'Корпуса для сабвуферов', 'Сабвуферы корпусные активные', 'Сабвуферы корпусные пассивные'],
-    'Усилители': ['Усилители 1 канал (Моноблоки)', 'Усилители 2 и 3 канала', 'Усилители 4 и более каналов', 'Процессоры, Кроссоверы, Конденсаторы'],
-    'Кабельная продукция': ['Кабель межблочный (RCA)', 'Кабель акустический', 'Кабель силовой', 'Y-Разветвители, RCA адаптеры, переходники', 'Кабель сигнальный, Интерфейсный', 'Полиэстеровый рукав (Змеиная кожа)'],
-    'Аксессуары для автозвука': ['Предохранители и автоматические прерыватели', 'Держатели предохранителя', 'Дистрибьюторы и разветвители питания', 'Проставочные кольца', 'Акустические подиумы, Полки, Лифтинговые платформы', 'Сетки, Грили для акустики', 'Расходные материалы, Крепёж', 'Зарядные устройства'],
+    'Сабвуферы': ['Сабвуферные динамики', 'Корпуса для сабвуферов', 'Сабвуферы корпусные активные',
+                  'Сабвуферы корпусные пассивные'],
+    'Усилители': ['Усилители 1 канал (Моноблоки)', 'Усилители 2 и 3 канала', 'Усилители 4 и более каналов',
+                  'Процессоры, Кроссоверы, Конденсаторы'],
+    'Кабельная продукция': ['Кабель межблочный (RCA)', 'Кабель акустический', 'Кабель силовой',
+                            'Y-Разветвители, RCA адаптеры, переходники', 'Кабель сигнальный, Интерфейсный',
+                            'Полиэстеровый рукав (Змеиная кожа)'],
+    'Аксессуары для автозвука': ['Предохранители и автоматические прерыватели', 'Держатели предохранителя',
+                                 'Дистрибьюторы и разветвители питания', 'Проставочные кольца',
+                                 'Акустические подиумы, Полки, Лифтинговые платформы', 'Сетки, Грили для акустики',
+                                 'Расходные материалы, Крепёж', 'Зарядные устройства'],
     'Шумоизоляция': ['Шумоизоляционные материалы', 'Виброизоляционные материалы', 'Инструмент, Аксессуары'],
-    'Охранные системы': ['Автосигнализации', 'Центральные замки и комплектующие', 'Аксессуары для монтажа охранных систем'],
+    'Охранные системы': ['Автосигнализации', 'Центральные замки и комплектующие',
+                         'Аксессуары для монтажа охранных систем'],
     'Автосвет': ['Автолампы (LED, Галоген)', 'Линзы, Маски', 'ПТФ', 'Комплектующие и аксессуары для монтажа']
-    }
+}
 
 SHOP_URL = f'{WEBSITE_URL}/shop/None-None&name-False&1'
 
@@ -72,7 +81,6 @@ def main_page():
         related_product = recycle_list("id, name, text, price, sale",
                                        "id, name, text, price, price_with_sale, sale",
                                        related_product)
-    
 
     return render_template('index.html', title='SoundRepair | Главная страница', url=WEBSITE_URL,
                            random_product=random_product_list_new, upsell_product=upsell_product,
@@ -136,7 +144,7 @@ def product(product_id):
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
                         levelness="../", url=WEBSITE_URL, related_product=related_product,
-                        upsell_product=upsell_product, product_id=product_id, 
+                        upsell_product=upsell_product, product_id=product_id,
                         is_upsell_product=bool(upsell_product), all_categories=ALL_CATEGORIES,
                         is_related_product=bool(related_product)))
 
@@ -151,13 +159,17 @@ def shop():
 
     manufactures = kwargs.get('manufacturer').split(',') if kwargs.get('manufacturer') else []
     categories = kwargs.get('categories').split(',') if kwargs.get('categories') else []
+    subcategory = kwargs.get('subcategory').split(',') if kwargs.get('subcategory') else []
     price = tuple(map(float, kwargs.get('price').split('-'))) if kwargs.get('price') else []
 
     filters = []
     if manufactures:
         filters.append(
             f'''manufacturer IN {tuple(manufactures) if len(manufactures) > 1 else f"('{manufactures[0]}')"}''')
-    if categories:
+
+    if subcategory:
+        filters.append(f'''subcategory IN {tuple(subcategory) if len(subcategory) > 1 else f"('{subcategory[0]}')"}''')
+    elif categories:
         filters.append(f'''categories IN {tuple(categories) if len(categories) > 1 else f"('{categories[0]}')"}''')
 
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
