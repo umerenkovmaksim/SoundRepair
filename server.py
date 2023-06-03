@@ -158,8 +158,8 @@ def shop():
     print(kwargs)
 
     manufactures = kwargs.get('manufacturer').split(',') if kwargs.get('manufacturer') else []
-    categories = kwargs.get('categories').split(',') if kwargs.get('categories') else []
-    subcategory = kwargs.get('subcategory').split(',') if kwargs.get('subcategory') else []
+    categories = kwargs.get('categories') if kwargs.get('categories') else []
+    subcategory = kwargs.get('subcategory') if kwargs.get('subcategory') else []
     price = tuple(map(float, kwargs.get('price').split('-'))) if kwargs.get('price') else []
 
     filters = []
@@ -168,9 +168,9 @@ def shop():
             f'''manufacturer IN {tuple(manufactures) if len(manufactures) > 1 else f"('{manufactures[0]}')"}''')
 
     if subcategory:
-        filters.append(f'''subcategory IN {tuple(subcategory) if len(subcategory) > 1 else f"('{subcategory[0]}')"}''')
+        filters.append(f'''subcategory IN ('{subcategory}')''')
     elif categories:
-        filters.append(f'''categories IN {tuple(categories) if len(categories) > 1 else f"('{categories[0]}')"}''')
+        filters.append(f'''categories IN ('{categories}')''')
 
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
     products = select_from_db(colums_name="id, name, short_description, price, sale",
