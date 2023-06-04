@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- Header Area End -->   
+<!-- Header Area End -->
 <!-- Breadcrumb Start -->
 <div class="breadcrumb-area ptb-60 ptb-sm-30">
     <div class="container">
@@ -35,7 +35,7 @@
                     {% else %}
                         <span>До</span><input id="maxPriceInput-2" type="number" placeholder="{{max_price}}"><span>руб.</span>
                     {% endif %}
-                    
+
                 </div>
             </div>
             <div class="border"></div>
@@ -57,7 +57,7 @@
                         {% endfor %}
                     </ul>
                 </div>
-            </div>  
+            </div>
             <button onclick="ApplyFilters_2()" class="apply-filters">Применить</button>
         </div>
 	</div>
@@ -93,7 +93,7 @@
                                     {% else %}
                                         <span>До</span><input id="maxPriceInput" type="number" placeholder="{{max_price}}"><span>руб.</span>
                                     {% endif %}
-                                    
+
                                 </div>
                             </div>
                             <div class="border"></div>
@@ -115,7 +115,7 @@
                                         {% endfor %}
                                     </ul>
                                 </div>
-                            </div>  
+                            </div>
                             <button onclick="ApplyFilters()" class="apply-filters">Применить</button>
                         </div>
                     </div>
@@ -125,8 +125,8 @@
                         </div>
                         <ul>
                             {% for data in categories %}
-                            <li><a href="{{url}}{{data[1]}}">
-                                {{data[0]}}
+                            <li><a href="{{url}}/shop?categories={{data}}">
+                                {{data}}
                             </a></li>
                             {% endfor %}
                         </ul>
@@ -228,7 +228,7 @@
                     <!-- Single Banner End -->
                 </div>
             </div>
-            <!-- Sidebar Shopping Option End -->                  
+            <!-- Sidebar Shopping Option End -->
             <!-- Product Categorie List Start -->
             <div class="col-lg-9 order-lg-2">
                 {% if max_page != 0 %}

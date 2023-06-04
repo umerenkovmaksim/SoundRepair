@@ -168,9 +168,9 @@ def shop():
             f'''manufacturer IN {tuple(manufactures) if len(manufactures) > 1 else f"('{manufactures[0]}')"}''')
 
     if subcategory:
-        filters.append(f'''subcategory IN ('{subcategory}')''')
+        filters.append(f"""subcategory == '{subcategory}'""")
     elif categories:
-        filters.append(f'''categories IN ('{categories}')''')
+        filters.append(f"""categories == '{categories}'""")
 
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
     products = select_from_db(colums_name="id, name, short_description, price, sale",
@@ -246,10 +246,10 @@ def shop():
     if page > max_page and len(products) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
                                all_categories=ALL_CATEGORIES)
-
+    print(list(ALL_CATEGORIES.keys()))
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs,
-                        categories=categories, filter_price=filter_price, all_categories=ALL_CATEGORIES,
+                        categories=list(ALL_CATEGORIES.keys()), filter_price=filter_price, all_categories=ALL_CATEGORIES,
                         product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12],
                         grid_item_list_text=grid_item_list_text, max_price=max_price,
                         max_page=max_page, page=page, subcategories=subcategories, min_price=min_price,

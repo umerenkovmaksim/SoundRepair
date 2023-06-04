@@ -81,7 +81,7 @@
                                           <!-- Второй уровень выпадающего меню -->
                                           <ul class="ht-dropdown dropdown-style-two right-submenu" id="submenu-{{category}}">
                                             {% for subcategory in all_categories[category] %}
-                                            <li><a href="{{url}}/shop?categories={{category}}&subcategories={{subcategory}}">{{subcategory}}</a></li>
+                                            <li><a href="{{url}}/shop?&subcategories={{subcategory}}">{{subcategory}}</a></li>
                                             {% endfor %}
                                           </ul>
                                         </li>
