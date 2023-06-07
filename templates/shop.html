@@ -116,6 +116,35 @@
                                     </ul>
                                 </div>
                             </div>
+                            {% for filters in filters_list %}
+                                <div class="border"></div>
+                                <div class="filter-form">
+                                    <div class="filter__header">
+                                        <button class="filter__collapse-btn fa fa-angle-down"> {{filters}}</button>
+                                        <style>
+                                            .filter__collapse-btn {
+                                                white-space: normal;
+                                                text-align: left;
+                                            }
+                                        </style>
+                                        
+                                    </div>
+                                    <div class="filter__content">
+                                        <ul class="filter__list">
+                                            {% for filter in filters_list[filters] %}
+                                            <li>
+                                                {% if filter in kwargs['filters'] %}
+                                                <input type="checkbox" id="filter-{{filters}}-{{filter}}" name="{{filters}}-2" value="{{filter}}" checked>
+                                                {% else %}
+                                                <input type="checkbox" id="filter-{{filters}}-{{filter}}" name="{{filters}}-2" value="{{filter}}">
+                                                {% endif %}
+                                                <label for="filter-{{filters}}-{{filter}}">{{filter}}</label>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>  
+                            {% endfor %}
                             <button onclick="ApplyFilters()" class="apply-filters">Применить</button>
                         </div>
                     </div>

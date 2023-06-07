@@ -7,32 +7,12 @@ from flask import Flask, render_template, request, make_response, url_for
 
 from functions import *
 from telegram_bot_functions import *
+from constants_data import *
 
 app = Flask(__name__)
 HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
-ALL_CATEGORIES = {
-    'Автомагнитолы': ['Автомагнитолы 1 DIN', 'Автомагнитолы 2 DIN', 'Android-ГУ', 'Переходные рамки',
-                      'ISO Адаптеры и переходники', 'Камеры', 'Аксессуары'],
-    'Автомобильная акустика': ['Компонентная акустика', 'Коаксиальная акустика', 'Твитеры', 'Отдельные компоненты'],
-    'Эстрадная акустика': ['Эстрадные динамики', 'ВЧ динамики, Рупора, Драйверы'],
-    'Сабвуферы': ['Сабвуферные динамики', 'Корпуса для сабвуферов', 'Сабвуферы корпусные активные',
-                  'Сабвуферы корпусные пассивные'],
-    'Усилители': ['Усилители 1 канал (Моноблоки)', 'Усилители 2 и 3 канала', 'Усилители 4 и более каналов',
-                  'Процессоры, Кроссоверы, Конденсаторы'],
-    'Кабельная продукция': ['Кабель межблочный (RCA)', 'Кабель акустический', 'Кабель силовой',
-                            'Y-Разветвители, RCA адаптеры, переходники', 'Кабель сигнальный, Интерфейсный',
-                            'Полиэстеровый рукав (Змеиная кожа)'],
-    'Аксессуары для автозвука': ['Предохранители и автоматические прерыватели', 'Держатели предохранителя',
-                                 'Дистрибьюторы и разветвители питания', 'Проставочные кольца',
-                                 'Акустические подиумы, Полки, Лифтинговые платформы', 'Сетки, Грили для акустики',
-                                 'Расходные материалы, Крепёж', 'Зарядные устройства'],
-    'Шумоизоляция': ['Шумоизоляционные материалы', 'Виброизоляционные материалы', 'Инструмент, Аксессуары'],
-    'Охранные системы': ['Автосигнализации', 'Центральные замки и комплектующие',
-                         'Аксессуары для монтажа охранных систем'],
-    'Автосвет': ['Автолампы (LED, Галоген)', 'Линзы, Маски', 'ПТФ', 'Комплектующие и аксессуары для монтажа']
-}
 
 SHOP_URL = f'{WEBSITE_URL}/shop/None-None&name-False&1'
 
@@ -235,7 +215,8 @@ def shop():
         href = url_for('shop', **kwargs_copy)
 
         categories.append((categorie, href))
-    subcategories = {}
+    subcategories = kwargs.get('subcategories') if kwargs.get('subcategories') else ''
+    filter_list = FILTERS_LIST[subcategories] if subcategories else []
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
 
     filter_price = kwargs.get('price').split('-') if kwargs.get('price') else ['', 'inf']
@@ -251,7 +232,7 @@ def shop():
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs,
                         categories=list(ALL_CATEGORIES.keys()), filter_price=filter_price, all_categories=ALL_CATEGORIES,
                         product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12],
-                        grid_item_list_text=grid_item_list_text, max_price=max_price,
+                        grid_item_list_text=grid_item_list_text, max_price=max_price, filters_list=filter_list,
                         max_page=max_page, page=page, subcategories=subcategories, min_price=min_price,
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')),
                         all_manufacturers=all_manufacturers))

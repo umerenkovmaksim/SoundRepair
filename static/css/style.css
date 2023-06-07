@@ -604,7 +604,7 @@ input[type="checkbox"] {
     outline: none;
   }
   .filter__content {
-    padding: 10px;
+    padding-top: 10px;
     display: none;
     transition: all 0.3s ease 0s;
   }
@@ -613,13 +613,13 @@ input[type="checkbox"] {
     display: block;
   }
   
-  .filter__category-list {
+  .filter__list {
     list-style: none;
     margin: 0;
     padding: 0;
   }
   
-  .filter__category-list li {
+  .filter__list li {
     display: block;
     white-space: nowrap;
   }
