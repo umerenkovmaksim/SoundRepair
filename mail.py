@@ -37,4 +37,4 @@ from mail_data import mail, password
 #         to_addrs="br3027645@gmail.com",
 #         msg=f"Subject:Text\n\n"
 #             f"Body of the text"
-)
+# )

@@ -19,6 +19,9 @@ def select_from_db(table_name="products", colums_name="*", filters=None):
     # filters филтры по которым выбираються значения (в формате SQL)
     #
 
+    colums_name.replace("short_description", "description")
+    colums_name.replace("categories", "categorie")
+
     con = sqlite3.connect("db/data.db")
     cur = con.cursor()
 
