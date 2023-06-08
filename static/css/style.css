@@ -1246,7 +1246,7 @@ input[type="checkbox"] {
     color: #444;
 }
 .price {
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .prev-price {
@@ -2153,9 +2153,11 @@ input[type="checkbox"] {
     box-shadow: none;
     border: 2px solid rgb(190, 190, 190);
     height: 32px;
+    width: 32px;
 }
 .add-cart-btn{
     border-radius: 3px;
+    font-size: 12px;
     color: #2b2b2b;
     display: inline-block;
     outline: none;
@@ -2163,8 +2165,9 @@ input[type="checkbox"] {
     border: 2px solid rgb(190, 190, 190);
     height: 32px;
     padding: 0 10px;
+    margin-top: 3px;
     text-transform: capitalize;
-    width: 117px;
+    width: 125px;
 }
 
 .sort {
@@ -2217,9 +2220,8 @@ input[type="checkbox"] {
     color: #fff;
 }
 .product-link {
-    border-top: 1px solid #ebebeb;
+    border-top: 2px solid #ebebeb;
     padding-top: 25px;
-    margin-top: 20px;
 }
 .product-link li {
     display: inline-block;

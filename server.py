@@ -91,7 +91,7 @@ def product(product_id):
 
     product_data = recycle_list(
         "id, name, short_description, description, manufacturer, categories, sale, price",
-        "id, name, short_description, description, manufacturer, categories, sale, price_with_sale, price",
+        "id, name, short_description, description, manufacturer, categories, sale, price_with_sale_or_price, price",
         product_data)
 
     product_data = tuple(product_data[0])

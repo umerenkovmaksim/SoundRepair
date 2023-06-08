@@ -25,7 +25,7 @@
                 <!-- Thumbnail Large Image start -->
                 <div class="tab-content">
                         <div id="thumb1" class="tab-pane active">
-                            <a data-fancybox="images" href="{{levelness}}{{product_data[4]}}"><img src="{{levelness}}{{product_data[4]}}" alt="product-view"></a>
+                            <a data-fancybox="images" href="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}"><img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-view"></a>
                         </div>
                 </div>
                 <!-- Thumbnail Large Image End -->
@@ -37,7 +37,7 @@
             <!-- Thumbnail Description Start -->
             <div class="col-lg-7">
                 <div class="thubnail-desc fix">
-                    <h3 class="product-header">{{product_data[2]}}</h3>
+                    <h3 class="product-header">{{product_data[1]}}</h3>
                     <br>
                     <div class="pro-price mb-10">
 
@@ -47,16 +47,18 @@
                         {% else %}
                         <p><span class="price">{{product_data[8]}}₽</span>
                         {% endif %}
+                        <style>
+                            .price {
+                                font-size: 22px;
+                                font-weight: 400;
+                            }
+                        </style>
                     </div>
                     <br>
-                    <div class="box-quantity">
-                        <form action="#">
-                            <a class="add-cart" href="{{url}}/cart?action=add&product_id={{product_data[0]}}">add to cart</a>
-                        </form>
-                    </div>
                     <div class="product-link">
                         <ul class="list-inline">
-                            <li><a href="{{url}}/wishlist?action=add&product_id={{product_data[0]}}">Добавить в Избранное</a></li>
+                            <li><button class="add-wishlist-btn" data-toggle="tooltip" title="Добавить в понравившиеся"><i class="fa fa-heart"></i></button></li>
+                            <li><button class="add-cart-btn" data-id="{{product_id}}" data-name="{{product_data[1]}}" data-price="{{product_data[8]}}" data-price_with_sale="{{product_data[7]}}" data-sale="{{product_data[6]}}" data-image_href="{{url_for('static', filename='img/products/' ~ product_id ~ '.jpg')}}" data-toggle="tooltip" title="Добавить в корзину">В корзину</button></li>
                         </ul>
                     </div>
                     <p class="ptb-20">{{product_data[2]}}</p>
