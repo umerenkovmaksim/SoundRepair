@@ -27,22 +27,22 @@ def handle_bad_request(e):
 @app.route('/')
 def main_page():
     # Случайные товары
-    colums_name = "id, name, short_description"
+    colums_name = "id, name, description"
     random_product_list = select_from_db(colums_name=colums_name)
 
     random.shuffle(random_product_list)
     random_product_list_new = random.sample(random_product_list, 3)
 
     # Товары по скидке
-    colums_name = "id, name, short_description, price, sale"
+    colums_name = "id, name, description, price, sale"
     filters = "sale != 0"
     upsell_product = select_from_db(colums_name=colums_name, filters=filters)
 
     random.shuffle(upsell_product)
     upsell_product = random.sample(upsell_product, min(7, len(upsell_product)))
 
-    upsell_product = recycle_list("id, name, short_description, price, sale",
-                                  "id, name, short_description, price, price_with_sale, sale",
+    upsell_product = recycle_list("id, name, description, price, sale",
+                                  "id, name, description, price, price_with_sale, sale",
                                   upsell_product)
 
     last_manufacturer_and_categories = request.cookies.get("last_manufacturer_and_categories")
@@ -50,7 +50,7 @@ def main_page():
     if last_manufacturer_and_categories:
         manufacturer, categories = tuple(last_manufacturer_and_categories.split("$"))
 
-        colums_name = "id, name, short_description, price, sale"
+        colums_name = "id, name, description, price, sale"
         filters = f"manufacturer == '{manufacturer}' or categories like '%{categories}%'"
 
         related_product = select_from_db(colums_name=colums_name, filters=filters)
@@ -86,18 +86,18 @@ def product(product_id):
     filters = f"id == {product_id}"
 
     product_data = [select_from_db(filters=filters,
-                                   colums_name='id, name, short_description, description, manufacturer, categories, sale, price')[
+                                   colums_name='id, name, description, description, manufacturer, categorie, sale, price')[
                         0]]
 
     product_data = recycle_list(
-        "id, name, short_description, description, manufacturer, categories, sale, price",
-        "id, name, short_description, description, manufacturer, categories, sale, price_with_sale_or_price, price",
+        "id, name, description, description, manufacturer, categories, sale, price",
+        "id, name, description, description, manufacturer, categories, sale, price_with_sale_or_price, price",
         product_data)
 
     product_data = tuple(product_data[0])
 
     # related_product - 7шт
-    colums_name = "id, name, short_description, price, sale"
+    colums_name = "id, name, description, price, sale"
     filters = f"manufacturer == '{product_data[5]}' or categories like '%{product_data[6]}%'"
 
     related_product = select_from_db(colums_name=colums_name, filters=filters)
@@ -110,15 +110,15 @@ def product(product_id):
                                    related_product)
 
     # upsell_product - товары по скидке (Рандомные со скидкой)
-    colums_name = "id, name, short_description, price, sale"
+    colums_name = "id, name, description, price, sale"
     filters = "sale != 0"
     upsell_product = select_from_db(colums_name=colums_name, filters=filters)
 
     random.shuffle(upsell_product)
     upsell_product = random.sample(upsell_product, min(7, len(upsell_product)))
 
-    upsell_product = recycle_list("id, name, short_description, price, sale",
-                                  "id, name, short_description, price, price_with_sale, sale",
+    upsell_product = recycle_list("id, name, description, price, sale",
+                                  "id, name, description, price, price_with_sale, sale",
                                   upsell_product)
     print(product_data)
     res = make_response(
@@ -150,10 +150,10 @@ def shop():
     if subcategory:
         filters.append(f"""subcategory == '{subcategory}'""")
     elif categories:
-        filters.append(f"""categories == '{categories}'""")
+        filters.append(f"""categorie == '{categories}'""")
 
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
-    products = select_from_db(colums_name="id, name, short_description, price, sale",
+    products = select_from_db(colums_name="id, name, description, price, sale",
                               filters=' AND '.join(filters))
 
     products = recycle_list("id, name, text, price, sale",
@@ -205,7 +205,7 @@ def shop():
     grid_item_list_text = f"Товары {1 + 12 * (page - 1) if len(products) > 0 else 0}-" \
                           f"{min(len(products), 12 * page)} из {len(products)}"
 
-    all_categories = sorted(list(set(select_from_db(colums_name="categories"))), key=lambda x: x[0])
+    all_categories = sorted(list(set(select_from_db(colums_name="categorie"))), key=lambda x: x[0])
     categories = []
     for categorie in all_categories:
         categorie = categorie[0]
