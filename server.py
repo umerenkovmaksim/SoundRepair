@@ -51,7 +51,7 @@ def main_page():
         manufacturer, categories = tuple(last_manufacturer_and_categories.split("$"))
 
         colums_name = "id, name, description, price, sale"
-        filters = f"manufacturer == '{manufacturer}' or categories like '%{categories}%'"
+        filters = f"manufacturer == '{manufacturer}' or category like '%{categories}%'"
 
         related_product = select_from_db(colums_name=colums_name, filters=filters)
 
@@ -86,19 +86,19 @@ def product(product_id):
     filters = f"id == {product_id}"
 
     product_data = [select_from_db(filters=filters,
-                                   colums_name='id, name, description, description, manufacturer, categorie, sale, price')[
+                                   colums_name='id, name, description, description, manufacturer, category, sale, price')[
                         0]]
 
     product_data = recycle_list(
-        "id, name, description, description, manufacturer, categories, sale, price",
-        "id, name, description, description, manufacturer, categories, sale, price_with_sale_or_price, price",
+        "id, name, description, description, manufacturer, category, sale, price",
+        "id, name, description, description, manufacturer, category, sale, price_with_sale_or_price, price",
         product_data)
 
     product_data = tuple(product_data[0])
 
     # related_product - 7шт
     colums_name = "id, name, description, price, sale"
-    filters = f"manufacturer == '{product_data[5]}' or categories like '%{product_data[6]}%'"
+    filters = f"manufacturer == '{product_data[5]}' or category like '%{product_data[6]}%'"
 
     related_product = select_from_db(colums_name=colums_name, filters=filters)
 
@@ -150,7 +150,7 @@ def shop():
     if subcategory:
         filters.append(f"""subcategory == '{subcategory}'""")
     elif categories:
-        filters.append(f"""categorie == '{categories}'""")
+        filters.append(f"""category == '{categories}'""")
 
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
     products = select_from_db(colums_name="id, name, description, price, sale",
@@ -205,7 +205,7 @@ def shop():
     grid_item_list_text = f"Товары {1 + 12 * (page - 1) if len(products) > 0 else 0}-" \
                           f"{min(len(products), 12 * page)} из {len(products)}"
 
-    all_categories = sorted(list(set(select_from_db(colums_name="categorie"))), key=lambda x: x[0])
+    all_categories = sorted(list(set(select_from_db(colums_name="category"))), key=lambda x: x[0])
     categories = []
     for categorie in all_categories:
         categorie = categorie[0]
@@ -215,7 +215,7 @@ def shop():
         href = url_for('shop', **kwargs_copy)
 
         categories.append((categorie, href))
-    subcategories = kwargs.get('subcategories') if kwargs.get('subcategories') else ''
+    subcategories = kwargs.get('subcategory') if kwargs.get('subcategory') else ''
     filter_list = FILTERS_LIST[subcategories] if subcategories else []
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
 
@@ -348,19 +348,13 @@ def work(id):
                            previous_work=previous_work, next_work=next_work)
 
 
-@app.route('/services/<page>')
-def services(page):
-    colums_name = "id, title, description, date"
-    table_name = "our_works"
+@app.route('/services')
+def services():
 
-    works = select_from_db(colums_name=colums_name, table_name=table_name)
-
-    works_count = len(works)
-    pages_count = math.ceil(works_count / 12)
+    
 
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
-                           all_categories=ALL_CATEGORIES,
-                           works=works[12 * (int(page) - 1):12 * int(page)], page=int(page), pages_count=pages_count)
+                           all_categories=ALL_CATEGORIES)
 
 
 app.run(host=HOST, port=PORT)
