@@ -24,7 +24,7 @@ def handle_bad_request(e):
                            all_categories=ALL_CATEGORIES)
 
 
-@app.route('/')
+@app.route('/old_index')
 def main_page():
     # Случайные товары
     colums_name = "id, name, description"
@@ -74,10 +74,38 @@ def index_2():
                            all_categories=ALL_CATEGORIES)
 
 
-@app.route('/index_3')
+@app.route('/')
 def index_3():
-    return render_template("index-3.html", url=WEBSITE_URL, levelness="../",
-                           all_categories=ALL_CATEGORIES)
+    colums_name = "id, name, price, sale"
+
+    top_products = recycle_list("id, name, price, sale",
+                                "id, name, price, price_with_sale, sale",
+                                random.sample(select_from_db(colums_name=colums_name), 15))
+    top_products_mat = [top_products[:5], top_products[5:10], top_products[10:]]
+
+    filters = "quantity = 1"
+    last_products = recycle_list("id, name, price, sale",
+                                 "id, name, price, price_with_sale, sale",
+                                 random.sample(select_from_db(colums_name=colums_name, filters=filters), 5))
+
+    category = random.choice(list(ALL_CATEGORIES.keys()))
+    filters = f"category = '{category}'"
+    category_products = select_from_db(colums_name=colums_name, filters=filters)
+    category_products = recycle_list("id, name, price, sale",
+                                     "id, name, price, price_with_sale, sale",
+                                     random.sample(category_products, min(5, len(category_products))))
+
+    manufacturer = random.choice(list(set(map(lambda x: x[0], select_from_db(colums_name="manufacturer")))))
+    filters = f"manufacturer = '{manufacturer}'"
+    manufacturer_products = select_from_db(colums_name=colums_name, filters=filters)
+    manufacturer_products = recycle_list("id, name, price, sale",
+                                         "id, name, price, price_with_sale, sale",
+                                         random.sample(manufacturer_products, min(5, len(manufacturer_products))))
+
+    return render_template("index-3.html", url=WEBSITE_URL, levelness="../", last_products=last_products,
+                           all_categories=ALL_CATEGORIES, top_products_mat=top_products_mat,
+                           category_products=category_products, category=category,
+                           manufacturer_products=manufacturer_products, manufacturer=manufacturer)
 
 
 @app.route('/product/<product_id>')
@@ -230,7 +258,8 @@ def shop():
     print(list(ALL_CATEGORIES.keys()))
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs,
-                        categories=list(ALL_CATEGORIES.keys()), filter_price=filter_price, all_categories=ALL_CATEGORIES,
+                        categories=list(ALL_CATEGORIES.keys()), filter_price=filter_price,
+                        all_categories=ALL_CATEGORIES,
                         product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12],
                         grid_item_list_text=grid_item_list_text, max_price=max_price, filters_list=filter_list,
                         max_page=max_page, page=page, subcategories=subcategories, min_price=min_price,
@@ -350,9 +379,6 @@ def work(id):
 
 @app.route('/services')
 def services():
-
-    
-
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES)
 

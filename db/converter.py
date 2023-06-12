@@ -18,8 +18,8 @@ for cellObj in sheet['2':f'{sheet.max_row}']:
         cur = con.cursor()
         cur.execute(f"""UPDATE products
                         SET
-                        categorie = '{product_data[1]}', 
-                        subcategorie = '{product_data[2]}', 
+                        category = '{product_data[1]}', 
+                        subcategory = '{product_data[2]}', 
                         manufacturer = '{product_data[3]}', 
                         name = '{product_data[4]}', 
                         description = '{product_data[5]}',  
@@ -37,7 +37,7 @@ for cellObj in sheet['2':f'{sheet.max_row}']:
         cur = con.cursor()
         cur.execute(
             f"""INSERT INTO 
-            products(id, categorie, subcategorie, manufacturer, name, description, quantity, price, sale) 
+            products(id, category, subcategory, manufacturer, name, description, quantity, price, sale) 
             VALUES
             {tuple(product_data)}""")
 
