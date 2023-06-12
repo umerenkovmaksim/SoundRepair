@@ -138,7 +138,7 @@ def shop():
     print(kwargs)
 
     manufactures = kwargs.get('manufacturer').split(',') if kwargs.get('manufacturer') else []
-    categories = kwargs.get('categories') if kwargs.get('categories') else []
+    category = kwargs.get('category') if kwargs.get('category') else []
     subcategory = kwargs.get('subcategory') if kwargs.get('subcategory') else []
     price = tuple(map(float, kwargs.get('price').split('-'))) if kwargs.get('price') else []
 
@@ -149,8 +149,8 @@ def shop():
 
     if subcategory:
         filters.append(f"""subcategory == '{subcategory}'""")
-    elif categories:
-        filters.append(f"""category == '{categories}'""")
+    elif category:
+        filters.append(f"""category == '{category}'""")
 
     #  PRODUCTS ---------------------------------------------------------------------------------------------------
     products = select_from_db(colums_name="id, name, description, price, sale",
@@ -207,14 +207,14 @@ def shop():
 
     all_categories = sorted(list(set(select_from_db(colums_name="category"))), key=lambda x: x[0])
     categories = []
-    for categorie in all_categories:
-        categorie = categorie[0]
+    for category in all_categories:
+        category = category[0]
         kwargs_copy = kwargs.copy()
-        kwargs_copy["categories"] = categorie
+        kwargs_copy["category"] = category
         kwargs_copy["page"] = 1
         href = url_for('shop', **kwargs_copy)
 
-        categories.append((categorie, href))
+        categories.append((category, href))
     subcategories = kwargs.get('subcategory') if kwargs.get('subcategory') else ''
     filter_list = FILTERS_LIST[subcategories] if subcategories else []
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])

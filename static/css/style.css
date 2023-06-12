@@ -381,16 +381,11 @@ input#newsletter-permission {
     padding: 10px 0px;
     position: absolute;
     top: 100%;
-    -webkiit-transform: scaleY(0);
-    -webkit-transform: scaleY(0);
-    transform: scaleY(0);
     -webkit-transform-origin: 0 0 0;
     transform-origin: 0 0 0;
     text-align: left;
     visibility: hidden;
     z-index: 99999999;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
     -webkit-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
     -ms-box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
     box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.2);
@@ -2064,9 +2059,7 @@ input[type="checkbox"] {
     color: #ccc;
     content: "/\00a0";
 }
-#grid-view .single-product, #list-view .single-product{
-    margin-bottom: 30px;
-}
+
 #list-view .sticker-new, #list-view .sticker-sale {
     top: 30px;
 }

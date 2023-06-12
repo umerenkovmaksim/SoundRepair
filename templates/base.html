@@ -77,11 +77,11 @@
                                       <ul class="ht-dropdown dropdown-style-two first-dropdown">
                                         {% for category in all_categories %}
                                         <li class="dropdown-item">
-                                          <a href="{{url}}/shop?categories={{category}}">{{category}}</a>
+                                          <a href="{{url}}/shop?category={{category}}">{{category}}</a>
                                           <!-- Второй уровень выпадающего меню -->
                                           <ul class="ht-dropdown dropdown-style-two right-submenu" id="submenu-{{category}}">
                                             {% for subcategory in all_categories[category] %}
-                                            <li><a href="{{url}}/shop?&subcategories={{subcategory}}">{{subcategory}}</a></li>
+                                            <li><a href="{{url}}/shop?&subcategory={{subcategory}}">{{subcategory}}</a></li>
                                             {% endfor %}
                                           </ul>
                                         </li>
@@ -122,7 +122,7 @@
                                             <!-- Mobile Menu Dropdown Start -->
                                             <ul>
                                                 {% for category in categories_for_base %}
-                                                <li><a href="{{url}}/shop?categories={{category}}">{{category}}</a></li>
+                                                <li><a href="{{url}}/shop?category={{category}}">{{category}}</a></li>
                                                 {% endfor %}
                                             </ul>
                                             <!-- Mobile Menu Dropdown End -->
