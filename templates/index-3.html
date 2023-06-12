@@ -3,11 +3,11 @@
 
 
 <body>
-<br>
     <!--[if lt IE 8]>
     <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <!-- Wrapper Start -->
+    <br>
     <div class="box-wrapper homepage">
         <div class="box-layout">
         <!-- Slider Area Start -->
@@ -327,245 +327,26 @@
                 <!-- Best Product Activation Start -->
                 <div class="best-seller-pro-active  owl-carousel slider-right-content">
                     <!-- Double Product Start -->
+                    {% for products_list in products_mat %}
                     <div class="double-pro">
                         <!-- Single Product Start -->
+                        {% for id, name, price, sale_price, sale in products_list %}
                         <div class="single-product">
                             <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/1.jpg" alt="product-image"></a>
+                                <a href="{{url}}/product/{{id}}"><img class="img" src="{{url_for('static', filename='img/products/{{id}}.jpg')}}" alt="product-image"></a>
                             </div>
                             <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
+                                <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
+                                <p><span class="price">{{price}}₽</span>
+                                            {% if sale %}
+                                            <del class="prev-price">{{price}}₽</del></p>
+                                            {% endif %}
                             </div>
                         </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/2.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$150.00</span><del class="prev-price">$200.00</del></p>
-                            </div>
-                        </div>
+                        {% endfor %}
                         <!-- Single Product End -->
                     </div>
-                    <!-- Double Product End -->
-                    <!-- Double Product Start -->
-                    <div class="double-pro">
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/3.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/4.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$150.00</span><del class="prev-price">$200.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                    </div>
-                    <!-- Double Product End -->
-                    <!-- Double Product Start -->
-                    <div class="double-pro">
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/5.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/6.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$150.00</span><del class="prev-price">$200.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                    </div>
-                    <!-- Double Product End -->
-                    <!-- Double Product Start -->
-                    <div class="double-pro">
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/7.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/8.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$150.00</span><del class="prev-price">$200.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                    </div>
-                    <!-- Double Product End -->
-                    <!-- Double Product Start -->
-                    <div class="double-pro">
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/5.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/6.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$150.00</span><del class="prev-price">$200.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                    </div>
-                    <!-- Double Product End -->
-                    <!-- Double Product Start -->
-                    <div class="double-pro">
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/7.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$30.00</span><del class="prev-price">$32.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                        <!-- Single Product Start -->
-                        <div class="single-product">
-                            <div class="pro-img">
-                                <a href="product.html"><img class="img" src="{{levelness}}/static/img/products/8.jpg" alt="product-image"></a>
-                            </div>
-                            <div class="pro-content">
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <h4><a href="product.html">Products Name Here</a></h4>
-                                <p><span class="price">$150.00</span><del class="prev-price">$200.00</del></p>
-                            </div>
-                        </div>
-                        <!-- Single Product End -->
-                    </div>
-                    <!-- Double Product End -->
+                    {% endfor %}
                 </div>
                 <!-- Best Product Activation End -->
             </div>
@@ -581,118 +362,24 @@
                  <!-- Popular Categorie Activation Start -->
                  <div class="blog-active owl-carousel">
                     <!-- Single Blog Start -->
+                     {% for id, title, description, date in works %}
                     <div class="single-blog">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="{{levelness}}/static/img/blog/1.jpg" alt="blog-image"></a>
+                    <div class="blog-img">
+                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename='img/blog/{{id}}.jpg')}}" alt="blog-image"></a>
+                    </div>
+                    <div class="blog-content">
+                            <h4 class="blog-title"><a href="{{url}}/work/{{id}}">{{title}}</a></h4>
+                        <div class="blog-meta">
+                            <ul>
+                                <li><span>Дата: </span> <a href="#">{{date}}</a></li>
+                            </ul>
                         </div>
-                        <div class="blog-content">
-                                <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                            <div class="blog-meta">
-                                <ul>
-                                    <li><span>By: </span> <a href="#">Jantrik,</a></li>
-                                    <li><span>On: </span> <a href="#">05 Nov, 2018</a></li>
-                                </ul>
-                            </div>
-                            <div class="readmore">
-                                <a href="blog-details.html">Read More.....</a>
-                            </div>
+                        <div class="readmore">
+                            <a href="{{url}}/work/{{id}}">Читать дальше...</a>
                         </div>
                     </div>
-                    <!-- Single Blog End -->
-                    <!-- Single Blog Start -->
-                    <div class="single-blog">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="{{levelness}}/static/img/blog/2.jpg" alt="blog-image"></a>
-                        </div>
-                        <div class="blog-content">
-                                <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                            <div class="blog-meta">
-                                <ul>
-                                    <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                    <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                </ul>
-                            </div>
-                            <div class="readmore">
-                                <a href="blog-details.html">Read More.....</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Blog End -->
-                    <!-- Single Blog Start -->
-                    <div class="single-blog">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="{{levelness}}/static/img/blog/3.jpg" alt="blog-image"></a>
-                        </div>
-                        <div class="blog-content">
-                                <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                            <div class="blog-meta">
-                                <ul>
-                                    <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                    <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                </ul>
-                            </div>
-                            <div class="readmore">
-                                <a href="blog-details.html">Read More.....</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Blog End -->
-                    <!-- Single Blog Start -->
-                    <div class="single-blog">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="{{levelness}}/static/img/blog/1.jpg" alt="blog-image"></a>
-                        </div>
-                        <div class="blog-content">
-                                <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                            <div class="blog-meta">
-                                <ul>
-                                    <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                    <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                </ul>
-                            </div>
-                            <div class="readmore">
-                                <a href="blog-details.html">Read More.....</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Blog End -->
-                    <!-- Single Blog Start -->
-                    <div class="single-blog">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="{{levelness}}/static/img/blog/2.jpg" alt="blog-image"></a>
-                        </div>
-                        <div class="blog-content">
-                                <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                            <div class="blog-meta">
-                                <ul>
-                                    <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                    <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                </ul>
-                            </div>
-                            <div class="readmore">
-                                <a href="blog-details.html">Read More.....</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Blog End -->
-                    <!-- Single Blog Start -->
-                    <div class="single-blog">
-                        <div class="blog-img">
-                            <a href="blog-details.html"><img src="{{levelness}}/static/img/blog/3.jpg" alt="blog-image"></a>
-                        </div>
-                        <div class="blog-content">
-                                <h4 class="blog-title"><a href="blog-details.html">Lorem ipsum dolor sit amet, consectl adip elit, sed do eiusmod tempor</a></h4>
-                            <div class="blog-meta">
-                                <ul>
-                                    <li><span>By </span> <a href="#">Jantrik, </a></li>
-                                    <li><span>On </span> <a href="#">05 Nov, 2018</a></li>
-                                </ul>
-                            </div>
-                            <div class="readmore">
-                                <a href="blog-details.html">Read More.....</a>
-                            </div>
-                        </div>
-                    </div>
+                </div>
+                     {% endfor %}
                     <!-- Single Blog End -->
                  </div>
                  <!-- Popular Categorie Activation End -->

@@ -102,10 +102,30 @@ def index_3():
                                          "id, name, price, price_with_sale, sale",
                                          random.sample(manufacturer_products, min(5, len(manufacturer_products))))
 
+    works_list = [1, 2, 3, 4, 5]
+    colums_name = "id, title, description, date"
+    table_name = "our_works"
+    filters = f"id IN {tuple(works_list)}"
+
+    works = select_from_db(colums_name=colums_name, table_name=table_name, filters=filters)
+
+    products_id_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    p_list = recycle_list("id, name, price, sale",
+                          "id, name, price, price_with_sale, sale",
+                          select_from_db(colums_name="id, name, price, sale",
+                                         filters=f"id IN {tuple(products_id_list)}"))
+    products_mat = [[p_list[0], p_list[1]],
+                     [p_list[2], p_list[3]],
+                     [p_list[4], p_list[5]],
+                     [p_list[6], p_list[7]],
+                     [p_list[8], p_list[9]],
+                     [p_list[10], p_list[11]]]
+
     return render_template("index-3.html", url=WEBSITE_URL, levelness="../", last_products=last_products,
-                           all_categories=ALL_CATEGORIES, top_products_mat=top_products_mat,
-                           category_products=category_products, category=category,
-                           manufacturer_products=manufacturer_products, manufacturer=manufacturer)
+                           all_categories=ALL_CATEGORIES, top_products_mat=top_products_mat, works=works,
+                           category_products=category_products, category=category, works_list=works_list,
+                           manufacturer_products=manufacturer_products, manufacturer=manufacturer,
+                           products_mat=products_mat)
 
 
 @app.route('/product/<product_id>')
