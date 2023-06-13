@@ -121,7 +121,7 @@ def index_3():
                      [p_list[8], p_list[9]],
                      [p_list[10], p_list[11]]]
 
-    return render_template("index-3.html", url=WEBSITE_URL, levelness="../", last_products=last_products,
+    return render_template("index-3.html", url=WEBSITE_URL, last_products=last_products,
                            all_categories=ALL_CATEGORIES, top_products_mat=top_products_mat, works=works,
                            category_products=category_products, category=category, works_list=works_list,
                            manufacturer_products=manufacturer_products, manufacturer=manufacturer,
@@ -168,7 +168,6 @@ def product(product_id):
     upsell_product = recycle_list("id, name, description, price, sale",
                                   "id, name, description, price, price_with_sale, sale",
                                   upsell_product)
-    print(product_data)
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
                         levelness="../", url=WEBSITE_URL, related_product=related_product,
@@ -182,8 +181,7 @@ def product(product_id):
 
 @app.route('/shop')
 def shop():
-    kwargs = {'page': 1, 'is_reverse': 0, 'sort_type': 'name'} | dict(request.args)
-    print(kwargs)
+    kwargs = {**{'page': 1, 'is_reverse': 0, 'sort_type': 'name'}, **dict(request.args)}
 
     manufactures = kwargs.get('manufacturer').split(',') if kwargs.get('manufacturer') else []
     category = kwargs.get('category') if kwargs.get('category') else []
@@ -255,16 +253,20 @@ def shop():
 
     all_categories = sorted(list(set(select_from_db(colums_name="category"))), key=lambda x: x[0])
     categories = []
-    for category in all_categories:
-        category = category[0]
+    for category_l in all_categories:
         kwargs_copy = kwargs.copy()
-        kwargs_copy["category"] = category
+        kwargs_copy["category"] = category_l[0]
         kwargs_copy["page"] = 1
         href = url_for('shop', **kwargs_copy)
 
         categories.append((category, href))
-    subcategories = kwargs.get('subcategory') if kwargs.get('subcategory') else ''
-    filter_list = FILTERS_LIST[subcategories] if subcategories else []
+    if category:
+        filter_list = {}
+        for elem in ALL_CATEGORIES[category]:
+            filter_list.update(FILTERS_LIST[elem])
+    else: 
+        filter_list = FILTERS_LIST[subcategory] if subcategory else []
+
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
 
     filter_price = kwargs.get('price').split('-') if kwargs.get('price') else ['', 'inf']
@@ -275,14 +277,13 @@ def shop():
     if page > max_page and len(products) != 0:
         return render_template("404.html", title='Eror 404', levelness="../../../", url=WEBSITE_URL,
                                all_categories=ALL_CATEGORIES)
-    print(list(ALL_CATEGORIES.keys()))
     res = make_response(
         render_template('shop.html', title='SoundRepair | Каталог', url=WEBSITE_URL, kwargs=kwargs,
                         categories=list(ALL_CATEGORIES.keys()), filter_price=filter_price,
                         all_categories=ALL_CATEGORIES,
                         product_mat=new_random_product_mat, products_list=products[(page - 1) * 12:page * 12],
                         grid_item_list_text=grid_item_list_text, max_price=max_price, filters_list=filter_list,
-                        max_page=max_page, page=page, subcategories=subcategories, min_price=min_price,
+                        max_page=max_page, page=page, subcategories=subcategory, min_price=min_price,
                         wishlist_product_list=wishlist_product_list, is_reverse=int(kwargs.get('is_reverse')),
                         all_manufacturers=all_manufacturers))
 
@@ -300,10 +301,9 @@ def contact_page():
 
 @app.route('/wishlist')
 def wishlist():
-    kwargs = {'action': "see", 'product_id': None} | dict(request.args)
+    kwargs = {**{'action': "see", 'product_id': None}, **dict(request.args)}
 
     wishlist_list = get_wishlist_list()
-    print(wishlist_list)
 
     if kwargs["action"] == "add":
         wishlist_list.append(int(kwargs["product_id"]))
