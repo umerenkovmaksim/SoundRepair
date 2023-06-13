@@ -2139,6 +2139,7 @@ input[type="checkbox"] {
 }
 .product-remove-btn {
     background-color: #fff;
+    border: none;
 }
 .add-wishlist-btn {
     border-radius: 3px;

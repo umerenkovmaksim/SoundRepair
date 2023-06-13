@@ -33,9 +33,7 @@ function ApplyFilters() {
     if (!minPrice && !maxPrice) {
       currentUrl.searchParams.delete('price');
       window.location.href = currentUrl;
-      return;
     }
-  
     // Если отсутствует minPrice, то устанавливаем его в 0
     if (!minPrice) {
       minPrice = 0;
@@ -45,7 +43,29 @@ function ApplyFilters() {
     if (!maxPrice) {
       maxPrice = 'inf';
     }
-  
+    const filterCheckboxes = document.querySelectorAll('.variative-filters input[type="checkbox"]');
+    const filters = {};
+    
+    filterCheckboxes.forEach(function (checkbox) {
+      const filterName = checkbox.name;
+      const filterValue = checkbox.value;
+
+      if (checkbox.checked) {
+        if (!filters[filterName]) {
+          filters[filterName] = [filterValue];
+        } else {
+          filters[filterName].push(filterValue);
+        }
+      } else {
+        currentUrl.searchParams.delete(filterName);
+      }
+    });
+
+    for (const filterName in filters) {
+      const filterValues = filters[filterName];
+      currentUrl.searchParams.set(filterName, filterValues.join(','));
+    }
+
     // Объединяем значения в одну строку и устанавливаем параметр в url
     const priceRange = `${minPrice}-${maxPrice}`;
     currentUrl.searchParams.set('price', priceRange);
@@ -85,7 +105,28 @@ function ApplyFilters_2() {
   if (!maxPrice) {
     maxPrice = 'inf';
   }
+  const filterCheckboxes = document.querySelectorAll('.variative-filters-2 input[type="checkbox"]');
+  const filters = {};
+  
+  filterCheckboxes.forEach(function (checkbox) {
+    const filterName = checkbox.name;
+    const filterValue = checkbox.value;
 
+    if (checkbox.checked) {
+      if (!filters[filterName]) {
+        filters[filterName] = [filterValue];
+      } else {
+        filters[filterName].push(filterValue);
+      }
+    } else {
+      currentUrl.searchParams.delete(filterName);
+    }
+  });
+
+  for (const filterName in filters) {
+    const filterValues = filters[filterName];
+    currentUrl.searchParams.set(filterName, filterValues.join(','));
+  }
   // Объединяем значения в одну строку и устанавливаем параметр в url
   const priceRange = `${minPrice}-${maxPrice}`;
   currentUrl.searchParams.set('price', priceRange);

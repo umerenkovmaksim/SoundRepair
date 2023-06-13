@@ -85,10 +85,8 @@ function getCartItems () {
   // Удаление товара из корзины
   const removeFromCart = (id) => {
     let cartItems = getCartItems();
-    console.log(cartItems);
     cartItems = cartItems.filter((i) => i.id !== id);
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
-    console.log(getCartItems());
     updateCart();
   }
   
@@ -165,7 +163,7 @@ function getCartItems () {
   
   // Изменение кнопки, если товар есть в корзине
   function updateButton(productId) {
-    var button = document.querySelector('button[data-id="' + productId + '"]');
+    var button = document.querySelector('.add-cart-btn button[data-id="' + productId + '"]');
     if (isInCart(productId)) {
       button.innerHTML = "УЖЕ В КОРЗИНЕ";
       button.onclick = function() {

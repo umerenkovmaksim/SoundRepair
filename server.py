@@ -304,51 +304,14 @@ def contact_page():
 
 @app.route('/wishlist')
 def wishlist():
-    kwargs = {**{'action': "see", 'product_id': None}, **dict(request.args)}
 
-    wishlist_list = get_wishlist_list()
-
-    if kwargs["action"] == "add":
-        wishlist_list.append(int(kwargs["product_id"]))
-    elif kwargs["action"] == "del" and int(kwargs["product_id"]) in wishlist_list:
-        wishlist_list.remove(int(kwargs["product_id"]))
-
-    filters = ""
-    if bool(wishlist_list):
-        if len(wishlist_list) > 1:
-            filters = f"id in {tuple(wishlist_list)}"
-        elif len(wishlist_list) == 1:
-            filters = f"id == {wishlist_list[0]}"
-
-    if bool(filters):
-        colums_name = "id, name, price, sale"
-        wishlist_product_list = select_from_db(colums_name=colums_name, filters=filters)
-    else:
-        wishlist_product_list = []
-
-    wishlist_product_list = recycle_list("id, name, price, sale",
-                                         "id, name, price, price_with_sale_or_price, sale",
-                                         wishlist_product_list)
-
-    total_price = sum(list(map(lambda x: x[4] if x[4] else x[3], wishlist_product_list)))
-    total_price_with_sale = sum(list(map(lambda x: x[3], wishlist_product_list)))
-
-    last_ssesion = request.cookies.get("last_ssesion")
-    res = make_response(
-        render_template('wishlist.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
-                        product_data=wishlist_product_list,
-                        levelness="../../", total_price=total_price, total_price_with_sale=total_price_with_sale,
-                        all_categories=ALL_CATEGORIES,
-                        last_ssesion=last_ssesion))
-    res.set_cookie("wishlist", "&".join(list(map(str, wishlist_list))), max_age=60 * 60 * 24 * 365 * 2)
-
-    return res
+    return render_template('wishlist.html', title="SoundRepair | Понравившиеся", url=WEBSITE_URL,
+                        all_categories=ALL_CATEGORIES)
 
 
 @app.route('/cart', methods=['post', 'get'])
 def cart():
-    return render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL,
-                           levelness="../../", all_categories=ALL_CATEGORIES)
+    return render_template('cart.html', title="SoundRepair | Корзина", url=WEBSITE_URL, all_categories=ALL_CATEGORIES)
 
 
 @app.route('/about_us')
