@@ -115,11 +115,11 @@ def index_3():
                           select_from_db(colums_name="id, name, price, sale",
                                          filters=f"id IN {tuple(products_id_list)}"))
     products_mat = [[p_list[0], p_list[1]],
-                     [p_list[2], p_list[3]],
-                     [p_list[4], p_list[5]],
-                     [p_list[6], p_list[7]],
-                     [p_list[8], p_list[9]],
-                     [p_list[10], p_list[11]]]
+                    [p_list[2], p_list[3]],
+                    [p_list[4], p_list[5]],
+                    [p_list[6], p_list[7]],
+                    [p_list[8], p_list[9]],
+                    [p_list[10], p_list[11]]]
 
     return render_template("index-3.html", url=WEBSITE_URL, last_products=last_products,
                            all_categories=ALL_CATEGORIES, top_products_mat=top_products_mat, works=works,
@@ -131,22 +131,24 @@ def index_3():
 @app.route('/product/<product_id>')
 def product(product_id):
     # Берется по id товар
+    colums_name = "id, name, description, manufacturer, category, sale, price"
     filters = f"id == {product_id}"
 
-    product_data = [select_from_db(filters=filters,
-                                   colums_name='id, name, description, description, manufacturer, category, sale, price')[
-                        0]]
+    product_data = select_from_db(colums_name=colums_name, filters=filters)
+    print(product_data)
 
     product_data = recycle_list(
-        "id, name, description, description, manufacturer, category, sale, price",
-        "id, name, description, description, manufacturer, category, sale, price_with_sale_or_price, price",
+        "id, name, description, manufacturer, category, sale, price",
+        "id, name, description, manufacturer, category, sale, price_with_sale_or_price, price",
         product_data)
 
     product_data = tuple(product_data[0])
 
     # related_product - 7шт
+
     colums_name = "id, name, description, price, sale"
-    filters = f"manufacturer == '{product_data[5]}' or category like '%{product_data[6]}%'"
+    filters = f"manufacturer == '{product_data[3]}' OR category == '{product_data[4]}'"
+    print(filters)
 
     related_product = select_from_db(colums_name=colums_name, filters=filters)
 
@@ -168,6 +170,7 @@ def product(product_id):
     upsell_product = recycle_list("id, name, description, price, sale",
                                   "id, name, description, price, price_with_sale, sale",
                                   upsell_product)
+    print(product_data)
     res = make_response(
         render_template('product.html', title=f"SoundRepair | {product_data[1]}", product_data=product_data,
                         levelness="../", url=WEBSITE_URL, related_product=related_product,

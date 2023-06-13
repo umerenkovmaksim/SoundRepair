@@ -24,15 +24,36 @@
             <div class="col-lg-5">
                 <!-- Thumbnail Large Image start -->
                 <div class="tab-content">
-                        <div id="thumb1" class="tab-pane active">
-                            <a data-fancybox="images" href="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}"><img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-view"></a>
-                        </div>
+                    <div id="thumb1" class="tab-pane active">
+                        <a data-fancybox="images" href="{{url_for('static', filename='img/products/' + '1' + '.jpg')}}"><img src="{{url_for('static', filename='img/products/' + '1' + '.jpg')}}" alt="product-view"></a>
+                    </div>
+                    <div id="thumb2" class="tab-pane">
+                        <a data-fancybox="images" href="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}"><img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-view"></a>
+                    </div>
+                    <div id="thumb3" class="tab-pane">
+                        <a data-fancybox="images" href="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}"><img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-view"></a>
+                    </div>
+                    <div id="thumb4" class="tab-pane">
+                        <a data-fancybox="images" href="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}"><img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-view"></a>
+                    </div>
                 </div>
+
+                <div class="product-thumbnail">
+                            <div class="thumb-menu nav">
+                                    <a class="active" data-toggle="tab" href="#thumb1"> <img src="{{url_for('static', filename='img/products/' + '1' + '.jpg')}}" alt="product-thumbnail"></a>
+                                    <a data-toggle="tab" href="#thumb2"> <img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-thumbnail"></a>
+                                    <a data-toggle="tab" href="#thumb3"> <img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-thumbnail"></a>
+                                    <a data-toggle="tab" href="#thumb4"> <img src="{{url_for('static', filename='img/products/' + product_id + '.jpg')}}" alt="product-thumbnail"></a>
+                            </div>
+                </div>
+
+                </div>
+
                 <!-- Thumbnail Large Image End -->
 
                 <!-- Thumbnail Image End -->
                 <!-- Thumbnail image end -->
-            </div>
+
             <!-- Main Thumbnail Image End -->
             <!-- Thumbnail Description Start -->
             <div class="col-lg-7">
@@ -41,11 +62,11 @@
                     <br>
                     <div class="pro-price mb-10">
 
-                        {% if product_data[6] %}
-                        <p><span class="price">{{product_data[7]}}₽</span>
-                        <del class="prev-price">{{product_data[8]}}₽</del></p>
+                        {% if product_data[5] %}
+                        <p><span class="price">{{product_data[6]}}₽</span>
+                        <del class="prev-price">{{product_data[7]}}₽</del></p>
                         {% else %}
-                        <p><span class="price">{{product_data[8]}}₽</span>
+                        <p><span class="price">{{product_data[6]}}₽</span>
                         {% endif %}
                         <style>
                             .price {
@@ -61,7 +82,7 @@
                             <li><button class="add-cart-btn" data-id="{{product_id}}" data-name="{{product_data[1]}}" data-price="{{product_data[8]}}" data-price_with_sale="{{product_data[7]}}" data-sale="{{product_data[6]}}" data-image_href="{{url_for('static', filename='img/products/' ~ product_id ~ '.jpg')}}" data-toggle="tooltip" title="Добавить в корзину">В корзину</button></li>
                         </ul>
                     </div>
-                    <p class="ptb-20">{{product_data[2]}}</p>
+                    <p class="ptb-20">{{product_data[2][0]}}</p>
                 </div>
             </div>
             <!-- Thumbnail Description End -->
@@ -84,11 +105,9 @@
                 <div class="tab-content thumb-content border-default">
                     <div id="dtail" class="tab-pane in active">
                         <p>
-                            Производитель: {{product_data[5]}}<br>
-                            Категории: {{product_data[6]}}<br><br>
-                            {% for text in product_data[3] %}
-                            {{text}}<br>
-                            {% endfor %}
+                            Производитель: {{product_data[3]}}<br>
+                            Категория: {{product_data[4]}}<br><br>
+                            {{product_data[2][0]}}
                         </p>
                     </div>
                 </div>
