@@ -58,7 +58,8 @@
                     </ul>
                 </div>
             </div>
-            {% for filters in filters_list %}
+            <div class="variative-filters-2">
+                {% for filters in filters_list %}
                 <div class="border"></div>
                 <div class="filter-form">
                     <div class="filter__header">
@@ -87,6 +88,7 @@
                     </div>
                 </div>  
             {% endfor %}
+            </div>
             <button onclick="ApplyFilters_2()" class="apply-filters">Применить</button>
         </div>
 	</div>
@@ -181,7 +183,8 @@
                                     </ul>
                                 </div>
                             </div>
-                            {% for filters in filters_list %}
+                            <div class="variative-filters">
+                                {% for filters in filters_list %}
                                 <div class="border"></div>
                                 <div class="filter-form">
                                     <div class="filter__header">
@@ -198,10 +201,10 @@
                                         <ul class="filter__list">
                                             {% for filter in filters_list[filters] %}
                                             <li>
-                                                {% if filter in kwargs['filters'] %}
-                                                <input type="checkbox" id="filter-{{filters}}-{{filter}}" name="{{filters}}-2" value="{{filter}}" checked>
+                                                {% if filter in kwargs[filters] %}
+                                                <input type="checkbox" id="filter-{{filters}}-{{filter}}" name="{{filters}}" value="{{filter}}" checked>
                                                 {% else %}
-                                                <input type="checkbox" id="filter-{{filters}}-{{filter}}" name="{{filters}}-2" value="{{filter}}">
+                                                <input type="checkbox" id="filter-{{filters}}-{{filter}}" name="{{filters}}" value="{{filter}}">
                                                 {% endif %}
                                                 <label for="filter-{{filters}}-{{filter}}">{{filter}}</label>
                                             </li>
@@ -210,6 +213,7 @@
                                     </div>
                                 </div>  
                             {% endfor %}
+                            </div>
                             <button onclick="ApplyFilters()" class="apply-filters">Применить</button>
                         </div>
                     </div>
@@ -425,7 +429,7 @@
 
                                     <div class="pro-actions">
                                         <div class="actions-secondary">
-                                            <button class="add-wishlist-btn" data-toggle="tooltip" title="Добавить в понравившиеся"><i class="fa fa-heart"></i></button>
+                                            <button class="add-wishlist-btn" data-id="{{id}}" data-name="{{name}}" data-price="{{price}}" data-price_with_sale="{{sale_price}}" data-sale="{{sale}}" data-image_href="{{url_for('static', filename='img/products/' ~ id ~ '.jpg')}}" data-toggle="tooltip" title="Добавить в понравившиеся"><i class="fa fa-heart"></i></button>
                                             <button class="add-cart-btn" data-id="{{id}}" data-name="{{name}}" data-price="{{price}}" data-price_with_sale="{{sale_price}}" data-sale="{{sale}}" data-image_href="{{url_for('static', filename='img/products/' ~ id ~ '.jpg')}}" data-toggle="tooltip" title="Добавить в корзину">В корзину</button>
                                         </div>
                                     </div>

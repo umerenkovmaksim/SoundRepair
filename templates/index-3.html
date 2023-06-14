@@ -13,13 +13,13 @@
         <br>
         <div class="slider-area slider-style-three">
             <div class="container">
-                <div class="row">
+                <div class="row" style="margin-top: 15px;">
                     <div class="col-md-8">
                         <div class="slider-wrapper theme-default">
                             <!-- Slider Background  Image Start-->
                             <div id="slider" class="nivoSlider">
-                                <a href="shop.html"> <img src="{{levelness}}/static/img/slider/5.jpg" data-thumb="{{levelness}}/static/img/slider/5.jpg" alt="" title="#slider-1-caption1"/></a>
-                                <a href="shop.html"><img src="{{levelness}}/static/img/slider/6.jpg" data-thumb="{{levelness}}/static/img/slider/6.jpg" alt="" title="#slider-1-caption2"/></a>
+                                <a href="shop.html"> <img src="{{url_for('static', filename='img/slider/5.jpg')}}" data-thumb="{{url_for('static', filename='img/slider/5.jpg')}}" alt="" title="#slider-1-caption1"/></a>
+                                <a href="shop.html"><img src="{{url_for('static', filename='img/slider/6.jpg')}}" data-thumb="{{url_for('static', filename='img/slider/6.jpg')}}" alt="" title="#slider-1-caption2"/></a>
                             </div>
                             <!-- Slider Background  Image Start-->
                             <div id="slider-1-caption1" class="nivo-html-caption nivo-caption">
@@ -47,12 +47,12 @@
                     <div class="col-md-4">
                          <!-- Single Banner Start -->
                         <div class="single-banner zoom mb-20">
-                            <a href="#"><img src="{{levelness}}/static/img/banner/9.jpg" alt="slider-banner"></a>
+                            <a href="#"><img src="{{url_for('static', filename='img/banner/9.jpg')}}" alt="slider-banner"></a>
                         </div>
                         <!-- Single Banner End -->
                         <!-- Single Banner Start -->
                         <div class="single-banner zoom">
-                            <a href="#"><img src="{{levelness}}/static/img/banner/10.jpg" alt="slider-banner"></a>
+                            <a href="#"><img src="{{url_for('static', filename='img/banner/10.jpg')}}" alt="slider-banner"></a>
                         </div>
                         <!-- Single Banner End -->
                     </div>
@@ -67,7 +67,7 @@
                     <div class="col-xl-3 col-lg-4 order-2">
                         <div class="side-product-list">
                             <div class="group-title">
-                                <h2>Top Products</h2>
+                                <h2>Популярные товары</h2>
                             </div>
                             <!-- Deal Pro Activation Start -->
                             <div class="slider-right-content side-product-list-active owl-carousel">
@@ -115,7 +115,7 @@
                             <div class="pro-tab-title border-line">
                                 <!-- Featured Product List Item Start -->
                                 <ul class="nav product-list product-tab-list mb-30">
-                                    <li><a  class="active" data-toggle="tab" href="#last">Последние на сакладе</a></li>
+                                    <li><a  class="active" data-toggle="tab" href="#last">Последние на складе</a></li>
                                     <li><a data-toggle="tab" href="#category">{{category}}</a></li>
                                     <li><a data-toggle="tab" href="#manufacturer">{{manufacturer}}</a></li>
                                 </ul>
@@ -131,8 +131,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="{{url}}/product/{{id}}">
-                                                <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
-                                                <img class="secondary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                                <img class="primary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
+                                                <img class="secondary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -164,8 +164,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="{{url}}/product/{{id}}">
-                                                <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
-                                                <img class="secondary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                                <img class="primary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
+                                                <img class="secondary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -197,8 +197,8 @@
                                         <!-- Product Image Start -->
                                         <div class="pro-img">
                                             <a href="{{url}}/product/{{id}}">
-                                                <img class="primary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
-                                                <img class="secondary-img" src="{{levelness}}static/img/products/{{id}}.jpg" alt="single-product">
+                                                <img class="primary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
+                                                <img class="secondary-img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="single-product">
                                             </a>
                                         </div>
                                         <!-- Product Image End -->
@@ -223,7 +223,7 @@
                             </div>
                             <!-- Tab-Content End -->
                             <div class="single-banner zoom mt-30 mt-sm-10">
-                            <a href="#"><img src="{{levelness}}/static/img/banner/tab-banner.jpg" alt="slider-banner"></a>
+                            <a href="#"><img src="{{url_for('static', filename='img/banner/tab-banner.jpg')}}" alt="slider-banner"></a>
                         </div>
                         </div>
                         <!-- New Pro Content End -->
@@ -241,14 +241,14 @@
                    <!-- Single Banner Start -->
                    <div class="col-sm-6">
                         <div class="single-banner zoom">
-                            <a href="#"><img src="{{levelness}}/static/img/banner/1.png" alt="slider-banner"></a>
+                            <a href="#"><img src="{{url_for('static', filename='img/banner/1.png')}}" alt="slider-banner"></a>
                         </div>
                     </div>
                    <!-- Single Banner End -->
                     <!-- Single Banner Start -->
                    <div class="col-sm-6">
                         <div class="single-banner zoom">
-                            <a href="#"><img src="{{levelness}}/static/img/banner/2.png" alt="slider-banner"></a>
+                            <a href="#"><img src="{{url_for('static', filename='img/banner/2.png')}}" alt="slider-banner"></a>
                         </div>
                     </div>
                    <!-- Single Banner End -->
@@ -258,71 +258,11 @@
             <!-- Container End -->
         </div>
         <!-- Banner End -->
-        <!-- Company Policy Start -->
-        <div class="company-policy pb-60 pb-sm-25">
-            <div class="container">
-                <div class="row">
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{{levelness}}/static/img/icon/1.png" alt="">
-                            </div>
-                            <div class="policy-desc">
-                                <h3>Free Delivery</h3>
-                                <p>Free shipping on all order</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{{levelness}}/static/img/icon/2.png" alt="">
-                            </div>
-                            <div class="policy-desc">
-                                <h3>Online Support 24/7</h3>
-                                <p>Support online 24 hours</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{{levelness}}/static/img/icon/3.png" alt="">
-                            </div>
-                            <div class="policy-desc">
-                                <h3>Money Return</h3>
-                                <p>Back guarantee under 7 days</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                    <!-- Single Policy Start -->
-                    <div class="col-lg-3 col-sm-6">
-                        <div class="single-policy">
-                            <div class="icone-img">
-                                <img src="{{levelness}}/static/img/icon/4.png" alt="">
-                            </div>
-                              <div class="policy-desc">
-                                <h3>Member Discount</h3>
-                                <p>Onevery order over $30.00</p>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Single Policy End -->
-                </div>
-            </div>
-        </div>
-        <!-- Company Policy End -->
         <!-- Best Products Start -->
         <div class="best-seller-product pb-50 pb-sm-30">
             <div class="container">
                 <div class="group-title">
-                    <h2>Best Seller Products</h2>
+                    <h2>Самые продаваемые товары</h2>
                 </div>
                 <!-- Best Product Activation Start -->
                 <div class="best-seller-pro-active  owl-carousel slider-right-content">
@@ -333,7 +273,7 @@
                         {% for id, name, price, sale_price, sale in products_list %}
                         <div class="single-product">
                             <div class="pro-img">
-                                <a href="{{url}}/product/{{id}}"><img class="img" src="{{url_for('static', filename='img/products/{{id}}.jpg')}}" alt="product-image"></a>
+                                <a href="{{url}}/product/{{id}}"><img class="img" src="{{url_for('static', filename='img/products/' + id|string + '.jpg')}}" alt="product-image"></a>
                             </div>
                             <div class="pro-content">
                                 <h4><a href="{{url}}/product/{{id}}">{{name}}</a></h4>
@@ -357,7 +297,7 @@
         <div class="blog-area pb-60">
             <div class="container">
                 <div class="group-title">
-                    <h2>From The Blog</h2>
+                    <h2>Наши работы</h2>
                 </div>
                  <!-- Popular Categorie Activation Start -->
                  <div class="blog-active owl-carousel">
@@ -365,7 +305,7 @@
                      {% for id, title, description, date in works %}
                     <div class="single-blog">
                     <div class="blog-img">
-                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename='img/blog/{{id}}.jpg')}}" alt="blog-image"></a>
+                        <a href="{{url}}/work/{{id}}"><img src="{{url_for('static', filename='img/blog/' + id|string + '.jpg')}}" alt="blog-image"></a>
                     </div>
                     <div class="blog-content">
                             <h4 class="blog-title"><a href="{{url}}/work/{{id}}">{{title}}</a></h4>

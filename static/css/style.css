@@ -80,7 +80,7 @@ body {
 .group-title h2 {
     font-size: 18px;
     font-weight: 500;
-    text-transform: capitalize;
+    
 }
 .title-border {
     border-bottom: 1px solid #dcdcdc;
@@ -431,7 +431,6 @@ ul.ht-dropdown.dropdown-style-two li {
     padding: 5px 0;
     line-height: 24px;
     display: block;
-    text-transform: capitalize;
     text-align: left;
     color: #555;
     font-weight: 400;
@@ -507,7 +506,7 @@ ul.ht-dropdown.dropdown-style-two li {
     line-height: 47px;
     position: absolute;
     right: 3px;
-    text-transform: capitalize;
+    
     -webkit-transition: all 0.3s ease 0s;
     transition: all 0.3s ease 0s;
     width: 70px;
@@ -813,7 +812,7 @@ input[type="checkbox"] {
     position: absolute;
     right: 0px;
     text-align: center;
-    text-transform: capitalize;
+    
     top: 12px;
     width: 18px;
 }
@@ -893,7 +892,7 @@ input[type="checkbox"] {
     display: block;
     margin-bottom: 2px;
     line-height: 1.4;
-    text-transform: capitalize;
+    
     font-weight: normal;
 }
 .cart-footer h5 {
@@ -903,7 +902,7 @@ input[type="checkbox"] {
     border-bottom: 1px solid #eee;
     margin-bottom: 20px;
     color: #555;
-    text-transform: capitalize;
+    
 }
 
 .cart-footer h5 span {
@@ -1228,7 +1227,7 @@ input[type="checkbox"] {
 }
 .slider-right-content .pro-content h4 {
     font-weight: 400;
-    text-transform: capitalize;
+    
 }
 .slider-right-content .pro-content h4 a{
     margin-bottom: 4px;
@@ -1403,7 +1402,7 @@ input[type="checkbox"] {
     border-radius: 4px;
     font-size: 18px;
     color: #363f4d;
-    text-transform: capitalize;
+    
     font-weight: 500;
 }
 .product-list li a.active,
@@ -1480,7 +1479,7 @@ input[type="checkbox"] {
     font-size: 17px;
     font-weight: normal;
     margin-bottom: 15px;
-    text-transform: capitalize;
+    
 }
 
 .pro-content .product-rating {
@@ -1675,7 +1674,7 @@ input[type="checkbox"] {
     font-size: 18px;
     font-weight: 500;
     margin-bottom: 28px;
-    text-transform: capitalize;
+    
 }
 .loc-address > span {
   display: flex;
@@ -1697,7 +1696,7 @@ input[type="checkbox"] {
 }
 .footer-content ul li a {
     font-size: 14px;
-    text-transform: capitalize;
+    
 }
 
 .footer-content ul li:hover a {
@@ -1819,7 +1818,7 @@ input[type="checkbox"] {
 }
 .toolbar-sorter label, .toolbar-sorter-footer label {
     margin-right: 5px;
-    text-transform: capitalize;
+    
     margin-bottom: 3px;
 }
 .toolbar-sorter-footer select {
@@ -1851,7 +1850,7 @@ input[type="checkbox"] {
     font-size: 14px;
     font-weight: normal;
     line-height: 30px;
-    text-transform: capitalize;
+    
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
 }
@@ -2024,7 +2023,7 @@ input[type="checkbox"] {
 }
 .learn-more {
     color: #ce0000;
-    text-transform: capitalize;
+    
     margin-bottom: 15px;
     display: inline-block;
 }
@@ -2090,7 +2089,7 @@ input[type="checkbox"] {
 }
 
 .product-header {
-    text-transform: capitalize;
+    
     font-size: 18px;
     font-weight: 500;
 }
@@ -2107,7 +2106,7 @@ input[type="checkbox"] {
 }
 
 .rating-feedback a {
-    text-transform: capitalize;
+    
     margin: 0 5px;
     display: inline-block;
 }
@@ -2140,6 +2139,7 @@ input[type="checkbox"] {
 }
 .product-remove-btn {
     background-color: #fff;
+    border: none;
 }
 .add-wishlist-btn {
     border-radius: 3px;
@@ -2162,7 +2162,7 @@ input[type="checkbox"] {
     height: 32px;
     padding: 0 10px;
     margin-top: 3px;
-    text-transform: capitalize;
+    
     width: 125px;
 }
 
@@ -2176,7 +2176,7 @@ input[type="checkbox"] {
     line-height: 36px;
     padding: 0 10px;
     text-align: center;
-    text-transform: capitalize;
+    
     width: 90px;
 }
 
@@ -2190,7 +2190,7 @@ input[type="checkbox"] {
     line-height: 36px;
     padding: 0 10px;
     text-align: center;
-    text-transform: capitalize;
+    
     width: 90px;
 }
 .add-wishlist-btn:focus,.add-cart-btn:focus {
@@ -2231,7 +2231,7 @@ input[type="checkbox"] {
     padding: 13px 15px;
     font-size: 14px;
     vertical-align: middle;
-    text-transform: capitalize;
+    
     display: inline-block;
     height: 40px;
     padding: 0 15px;
@@ -2284,7 +2284,7 @@ input[type="checkbox"] {
     font-weight: 300;
     font-size: 18px;
     margin: 30px 0 30px 0;
-    text-transform: capitalize;
+    
 }
 
 .review-list li {
@@ -2362,7 +2362,7 @@ input[type="checkbox"] {
 /*----------------------------------------*/
 .cart-main-area .section-title h2,
 .coupon-area .section-title h2 {
-    text-transform: capitalize;
+    
     color: #555;
     font-weight: 500;
 }
@@ -2401,7 +2401,7 @@ input[type="checkbox"] {
     font-weight: normal;
     padding: 20px 10px;
     text-align: center;
-    text-transform: capitalize;
+    
     vertical-align: middle;
     white-space: nowrap;
     font-weight: 500;
@@ -2443,7 +2443,7 @@ input[type="checkbox"] {
     font-size: 14px;
     font-weight: 500;
     margin-left: 10px;
-    text-transform: capitalize;
+    
 }
 
 .product-stock-status span {
@@ -2726,7 +2726,7 @@ a.shipping-calculator-button:hover {
     padding: 1em 2em 1em 3.5em;
     position: relative;
     width: auto;
-    text-transform: capitalize;
+    
 }
 
 .coupon-accordion h3::before {
@@ -3017,7 +3017,7 @@ p.checkout-coupon input[type="submit"] {
     font-size: 14px;
     padding-left: 25px;
     position: relative;
-    text-transform: capitalize;
+    
     text-decoration: none
 }
 
@@ -3217,7 +3217,7 @@ p.checkout-coupon input[type="submit"] {
     font-size: 13px;
     font-weight: 500;
     padding: 0 20px;
-    text-transform: capitalize;
+    
     line-height: 44px;
     display: block;
 }
@@ -3435,7 +3435,7 @@ p.checkout-coupon input[type="submit"] {
     color: #424242;
     font-size: 12px;
     font-weight: 400;
-    text-transform: capitalize;
+    
 }
 
 .post-info a:hover {
@@ -3524,7 +3524,7 @@ p.checkout-coupon input[type="submit"] {
     margin: 0 6px 12px 6px;
     padding: 7px 16px;
     background-color: #f6f6f6;
-    text-transform: capitalize;
+    
 }
 
 .tag-list li:hover a {
@@ -3972,7 +3972,7 @@ legend {
 }
 
 .compare-details span {
-    text-transform: capitalize;
+    
     display: inline-block;
     font-size: 13px;
 
@@ -3983,7 +3983,7 @@ legend {
 }
 
 .compare-details h4 a {
-    text-transform: capitalize;
+    
     font-size: 14px;
 }
 
@@ -4000,7 +4000,7 @@ legend {
   font-weight: 500;
   line-height: 25px;
   margin-bottom: 22px;
-  text-transform: capitalize;
+  
 }
 .about-content h3{
     font-size: 22px;
@@ -4091,7 +4091,7 @@ legend {
     font-weight: 500;
     line-height: 20px;
     margin-bottom: 9px;
-    text-transform: capitalize;
+    
 }
 .ht-single-about p+p{
     margin-top: 10px;
@@ -4193,7 +4193,7 @@ legend {
 
 .account-dashboard p {
   font-size: 13px;
-  text-transform: capitalize;
+  
 }
 
 
@@ -4222,7 +4222,7 @@ legend {
     display: block;
     font-size: 14px;
     padding: 12px 0;
-    text-transform: capitalize;
+    
 }
 
 .dashboard-list li a.active,
@@ -4250,7 +4250,7 @@ legend {
 }
 
 .dashboard-content h3 {
-    text-transform: capitalize;
+    
 }
 
 .dashboard-content h3 {
@@ -4259,7 +4259,7 @@ legend {
     line-height: 28px;
     margin-bottom: 20px;
     padding-bottom: 15px;
-    text-transform: capitalize;
+    
 }
 
 .dashboard-content .table-responsive .table > tbody > tr > td,
@@ -4288,13 +4288,13 @@ legend {
 
 #dashboard a {
     color: #ce0000;
-    text-transform: capitalize;
+    
 }
 .view,.view-cart  {
   background: #ce0000  none repeat scroll 0 0;
   color: #fff;
   padding: 5px 12px;
-  text-transform: capitalize;
+  
 }
 .view:hover,.view:focus,.show-btn:hover,.view-cart:hover,.view-cart:focus{
     color: #fff;
