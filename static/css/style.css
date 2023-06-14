@@ -1390,10 +1390,12 @@ input[type="checkbox"] {
 /*----------------------------------------*/
 /* 5. New Products CSS
 /*----------------------------------------*/
+
 .new-products .product-list li, .best-selling-items .product-list li {
     cursor: pointer;
     display: inline-block;
     margin-right: 10px;
+    margin-bottom: 10px;
 }
 .new-products .product-list li a, .best-selling-items .product-list li a {
     padding: 11px 15px;
@@ -1411,7 +1413,6 @@ input[type="checkbox"] {
     border-color:#ce0000; 
 }
 .new-products .product-list {
-    margin-bottom: 30px;
     display: inline-block;
     background: #fff;
     position: relative;
@@ -1990,7 +1991,7 @@ input[type="checkbox"] {
 }
 
 .main-categorie #list-view .single-product {
-    padding: 30px 15px;
+    padding: 15px 15px;
 }
 .main-categorie #list-view .pro-img {
     width: 240px;

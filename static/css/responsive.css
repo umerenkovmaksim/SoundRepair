@@ -259,6 +259,17 @@
 /*  small mobile :320px.
 /*----------------------------------------*/
 @media (max-width: 767px) {
+.product-list {
+    display: inline-flex !important;
+}
+.main-categorie #list-view .single-product {
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.right-banners {
+    display: none;
+}
 .menu_block {
     display: table;
     }
@@ -287,9 +298,6 @@
 .nivo2 .text-content h1 {
     font-size: 25px;
     line-height: 31px;
-}
-.new-products .product-list {
-    margin-bottom: 30px;
 }
     
 .nivo-caption .banner-readmore a {
@@ -860,8 +868,19 @@ p.checkout-coupon input[type="submit"] {
 /*  Large Mobile :480px.
 /*----------------------------------------*/
 @media only screen and (min-width: 480px) and (max-width: 767px) {
+.right-banners {
+    display: none;
+}
+.product-list {
+    display: inline-flex !important;
+}
 .contact-block {
     display: none
+}
+.main-categorie #list-view .single-product {
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .menu_block {
     display: table;
@@ -1019,6 +1038,9 @@ p.checkout-coupon input[type="submit"] {
 
 /*=============== Mobile Device ===============*/
 @media (max-width: 575px) {
+.right-banners {
+    display: none;
+}
 .contact-block {
     display: none
 }
@@ -1031,11 +1053,19 @@ p.checkout-coupon input[type="submit"] {
 .upper-banner.banner .row [class*="col"]:not(:last-child) {
     margin-bottom: 30px;
 }
+.main-categorie #list-view .single-product {
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 .sort-section {
     display: none;
 }
 .menu-wrap {
     display: flex;
+}
+.product-list {
+    display: flex !important;
 }
 .company-policy {
     padding-bottom: 50px;

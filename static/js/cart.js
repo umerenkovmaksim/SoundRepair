@@ -213,7 +213,6 @@ row.innerHTML = `
       </td>
       <td class="product-name"><a href="${url}/product/${item.id}">${item.name}</a></td>
       <td class="product-price"><span class="amount">${item.price}₽</span></td>
-      <td class="product-sale">${item.sale ? item.sale + '%' : '0%'}</td>
       <td class="product-quantity"><input type="number" onchange="updateQuantity(this)" data-price="${item.price_with_sale}" data-id="${item.id}" value="${item.quantity}"></td>
       <td class="product-subtotal"><span class="amount" id="subtotal-${item.id}">${item.price_with_sale * item.quantity}₽</span></td>
       <td class="product-remove"><button class="product-remove-btn"><i class="fa fa-times" aria-hidden="true"></i></button></td>
