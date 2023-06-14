@@ -366,7 +366,7 @@ def work(id):
 @app.route('/services')
 def services():
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
-                           all_categories=ALL_CATEGORIES)
+                           all_categories=ALL_CATEGORIES, pages_count=1, page=1)
 
 @app.route('/mobile_catalog')
 def mobile_catalog():
