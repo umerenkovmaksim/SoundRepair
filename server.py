@@ -2,8 +2,11 @@ import math
 import sqlite3
 import random
 import json
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from flask import Flask, jsonify, render_template, request, make_response, url_for
 
-from flask import Flask, render_template, request, make_response, url_for
 
 from functions import *
 from telegram_bot_functions import *
@@ -13,9 +16,6 @@ app = Flask(__name__)
 HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
-
-SHOP_URL = f'{WEBSITE_URL}/shop/None-None&name-False&1'
-
 
 @app.errorhandler(404)
 @app.route('/Error<e>')
@@ -318,6 +318,59 @@ def cart():
 def about():
     return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES)
+
+@app.route('/get_user_data', methods=['POST'])
+def get_user_data():
+    order_data = request.json
+    name = order_data.get('name')
+    surname = order_data.get('surname')
+    contact = order_data.get('contact')
+    cart_items = order_data.get('cart')
+    total = order_data.get('total')
+    response_data = {
+        'status': 'success',
+        'message': 'Заказ успешно получен'
+    }
+
+    smtp_host = 'smtp.gmail.com'
+    smtp_port = 465
+    sender_email = 'soundrepairorders@gmail.com'
+    sender_password = 'vhekfdwgydhtzsdi'
+    recipient_email = 'umerenkovmaksim7@gmail.com'
+
+    # Создание объекта сообщения
+    message = MIMEMultipart()
+    message['From'] = sender_email
+    message['To'] = recipient_email
+    message['Subject'] = f'Новый заказ от {surname} {name}'
+    new_string = '\n'
+
+    # Формирование текста сообщения
+    body = f'''
+Заказчик:
+Имя: {name}
+Фамилия: {surname}
+Телефон: {contact}
+
+Корзина:
+{new_string.join([f'  {index + 1}. {elem["name"]} - {elem["quantity"]} шт.' for index, elem in enumerate(cart_items)])}
+
+Сумма заказа: {total[:-1]} руб.
+
+Спасибо за ваш заказ!
+    '''
+
+    message.attach(MIMEText(body, 'plain'))
+
+    try:
+        # Установка соединения с SMTP-сервером и отправка сообщения
+        with smtplib.SMTP_SSL(smtp_host, smtp_port) as server:
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, recipient_email, message.as_string())
+        print('Сообщение успешно отправлено')
+    except smtplib.SMTPException as e:
+        print('Ошибка при отправке сообщения:', e)
+    return jsonify(response_data)
 
 
 @app.route('/our_works/<page>')
