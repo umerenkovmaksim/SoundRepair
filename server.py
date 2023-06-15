@@ -267,7 +267,7 @@ def shop():
         filter_list = {}
         for elem in ALL_CATEGORIES[category]:
             filter_list.update(FILTERS_LIST[elem])
-    else: 
+    else:
         filter_list = FILTERS_LIST[subcategory] if subcategory else []
 
     all_manufacturers = sorted(list(set(select_from_db(colums_name='manufacturer'))), key=lambda x: x[0])
@@ -304,9 +304,8 @@ def contact_page():
 
 @app.route('/wishlist')
 def wishlist():
-
     return render_template('wishlist.html', title="SoundRepair | Понравившиеся", url=WEBSITE_URL,
-                        all_categories=ALL_CATEGORIES)
+                           all_categories=ALL_CATEGORIES)
 
 
 @app.route('/cart', methods=['post', 'get'])
@@ -329,6 +328,7 @@ def our_works(page):
 
     works_count = len(works)
     pages_count = math.ceil(works_count / 12)
+    print(works)
 
     return render_template('blog.html', title='SoundRepair | Наши работы', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES,
@@ -365,8 +365,12 @@ def work(id):
 
 @app.route('/services')
 def services():
+    services_list = [(1, "Магазин", "Номер телефона: "), (2, "Установочный центр", "Номер телефона: "),
+                     (3, "Автоэлектрик, Диагностика автомобилей", "Номер телефона: "),
+                     (4, "Автосервис", "Номер телефона: "),
+                     (5, "Ремонтная мастерская", "Номер телефона: "), (6, "Автомойка, Химчистка", "Номер телефона: ")]
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
-                           all_categories=ALL_CATEGORIES, pages_count=1, page=1)
+                           all_categories=ALL_CATEGORIES, services_list=services_list)
 
 
 app.run(host=HOST, port=PORT)
