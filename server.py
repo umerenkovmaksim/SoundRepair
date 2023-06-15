@@ -372,5 +372,9 @@ def services():
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES, services_list=services_list)
 
+@app.route('/mobile_catalog')
+def mobile_catalog():
+    return render_template('mobile-catalog.html', title='SoundRepair | Каталог', url=WEBSITE_URL,
+                           all_categories=ALL_CATEGORIES)
 
 app.run(host=HOST, port=PORT)

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block content %}
+
+<body>
+    <!--[if lt IE 8]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- Wrapper Start -->
+    <br>
+    <style>
+        @import url('/font-awesome-4.6.3/css/font-awesome.min.css');
+        .box-wrapper.homepage {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fafafa;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 20px;
+        }
+
+        .catalog-name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        }
+
+        .categories-filter {
+        margin-bottom: 20px;
+        }
+
+        .filter__header:hover {
+        background-color: #f0f0f0;
+        }
+
+        .filter__collapse-btn {
+        display: flex;
+        align-items: center;
+        background-color: #fafafa;
+        }
+        .filter__collapse-btn a {
+        font-size: 22px;
+        }
+
+        .filter__collapse-btn::before {
+        margin-right: 5px;
+        }
+
+        .filter__content {
+        display: none;
+        margin-top: 10px;
+        }
+
+        .filter__category-list {
+        margin-left: 10%;
+        list-style-type: none;
+        padding: 0;
+        }
+
+        .filter__category-list li {
+        margin-bottom: 10px;
+        }
+
+        .catalog-subtext a {
+        font-size: 18px;
+        font-family: FontAwesome;
+        color: #555555;
+        }
+
+        .filter__header.active .filter__collapse-btn::before {
+        content: "\f107";
+        }
+
+        .filter__header.active + .filter__content {
+        display: block;
+        }
+
+    </style>
+    <div class="box-wrapper homepage">
+        <div class="catalog-list">
+            <center><h2 class="catalog-name">Каталог</h2></center>
+            {% for category in all_categories %}
+            <div class="categories-filter">
+                <div class="filter__header">
+                    <button class="filter__collapse-btn fa fa-angle-down">  <a class="fa" href="{{url}}/shop?category={{category}}">{{category}}</a></button>
+                </div>
+                <div class="filter__content">
+                    <ul class="filter__category-list">
+                        {% for subcategory in all_categories[category] %}
+                        <li>
+                            <div class="catalog-subtext"><a href="{{url}}/shop?subcategory={{subcategory}}">{{subcategory}}</a></div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+{% endblock %}
