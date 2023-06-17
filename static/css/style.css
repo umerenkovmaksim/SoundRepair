@@ -1190,7 +1190,6 @@ input[type="checkbox"] {
     align-items: center;
     justify-content: center;
     margin-bottom: 3%;
-    margin-top: 2%;
 }
 .slider-right-content .single-product {
     overflow: hidden;
@@ -2494,10 +2493,12 @@ input[type="checkbox"] {
 .table-content table td.product-name a:hover,
 .buttons-cart button:hover {
     color: #ce0000;
+    border: none;
 }
 .buttons-cart button:focus {
     outline: none;
     box-shadow: none;
+    border: none;
 }
 .product-thumbnail img {
     width: 100%;
@@ -2646,7 +2647,7 @@ a.shipping-calculator-button:hover {
     font-weight: 700;
 }
 
-.wc-proceed-to-checkout a {
+.wc-proceed-to-checkout button {
     background: #ce0000;
     color: #fff;
     display: inline-block;
@@ -2655,12 +2656,119 @@ a.shipping-calculator-button:hover {
     height: 50px;
     line-height: 50px;
     margin-top: 20px;
+    border: none;
     padding: 0 30px;
     text-transform: none;
 }
+#orderDialog {
+    width: 400px;
+    padding: 20px;
+    border: none;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
 
-.wc-proceed-to-checkout a:hover {
+#orderDialog h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+#successDialog {
+    padding: 20px;
+    border: none;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+}
+#successDialog button:hover,#successDialog button:active,#successDialog button:hover {
+    background-color: #ce0000;
+    border: 1px solid #ce0000;
+    color: white;
+    outline: none;
+}
+#successDialog button {
+    padding: 10px 20px;
+    background-color: #eeeeee;
+    color: #3b3b3b;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    cursor: pointer;
+    outline: none;
+}
+#successDialog h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+#successDialog p {
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+.dialog-input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.dialog-input:focus {
+    border: 1px solid #ccc;
+}
+
+.dialog-btn {
+    padding: 10px 20px;
+    background-color: #eeeeee;
+    color: #3b3b3b;
+    border: 1px solid #b6b6b6;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.dialog-btn:hover, .dialog-btn:active, .dialog-btn:focus {
+    background-color: #ce0000;
+    border: 1px solid #ce0000;
+    color: white;
+    outline: none;
+}
+
+.dialog-btn + .dialog-btn {
+    margin-left: 10px;
+}
+.input-notification {
+    position: absolute;
+    display: none;
+    padding: 5px;
+    background-color: #ffcccc;
+    color: #ff0000;
+    border-radius: 4px;
+    animation: fade-in 0.3s ease-in-out;
+}
+
+.input-notification.show {
+    display: block;
+}
+.input-container {
+    position: relative;
+}
+
+.input-container .input-notification {
+    top: -35px;
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+.wc-proceed-to-checkout button:hover {
     background: #363f4d;
+    border: none;
 }
 
 .amount del {
@@ -4398,6 +4506,7 @@ legend {
   background: #fff none repeat scroll 0 0;
   box-shadow: -3px 0 50px -2px rgba(0, 0, 0, 0.14);
   margin: auto;
+  margin-top: 2%;
   max-width: 1340px;
   position: relative;
 }

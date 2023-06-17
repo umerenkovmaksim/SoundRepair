@@ -74,9 +74,32 @@
 
                                             </tbody>
                                         </table>
+                                        <dialog id="successDialog">
+                                            <h2>Успешно отправлен заказ!</h2>
+                                            <p>Ваш заказ был успешно отправлен.</p>
+                                            <button onclick="closeSuccessDialog()">Закрыть</button>
+                                          </dialog>
+                                          
                                         <div class="wc-proceed-to-checkout">
-                                            <a href="{{url}}/contact">Заказать</a>
+                                            <button onclick="openDialog()">Заказать</button>
                                         </div>
+                                        <dialog id="orderDialog">
+                                            <h2>Введите данные для заказа</h2>
+                                            <div class="input-container">
+                                                <input type="text" id="nameInput" class="dialog-input" placeholder="Имя">
+                                                <span class="input-notification" id="nameNotification"></span>
+                                            </div>
+                                            <div class="input-container">
+                                                <input type="text" id="surnameInput" class="dialog-input" placeholder="Фамилия">
+                                                <span class="input-notification" id="surnameNotification"></span>
+                                            </div>
+                                            <div class="input-container">
+                                                <input type="text" id="contactInput" class="dialog-input" placeholder="Телефон">
+                                                <span class="input-notification" id="contactNotification"></span>
+                                            </div>
+                                            <button onclick="submitOrder()" class="dialog-btn">Отправить</button>
+                                            <button onclick="closeDialog()" class="dialog-btn">Отмена</button>
+                                        </dialog>
                                     </div>
                                 </div>
                                 <!-- Cart Totals End -->
