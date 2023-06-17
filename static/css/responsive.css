@@ -1,3 +1,12 @@
+@media (min-width: 1200px) {
+    #list-view {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        grid-gap: 20px;
+      }
+}
+
+
 /*----------------------------------------*/
 /*  Normal desktop :992px.
 /*----------------------------------------*/
@@ -7,6 +16,9 @@
 .middle-menu-list > li > a {
     padding: 37px 0 37px 15px;
 }
+.single-product {
+    width: 100%;
+  }
 .header-list-menu > li > a, .homeo-2 .ht-dropdown.megamenu li a {
     padding: 10px 25px 10px 3px;
 }
@@ -49,6 +61,9 @@
     margin-top: 7px;
     margin-bottom: 15px;
 }
+.single-product {
+    width: 100%;
+  }
 .side-product-list {
     margin-top: 50px;
 }
@@ -559,12 +574,6 @@
 .grid-list-view.f-left {
     margin-bottom: 12px;
 }
-.grid-list-top.border-default {
-    padding: 15px 30px;
-}
-.grid-list-top {
-    padding-bottom: 3px;
-}
 .grid-list-view.f-left {
     margin-top: 0;
 }
@@ -882,6 +891,7 @@ p.checkout-coupon input[type="submit"] {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
 .menu_block {
     display: table;
   }
@@ -916,9 +926,6 @@ p.checkout-coupon input[type="submit"] {
 }
 .new-pro-active .owl-nav div{
     top:-48px;
-}
-.grid-list-top {
-    padding-bottom: 3px;
 }
 .actions-secondary a.add-cart {
     width: 97px;
@@ -1035,7 +1042,11 @@ p.checkout-coupon input[type="submit"] {
 }
 
 }
-
+@media (max-width: 480px) {
+    .grid-list-top {
+        padding: 10px 10px 0px 10px;
+    }
+}
 /*=============== Mobile Device ===============*/
 @media (max-width: 575px) {
 .right-banners {
@@ -1098,9 +1109,6 @@ p.checkout-coupon input[type="submit"] {
 }
 .new-pro-active .owl-nav div{
     display: none;
-}
-.grid-list-top {
-    padding-bottom: 3px;
 }
 .blog-meta ul li {
     font-size: 13px;
