@@ -7,7 +7,6 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from flask import Flask, jsonify, render_template, request, make_response, url_for
 
-
 from functions import *
 from telegram_bot_functions import *
 from constants_data import *
@@ -16,6 +15,7 @@ app = Flask(__name__)
 HOST = '0.0.0.0'
 PORT = 5000
 WEBSITE_URL = 'http://127.0.0.1:5000'
+
 
 @app.errorhandler(404)
 @app.route('/Error<e>')
@@ -318,6 +318,7 @@ def about():
     return render_template('about.html', title='SoundRepair | О нас', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES)
 
+
 @app.route('/get_user_data', methods=['POST'])
 def get_user_data():
     order_data = request.json
@@ -425,9 +426,36 @@ def services():
     return render_template('services.html', title='SoundRepair | Услуги', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES, services_list=services_list)
 
+
+@app.route("/service/<id>")
+def service(id):
+    id = int(id)
+    services_list = [(1, "Магазин", "Номер телефона: "),
+                     (2, "Установочный центр", "Номер телефона: "),
+                     (3, "Автоэлектрик, Диагностика автомобилей", "Номер телефона: "),
+                     (4, "Автосервис", "Номер телефона: "),
+                     (5, "Ремонтная мастерская", "Номер телефона: "),
+                     (6, "Автомойка, Химчистка", "Номер телефона: ")]
+    service_description_dict = {1: "Описание\n",
+                                2: "Описание\n",
+                                3: "Описание\n",
+                                4: "Описание\n",
+                                5: "Описание\n",
+                                6: "Описание\n", }
+
+    service = services_list[id - 1]
+    del services_list[id - 1]
+    print(service)
+
+    return render_template('service.html', title=f'SoundRepair | {service[1]}', url=WEBSITE_URL,
+                           services_list=services_list, id=service[0], name=service[1],
+                           description=service_description_dict[id].split("\n"))
+
+
 @app.route('/mobile_catalog')
 def mobile_catalog():
     return render_template('mobile-catalog.html', title='SoundRepair | Каталог', url=WEBSITE_URL,
                            all_categories=ALL_CATEGORIES)
+
 
 app.run(host=HOST, port=PORT)
