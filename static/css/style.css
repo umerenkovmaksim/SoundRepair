@@ -1800,7 +1800,7 @@ input[type="checkbox"] {
     font-weight: 500;
 }
 
-.grid-list-top.border-default {
+.grid-list-top {
     padding: 10px 20px;
 }
 
@@ -1988,7 +1988,6 @@ input[type="checkbox"] {
 .yellow {
     background: #ffd500;
 }
-
 .main-categorie #list-view .single-product {
     padding: 15px 15px;
 }
